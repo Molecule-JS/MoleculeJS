@@ -9,8 +9,10 @@ import {html} from '../node-modules/lit-html/lit-html.js'
 
 // import lit-element
 import LitElement from './lit-element.js'
+
 // define Custom Element
 class MyElement extends LitElement {
+
     // define properties similiar to Polymer 2/3
     static get properties() {
         return {
@@ -21,6 +23,7 @@ class MyElement extends LitElement {
             }
         }
     }
+    
     // define your template in render
     render() {
         this.title = 'This is lit';
