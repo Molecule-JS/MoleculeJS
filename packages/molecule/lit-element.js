@@ -1,6 +1,15 @@
-import { html, render as litRender } from '../node_modules/lit-html/lit-html.js'
+import { html, render as litRender } from '../lit-html/lit-html.js'
 
 export default class LitElement extends HTMLElement {
+
+    static get observedAttributes() {
+        let attrs = [];
+        for(const prop in this.properties) 
+            if(this.properties[prop].reflectToAttribute)
+                attrs.push(prop)
+        return attrs;
+    }
+
     constructor() {
         super();
         this.attachShadow({mode: "open"});
@@ -65,7 +74,20 @@ export default class LitElement extends HTMLElement {
         litRender(this.render(), this.shadowRoot)
     }
 
+    attributeChangedCallback(prop, old, val) {
+        this._propertiesChanged();
+    }
+
     render() {
         return html`Render Function not defined`
+    }
+
+    get $() {
+        const arr = this.shadowRoot.querySelectorAll('[id]');
+        const obj = {};
+        for(const el of arr)
+            obj[el.id] = el;
+
+        return obj;
     }
 }
