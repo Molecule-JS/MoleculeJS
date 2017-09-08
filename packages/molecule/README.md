@@ -8,7 +8,7 @@ Implements [lit-html](https://github.com/PolymerLabs/lit-html) via a LitElement 
 import {html} from '../node-modules/lit-html/lit-html.js'
 
 // import lit-element
-import LitElement from './lit-element.js'
+import {LitElement} from './lit-element.js'
 
 // define Custom Element
 class MyElement extends LitElement(HTMLElement) {
