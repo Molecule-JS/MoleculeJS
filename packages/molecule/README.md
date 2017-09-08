@@ -1,6 +1,17 @@
 # lit-element
 Implements [lit-html](https://github.com/PolymerLabs/lit-html) via a LitElement class. Made for custom Elements.
 
+## Installation
+
+You can get it through npm or yarn
+
+```
+npm install lit-element
+```
+```
+yarn add lit-element
+```
+
 ## Default Usage
 
 ```javascript
@@ -8,7 +19,7 @@ Implements [lit-html](https://github.com/PolymerLabs/lit-html) via a LitElement 
 import {html} from '../node-modules/lit-html/lit-html.js'
 
 // import lit-element
-import {LitElement} from './lit-element.js'
+import {LitElement} from '../node_modules/lit-element/lit-element.js'
 
 // define Custom Element
 class MyElement extends LitElement(HTMLElement) {
