@@ -3,7 +3,7 @@
     "lit-html": "^0.6.0"
   },
   "name": "lit-element",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Implements lit-html via a LitElement class. Made for custom Elements.",
   "main": "lit-element.js",
   "repository": "https://github.com/DiiLord/lit-element.git",
