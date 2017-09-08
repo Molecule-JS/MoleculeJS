@@ -12,11 +12,13 @@ export default class LitElement extends HTMLElement {
 
     constructor() {
         super();
+        this.__data = {};
         this.attachShadow({mode: "open"});
     }
 
     connectedCallback() {
         const props = this.constructor.properties;
+        this._wait = true;
         for(let prop in props) {
             if(typeof props[prop] === 'object') {
                 this._makeComplexGetterSetter(prop, props[prop])
@@ -24,12 +26,13 @@ export default class LitElement extends HTMLElement {
                 this._makeGetterSetter(prop, props[prop])
             }
         }
+        delete this._wait;
         litRender(this.render(), this.shadowRoot);
+        if(this.afterFirstRender)
+            this.afterFirstRender();
     }
 
     _makeGetterSetter(prop, val) {
-        if(!this.__data)
-            this.__data = {};
         Object.defineProperty(this, prop, {
             get() {
                 return this.__data[prop]
@@ -39,19 +42,17 @@ export default class LitElement extends HTMLElement {
                 this._propertiesChanged()
             }
         })
-        this[prop] = undefined;
+        this[prop] = this.getAttribute(prop);
     }
 
     _makeComplexGetterSetter(prop, info) {
-        if(!this.__data)
-            this.__data = {};
         Object.defineProperty(this, prop, {
             get() {
                 if(info.reflectToAttribute) {
                     if(info.type === Object || info.type === Array)
                         console.warn('Rich Data shouldn\'t be set as attribte!')
-                    return this.getAttribute(prop);
-                } else return this.__data[prop];
+                } 
+                return this.__data[prop];
             },
 
             set(val) {
@@ -71,11 +72,22 @@ export default class LitElement extends HTMLElement {
     }
 
     _propertiesChanged() {
-        litRender(this.render(), this.shadowRoot)
+        if(!this._wait)
+            litRender(this.render(), this.shadowRoot)
     }
 
     attributeChangedCallback(prop, old, val) {
-        this._propertiesChanged();
+        if(this[prop] !== val) {
+            const {type} = this.constructor.properties[prop];
+            if(type.name === 'Boolean') {
+                if(val !== 'false') {
+                    this.__data[prop] = this.hasAttribute(prop);
+                } else {
+                    this.__data[prop] = false
+                }
+            } else this.__data[prop] = type(val);
+            this._propertiesChanged();
+        }
     }
 
     render() {
