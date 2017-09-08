@@ -19,7 +19,7 @@ yarn add lit-element
 import {html} from '../node-modules/lit-html/lit-html.js'
 
 // import lit-element
-import {LitElement} from '../node_modules/lit-element/lit-element.js'
+import {LitElement} from '../node_modules/lit-element/lit-element.min.js'
 
 // define Custom Element
 class MyElement extends LitElement(HTMLElement) {
