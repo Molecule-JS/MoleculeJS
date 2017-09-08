@@ -1,6 +1,6 @@
 import { html, render as litRender } from '../lit-html/lit-html.js'
 
-export default class LitElement extends HTMLElement {
+export default LitElement = (superclass) => class extends superclass {
 
     static get observedAttributes() {
         let attrs = [];
