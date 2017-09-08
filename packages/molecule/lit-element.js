@@ -13,6 +13,7 @@ export const LitElement = (superclass) => class extends superclass {
     constructor() {
         super();
         this.__data = {};
+        this._methodsToCall = {};
         this.attachShadow({mode: "open"});
     }
 
@@ -39,7 +40,7 @@ export const LitElement = (superclass) => class extends superclass {
             },
             set(val) {
                 this.__data[prop] = val;
-                this._propertiesChanged()
+                this._propertiesChanged(prop, val)
             }
         })
         this[prop] = this.getAttribute(prop);
@@ -61,9 +62,16 @@ export const LitElement = (superclass) => class extends superclass {
                         console.warn('Rich Data shouldn\'t be set as attribte!')
                     this.setAttribute(prop, val);
                 } else this.__data[prop] = val;
-                this._propertiesChanged();
+                this._propertiesChanged(prop, val);
             }
         });
+        if(info.observer) {
+            if(this[info.observer]) {
+                this._methodsToCall[prop] = this[info.observer];
+            } else {
+                console.warn(`Method ${info.observer} not defined!`);
+            }
+        }
         if(info.value) {
             typeof info.value === 'function'
             ? this[prop] = info.value()
@@ -71,9 +79,13 @@ export const LitElement = (superclass) => class extends superclass {
         }
     }
 
-    _propertiesChanged() {
-        if(!this._wait)
+    _propertiesChanged(prop, val) {
+        if(this._methodsToCall[prop]) {
+            this._methodsToCall[prop](val)
+        }
+        if(!this._wait) {
             litRender(this.render(), this.shadowRoot)
+        }
     }
 
     attributeChangedCallback(prop, old, val) {
@@ -86,7 +98,7 @@ export const LitElement = (superclass) => class extends superclass {
                     this.__data[prop] = false
                 }
             } else this.__data[prop] = type(val);
-            this._propertiesChanged();
+            this._propertiesChanged(prop, val);
         }
     }
 
