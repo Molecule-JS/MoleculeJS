@@ -30,7 +30,9 @@ class MyElement extends LitElement(HTMLElement) {
             title: String,
             body: {
                 type: String,
-                value: 'That is a cool LitElement'
+                value: 'That is a cool LitElement',
+                observer: '_bodyChanged',
+                reflectToAttribute: true
             }
         }
     }
@@ -42,6 +44,11 @@ class MyElement extends LitElement(HTMLElement) {
             <h1 id="title">${this.title}</h1>
             <p>${this.body}</h1>
         `;
+    }
+
+    // observer callback
+    _bodyChanged(newValue) {
+        console.log(`Body updated to ${newValue}`);
     }
 
     // If you want work done after the first render, like accessing elements with ids, do it here
@@ -56,4 +63,4 @@ class MyElement extends LitElement(HTMLElement) {
 ## Notes
 
  - This Element does not use Polymer, just Polymer-like syntax for properties.
- - Currently only `reflectToAttribute` and `value` are supported for properties.
+ - Currently only `type`, `reflectToAttribute`, `observer` and `value` are supported for properties.
