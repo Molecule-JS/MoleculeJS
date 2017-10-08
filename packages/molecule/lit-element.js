@@ -4,8 +4,8 @@ export const LitElement = (superclass) => class extends superclass {
 
     static get observedAttributes() {
         let attrs = [];
-        for(const prop in this.properties) 
-            if(this.properties[prop].reflectToAttribute)
+        for (const prop in this.properties)
+            if (this.properties[prop].reflectToAttribute)
                 attrs.push(prop)
         return attrs;
     }
@@ -14,85 +14,70 @@ export const LitElement = (superclass) => class extends superclass {
         super();
         this.__data = {};
         this._methodsToCall = {};
-        this.attachShadow({mode: "open"});
+        this.attachShadow({ mode: "open" });
     }
 
     connectedCallback() {
         const props = this.constructor.properties;
         this._wait = true;
-        for(let prop in props) {
-            if(typeof props[prop] === 'object') {
-                this._makeComplexGetterSetter(prop, props[prop])
-            } else {
-                this._makeGetterSetter(prop, props[prop])
-            }
-        }
+        for (let prop in props)
+            this._makeGetterSetter(prop, props[prop])
         delete this._wait;
         litRender(this.render(), this.shadowRoot);
-        if(this.afterFirstRender)
+        if (this.afterFirstRender)
             this.afterFirstRender();
     }
 
-    _makeGetterSetter(prop, val) {
+    _makeGetterSetter(prop, info) {
         Object.defineProperty(this, prop, {
             get() {
                 return this.__data[prop]
             },
             set(val) {
-                this.__data[prop] = val;
+                if (typeof info === 'object')
+                    if (info.reflectToAttribute && (info.type === Object || info.type === Array))
+                        console.warn('Rich Data shouldn\'t be set as attribte!')
+                if (typeof info === 'object') {
+                    if (info.reflectToAttribute) {
+                        this.setAttribute(prop, val)
+                    } else this.__data[prop] = val;
+                } else this.__data[prop] = val;
                 this._propertiesChanged(prop, val)
             }
-        })
+        });
+
+        if (typeof info === 'object') {
+            if (info.observer) {
+                if (this[info.observer]) {
+                    this._methodsToCall[prop] = this[info.observer].bind(this);
+                } else {
+                    console.warn(`Method ${info.observer} not defined!`);
+                }
+            }
+            if (info.value) {
+                typeof info.value === 'function'
+                    ? this[prop] = info.value()
+                    : this[prop] = info.value;
+            }
+        }
+
         this[prop] = this.getAttribute(prop);
     }
 
-    _makeComplexGetterSetter(prop, info) {
-        Object.defineProperty(this, prop, {
-            get() {
-                if(info.reflectToAttribute) {
-                    if(info.type === Object || info.type === Array)
-                        console.warn('Rich Data shouldn\'t be set as attribte!')
-                } 
-                return this.__data[prop];
-            },
-
-            set(val) {
-                if(info.reflectToAttribute) {
-                    if(info.type === Object || info.type === Array)
-                        console.warn('Rich Data shouldn\'t be set as attribte!')
-                    this.setAttribute(prop, val);
-                } else this.__data[prop] = val;
-                this._propertiesChanged(prop, val);
-            }
-        });
-        if(info.observer) {
-            if(this[info.observer]) {
-                this._methodsToCall[prop] = this[info.observer].bind(this);
-            } else {
-                console.warn(`Method ${info.observer} not defined!`);
-            }
-        }
-        if(info.value) {
-            typeof info.value === 'function'
-            ? this[prop] = info.value()
-            : this[prop] = info.value; 
-        }
-    }
-
     _propertiesChanged(prop, val) {
-        if(this._methodsToCall[prop]) {
+        if (this._methodsToCall[prop]) {
             this._methodsToCall[prop](val);
         }
-        if(!this._wait) {
+        if (!this._wait) {
             litRender(this.render(), this.shadowRoot)
         }
     }
 
     attributeChangedCallback(prop, old, val) {
-        if(this[prop] !== val) {
-            const {type} = this.constructor.properties[prop];
-            if(type.name === 'Boolean') {
-                if(val !== 'false') {
+        if (this[prop] !== val) {
+            const { type } = this.constructor.properties[prop];
+            if (type.name === 'Boolean') {
+                if (val !== 'false') {
                     this.__data[prop] = this.hasAttribute(prop);
                 } else {
                     this.__data[prop] = false
@@ -109,7 +94,7 @@ export const LitElement = (superclass) => class extends superclass {
     get $() {
         const arr = this.shadowRoot.querySelectorAll('[id]');
         const obj = {};
-        for(const el of arr)
+        for (const el of arr)
             obj[el.id] = el;
 
         return obj;
