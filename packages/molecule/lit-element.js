@@ -67,7 +67,7 @@ export const LitElement = (superclass) => class extends superclass {
         });
         if(info.observer) {
             if(this[info.observer]) {
-                this._methodsToCall[prop] = this[info.observer];
+                this._methodsToCall[prop] = this[info.observer].bind(this);
             } else {
                 console.warn(`Method ${info.observer} not defined!`);
             }
@@ -81,7 +81,7 @@ export const LitElement = (superclass) => class extends superclass {
 
     _propertiesChanged(prop, val) {
         if(this._methodsToCall[prop]) {
-            this._methodsToCall[prop](val)
+            this._methodsToCall[prop](val);
         }
         if(!this._wait) {
             litRender(this.render(), this.shadowRoot)
