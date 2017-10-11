@@ -12,5 +12,8 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-minify": "^1.0.0"
+  },
+  "scripts": {
+    "prepublish": "gulp"
   }
 }
