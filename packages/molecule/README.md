@@ -1,6 +1,8 @@
 # lit-element
 Implements [lit-html](https://github.com/PolymerLabs/lit-html) via a LitElement class. Made for custom Elements.
 
+[![Build Status](https://travis-ci.org/DiiLord/lit-element.svg?branch=master)](https://travis-ci.org/DiiLord/lit-element)
+
 ## Installation
 
 You can get it through npm or yarn
