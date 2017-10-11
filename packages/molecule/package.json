@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "lit-html": "^0.6.0"
+    "lit-html": "^0.7.1"
   },
   "name": "lit-element",
   "version": "0.2.4",
