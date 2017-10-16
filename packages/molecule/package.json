@@ -10,6 +10,8 @@
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-plugin-html": "^3.2.2",
     "gulp": "^3.9.1",
     "gulp-minify": "^1.0.0"
   },
