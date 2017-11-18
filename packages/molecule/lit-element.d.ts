@@ -28,10 +28,12 @@ export declare const LitElement: (superclass: HTMLClass) => {
         _wait: boolean;
         afterFirstRender?: (() => void) | undefined;
         shadowRoot: ShadowRoot;
+        _propAttr: Map<string, string>;
+        _attrProp: Map<string, string>;
         connectedCallback(): void;
         _makeGetterSetter(prop: string, info: propConfig): void;
         _propertiesChanged(prop: string, val: any): void;
-        attributeChangedCallback(prop: string, old: any, val: any): void;
+        attributeChangedCallback(attr: string, old: any, val: any): void;
         render(): TemplateResult;
         readonly $: HTMLCollectionByID;
         accessKey: string;

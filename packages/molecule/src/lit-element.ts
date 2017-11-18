@@ -33,6 +33,9 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
     _wait: boolean;
     afterFirstRender?: () => void;
     shadowRoot: ShadowRoot;
+    _propAttr: Map<string, string>;
+    _attrProp: Map<string, string>;
+
 
     static observedAttributes(): Array<string> {
         let attrs: Array<string> = [];
@@ -47,6 +50,15 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+
+        // Generate propertyName <-> attribute-name mappings
+        this._propAttr = new Map(); // propertyName   -> attribute-name
+        this._attrProp = new Map(); // attribute-name -> propertyName
+        for (let prop in this.constructor.properties) {
+            const attr = prop.replace(/([A-Z])/g, '-$1').toLowerCase();
+            this._propAttr.set(prop, attr);
+            this._attrProp.set(attr, prop);
+        }
     }
 
     connectedCallback() {
@@ -68,18 +80,22 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
      */
     _makeGetterSetter(prop: string, info: propConfig) {
         const element = this;
+        const attr = this._propAttr.get(prop);
         Object.defineProperty(this, prop, {
             get() {
                 return element.__data[prop]
             },
-            set(val: any) {
+            async set(val: any) {
+                const resolved: any = (val != null && val instanceof Promise
+                    ? await val
+                    : val);
                 if (info.reflectToAttribute) {
                     if (info.type === Object || info.type === Array) {
                         console.warn('Rich Data shouldn\'t be set as attribte!')
                     }
-                    element.setAttribute(prop, val);
-                } else element.__data[prop] = val;
-                element._propertiesChanged(prop, val);
+                    element.setAttribute(attr, resolved);
+                } else element.__data[prop] = resolved;
+                element._propertiesChanged(prop, resolved);
             }
         });
 
@@ -94,8 +110,7 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
             this.__data[prop] = info.value;
         }
 
-
-        this.__data[prop] = this.getAttribute(prop) || this.__data[prop];
+        this.__data[prop] = this.getAttribute(attr);
     }
 
     /**
@@ -120,18 +135,52 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
      * @param {any} old 
      * @param {any} val 
      */
-    attributeChangedCallback(prop: string, old: any, val: any) {
-        if (old === val) return
+    attributeChangedCallback(attr: string, old: any, val: any) {
+        if (old === val) return;
+        const prop = this._attrProp.get(attr);
         if (this.__data[prop] !== val) {
             const { type } = this.constructor.properties[prop];
-            if (type.name === 'Boolean') {
-                if (val !== 'false') {
-                    this.__data[prop] = this.hasAttribute(prop);
-                } else {
+            switch( type.name ) {
+            case 'Boolean':
+                /* Ensure attribute values the indicate that absense of the
+                 * attribute actually cause the attribute to be absent.
+                 */
+                if (val === 'false' || val === 'null' ||
+                    val === false   || val === null) {
+                    if (this.hasAttribute( attr )) {
+                        this.removeAttribute( attr );
+                    }
                     this.__data[prop] = false
+                } else {
+                    this.__data[prop] = this.hasAttribute( attr );
                 }
-            } else this.__data[prop] = type(val);
-            this._propertiesChanged(prop, val);
+                break;
+
+            case 'String':
+                /* If a String value is falsey or the explicit 'null' string,
+                 * ensure that the attribute is removed.
+                 */
+                if (!val || val === 'null') {
+                    if (this.hasAttribute( attr )) {
+                        this.removeAttribute( attr );
+                    }
+                    this.__data[prop] = '';
+
+                } else {
+                    this.__data[prop] = type(val);
+
+                }
+                break;
+
+            default:
+                this.__data[prop] = type(val);
+                break;
+            }
+
+            /* Pass along the new, more concrete *property* value instead of
+             * the fuzzy attribute value.
+             */
+            this._propertiesChanged(prop, this.__data[prop]);
         }
     }
 
