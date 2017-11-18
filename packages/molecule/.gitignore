@@ -56,3 +56,8 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# Compiler Output
+/lit-element.js
+/lit-element.d.ts 
+/lit-element.js.map

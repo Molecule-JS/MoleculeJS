@@ -13,9 +13,13 @@
     "eslint": "^4.9.0",
     "eslint-plugin-html": "^3.2.2",
     "gulp": "^3.9.1",
-    "gulp-minify": "^1.0.0"
+    "gulp-minify": "^1.0.0",
+    "typescript": "^2.6.1",
+    "uglify-es": "^3.1.9"
   },
   "scripts": {
-    "prepublish": "gulp"
+    "checksize": "uglifyjs lit-element.js -mc --toplevel | gzip -9 | wc -c",
+    "prepublish": "gulp",
+    "build": "tsc"
   }
 }
