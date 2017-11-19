@@ -25,6 +25,16 @@ export interface methodsToCall {
 export interface HTMLCollectionByID {
     [id: string]: HTMLElement | Element;
 }
+/**
+ * Coverts a camelCase string to kebab-case.
+ * 
+ * @export
+ * @param {string} str The camelCaseString
+ * @returns {string} The kebab-version of the string
+ */
+export function camelCaseToKebab(str: string): string {
+    return str.replace(/([A-Z])/g, '-$1').toLowerCase();    
+}
 
 export const LitElement = (superclass: HTMLClass) => class extends superclass {
     static properties: properties;
@@ -41,7 +51,7 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
         let attrs: Array<string> = [];
         for (const prop in this.properties) {
             if (this.properties[prop].reflectToAttribute) {
-                attrs.push(prop);
+                attrs.push(camelCaseToKebab(prop));
             }
         }
         return attrs;
@@ -55,7 +65,7 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
         this._propAttr = new Map(); // propertyName   -> attribute-name
         this._attrProp = new Map(); // attribute-name -> propertyName
         for (let prop in this.constructor.properties) {
-            const attr = prop.replace(/([A-Z])/g, '-$1').toLowerCase();
+            const attr = camelCaseToKebab(prop);
             this._propAttr.set(prop, attr);
             this._attrProp.set(attr, prop);
         }

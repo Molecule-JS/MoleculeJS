@@ -7,6 +7,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { html, render as litRender } from '../node_modules/lit-html/lit-html.js';
+/**
+ * Coverts a camelCase string to kebab-case.
+ *
+ * @export
+ * @param {string} str The camelCaseString
+ * @returns {string} The kebab-version of the string
+ */
+export function camelCaseToKebab(str) {
+    return str.replace(/([A-Z])/g, '-$1').toLowerCase();
+}
 export const LitElement = (superclass) => class extends superclass {
     constructor() {
         super();
@@ -17,7 +27,7 @@ export const LitElement = (superclass) => class extends superclass {
         this._propAttr = new Map(); // propertyName   -> attribute-name
         this._attrProp = new Map(); // attribute-name -> propertyName
         for (let prop in this.constructor.properties) {
-            const attr = prop.replace(/([A-Z])/g, '-$1').toLowerCase();
+            const attr = camelCaseToKebab(prop);
             this._propAttr.set(prop, attr);
             this._attrProp.set(attr, prop);
         }
@@ -26,7 +36,7 @@ export const LitElement = (superclass) => class extends superclass {
         let attrs = [];
         for (const prop in this.properties) {
             if (this.properties[prop].reflectToAttribute) {
-                attrs.push(prop);
+                attrs.push(camelCaseToKebab(prop));
             }
         }
         return attrs;

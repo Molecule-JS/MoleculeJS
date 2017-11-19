@@ -20,6 +20,14 @@ export interface methodsToCall {
 export interface HTMLCollectionByID {
     [id: string]: HTMLElement | Element;
 }
+/**
+ * Coverts a camelCase string to kebab-case.
+ *
+ * @export
+ * @param {string} str The camelCaseString
+ * @returns {string} The kebab-version of the string
+ */
+export declare function camelCaseToKebab(str: string): string;
 export declare const LitElement: (superclass: HTMLClass) => {
     new (): {
         new (): HTMLClass;
