@@ -17,6 +17,10 @@ import { html, render as litRender } from '../node_modules/lit-html/lit-html.js'
 export function camelCaseToKebab(str) {
     return str.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
+/**
+ * Returns a class with the Lit-Element features, that extends `superclass`.
+ * @param {*} superclass
+ */
 export const LitElement = (superclass) => class extends superclass {
     constructor() {
         super();
@@ -69,28 +73,32 @@ export const LitElement = (superclass) => class extends superclass {
                     const resolved = (val != null && val instanceof Promise
                         ? yield val
                         : val);
-                    if (info.reflectToAttribute) {
-                        if (info.type === Object || info.type === Array) {
-                            console.warn('Rich Data shouldn\'t be set as attribte!');
+                    if (typeof info === 'object') {
+                        if (info.reflectToAttribute) {
+                            if (info.type === Object || info.type === Array) {
+                                console.warn('Rich Data shouldn\'t be set as attribte!');
+                            }
+                            element.setAttribute(attr, resolved);
                         }
-                        element.setAttribute(attr, resolved);
+                        else
+                            element.__data[prop] = resolved;
                     }
-                    else
-                        element.__data[prop] = resolved;
                     element._propertiesChanged(prop, resolved);
                 });
             }
         });
-        if (info.observer) {
-            if (this[info.observer]) {
-                this._methodsToCall[prop] = this[info.observer].bind(this);
+        if (typeof info === 'object') {
+            if (info.observer) {
+                if (this[info.observer]) {
+                    this._methodsToCall[prop] = this[info.observer].bind(this);
+                }
+                else {
+                    console.warn(`Method ${info.observer} not defined!`);
+                }
             }
-            else {
-                console.warn(`Method ${info.observer} not defined!`);
+            if (info.value) {
+                this.__data[prop] = info.value;
             }
-        }
-        if (info.value) {
-            this.__data[prop] = info.value;
         }
         this.__data[prop] = this.getAttribute(attr);
     }

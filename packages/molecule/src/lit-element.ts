@@ -4,7 +4,7 @@ export interface HTMLClass extends HTMLElement {
 }
 
 export interface properties {
-    [propName: string]: propConfig;
+    [propName: string]: propConfig | typeof String | typeof Number | typeof Boolean | typeof Array | typeof Object;
 }
 
 export interface propConfig {
@@ -33,9 +33,13 @@ export interface HTMLCollectionByID {
  * @returns {string} The kebab-version of the string
  */
 export function camelCaseToKebab(str: string): string {
-    return str.replace(/([A-Z])/g, '-$1').toLowerCase();    
+    return str.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
 
+/**
+ * Returns a class with the Lit-Element features, that extends `superclass`.
+ * @param {*} superclass
+ */
 export const LitElement = (superclass: HTMLClass) => class extends superclass {
     static properties: properties;
     __data: data = {};
@@ -99,25 +103,29 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
                 const resolved: any = (val != null && val instanceof Promise
                     ? await val
                     : val);
-                if (info.reflectToAttribute) {
-                    if (info.type === Object || info.type === Array) {
-                        console.warn('Rich Data shouldn\'t be set as attribte!')
-                    }
-                    element.setAttribute(attr, resolved);
-                } else element.__data[prop] = resolved;
+                if (typeof info === 'object') {
+                    if (info.reflectToAttribute) {
+                        if (info.type === Object || info.type === Array) {
+                            console.warn('Rich Data shouldn\'t be set as attribte!')
+                        }
+                        element.setAttribute(attr, resolved);
+                    } else element.__data[prop] = resolved;
+                }
                 element._propertiesChanged(prop, resolved);
             }
         });
 
-        if (info.observer) {
-            if (this[info.observer]) {
-                this._methodsToCall[prop] = this[info.observer].bind(this);
-            } else {
-                console.warn(`Method ${info.observer} not defined!`);
+        if (typeof info === 'object') {
+            if (info.observer) {
+                if (this[info.observer]) {
+                    this._methodsToCall[prop] = this[info.observer].bind(this);
+                } else {
+                    console.warn(`Method ${info.observer} not defined!`);
+                }
             }
-        }
-        if (info.value) {
-            this.__data[prop] = info.value;
+            if (info.value) {
+                this.__data[prop] = info.value;
+            }
         }
 
         this.__data[prop] = this.getAttribute(attr);
@@ -150,41 +158,41 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
         const prop = this._attrProp.get(attr);
         if (this.__data[prop] !== val) {
             const { type } = this.constructor.properties[prop];
-            switch( type.name ) {
-            case 'Boolean':
-                /* Ensure attribute values the indicate that absense of the
-                 * attribute actually cause the attribute to be absent.
-                 */
-                if (val === 'false' || val === 'null' ||
-                    val === false   || val === null) {
-                    if (this.hasAttribute( attr )) {
-                        this.removeAttribute( attr );
+            switch (type.name) {
+                case 'Boolean':
+                    /* Ensure attribute values the indicate that absense of the
+                     * attribute actually cause the attribute to be absent.
+                     */
+                    if (val === 'false' || val === 'null' ||
+                        val === false || val === null) {
+                        if (this.hasAttribute(attr)) {
+                            this.removeAttribute(attr);
+                        }
+                        this.__data[prop] = false
+                    } else {
+                        this.__data[prop] = this.hasAttribute(attr);
                     }
-                    this.__data[prop] = false
-                } else {
-                    this.__data[prop] = this.hasAttribute( attr );
-                }
-                break;
+                    break;
 
-            case 'String':
-                /* If a String value is falsey or the explicit 'null' string,
-                 * ensure that the attribute is removed.
-                 */
-                if (!val || val === 'null') {
-                    if (this.hasAttribute( attr )) {
-                        this.removeAttribute( attr );
+                case 'String':
+                    /* If a String value is falsey or the explicit 'null' string,
+                     * ensure that the attribute is removed.
+                     */
+                    if (!val || val === 'null') {
+                        if (this.hasAttribute(attr)) {
+                            this.removeAttribute(attr);
+                        }
+                        this.__data[prop] = '';
+
+                    } else {
+                        this.__data[prop] = type(val);
+
                     }
-                    this.__data[prop] = '';
+                    break;
 
-                } else {
+                default:
                     this.__data[prop] = type(val);
-
-                }
-                break;
-
-            default:
-                this.__data[prop] = type(val);
-                break;
+                    break;
             }
 
             /* Pass along the new, more concrete *property* value instead of

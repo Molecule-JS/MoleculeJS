@@ -58,6 +58,6 @@ typings/
 .env
 
 # Compiler Output
+/lit-element.js.map
 lit-element.js
 lit-element.d.ts
-/lit-element.js.map

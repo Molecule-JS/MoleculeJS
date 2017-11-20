@@ -3,7 +3,7 @@ export interface HTMLClass extends HTMLElement {
     new (): HTMLClass;
 }
 export interface properties {
-    [propName: string]: propConfig;
+    [propName: string]: propConfig | typeof String | typeof Number | typeof Boolean | typeof Array | typeof Object;
 }
 export interface propConfig {
     type: typeof String | typeof Number | typeof Boolean | typeof Array | typeof Object;
@@ -28,6 +28,10 @@ export interface HTMLCollectionByID {
  * @returns {string} The kebab-version of the string
  */
 export declare function camelCaseToKebab(str: string): string;
+/**
+ * Returns a class with the Lit-Element features, that extends `superclass`.
+ * @param {*} superclass
+ */
 export declare const LitElement: (superclass: HTMLClass) => {
     new (): {
         new (): HTMLClass;
