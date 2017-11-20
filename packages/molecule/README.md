@@ -3,6 +3,11 @@ Implements [lit-html](https://github.com/PolymerLabs/lit-html) via a LitElement 
 
 [![Build Status](https://travis-ci.org/DiiLord/lit-element.svg?branch=master)](https://travis-ci.org/DiiLord/lit-element)
 
+## New in 0.3.0
+- You can now set any property of your element to a promise and LitElement will set the property to the resolved value of the promise. (credit: [depeele](https://github.com/depeele))
+- Attributes of properties with `reflectToAttribute: true` are now transformed to kebab-case. (credit: [depeele](https://github.com/depeele))
+- Codebase moved to TypeScript.
+
 ## Installation
 
 You can get it through npm or yarn
