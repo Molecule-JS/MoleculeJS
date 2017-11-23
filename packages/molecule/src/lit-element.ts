@@ -27,7 +27,7 @@ export interface HTMLCollectionByID {
 }
 /**
  * Coverts a camelCase string to kebab-case.
- * 
+ *
  * @export
  * @param {string} str The camelCaseString
  * @returns {string} The kebab-version of the string
@@ -89,7 +89,7 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
 
     /**
      * Creates the Propertyaccessors for the defined properties of the Element.
-     * @param {string} prop 
+     * @param {string} prop
      * @param {propConfig} info
      */
     _makeGetterSetter(prop: string, info: propConfig) {
@@ -123,8 +123,10 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
                     console.warn(`Method ${info.observer} not defined!`);
                 }
             }
-            if (info.value) {
-                this.__data[prop] = info.value;
+            if (info.value !== undefined) {
+                this.__data[prop] = (typeof(info.value) === 'function'
+                  ? info.value.call( this )
+                  : info.value);
             }
         }
 
@@ -133,9 +135,9 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
 
     /**
      * Gets called when the properties change and the Element should rerender.
-     * 
-     * @param {string} prop 
-     * @param {any} val 
+     *
+     * @param {string} prop
+     * @param {any} val
      */
     _propertiesChanged(prop: string, val: any) {
         if (this._methodsToCall[prop]) {
@@ -148,10 +150,10 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
 
     /**
      * Gets called when an observed attribute changes. Calls `_propertiesChanged`
-     * 
-     * @param {string} prop 
-     * @param {any} old 
-     * @param {any} val 
+     *
+     * @param {string} prop
+     * @param {any} old
+     * @param {any} val
      */
     attributeChangedCallback(attr: string, old: any, val: any) {
         if (old === val) return;
@@ -204,8 +206,8 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
 
     /**
      * Returns what lit-html should render.
-     * 
-     * @returns 
+     *
+     * @returns
      */
     render(): TemplateResult {
         return html``;
@@ -213,7 +215,7 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
 
     /**
      * Gets all children with ids.
-     * 
+     *
      * @readonly
      */
     get $(): HTMLCollectionByID {
