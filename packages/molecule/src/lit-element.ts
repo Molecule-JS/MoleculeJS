@@ -1,4 +1,7 @@
 import { html, render as litRender, TemplateResult } from '../node_modules/lit-html/lit-html.js';
+
+export {html} from '../node_modules/lit-html/lit-html.js';
+
 export interface HTMLClass extends HTMLElement {
     new(): HTMLClass;
 }
@@ -50,8 +53,7 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
     _propAttr: Map<string, string>;
     _attrProp: Map<string, string>;
 
-
-    static observedAttributes(): Array<string> {
+    static get observedAttributes(): Array<string> {
         let attrs: Array<string> = [];
         for (const prop in this.properties) {
             if (this.properties[prop].reflectToAttribute) {
@@ -93,44 +95,61 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
      * @param {propConfig} info
      */
     _makeGetterSetter(prop: string, info: propConfig) {
-        const element = this;
         const attr = this._propAttr.get(prop);
         Object.defineProperty(this, prop, {
             get() {
-                return element.__data[prop]
+                return this.__data[prop]
             },
             async set(val: any) {
                 const resolved: any = (val != null && val instanceof Promise
                     ? await val
                     : val);
-                if (typeof info === 'object') {
-                    if (info.reflectToAttribute) {
-                        if (info.type === Object || info.type === Array) {
-                            console.warn('Rich Data shouldn\'t be set as attribte!')
-                        }
-                        element.setAttribute(attr, resolved);
-                    } else element.__data[prop] = resolved;
+                if (typeof info === 'object' && info.reflectToAttribute) {
+                    /* Set the new value by setting the observed attribute.
+                     * This will trigger attributeChangedCallback() which will
+                     * convert the attribute data to a property,
+                     * (this.__data[prop]) and trigger _propertiesChanged().
+                     */
+                    this.setAttribute(attr, resolved);
+
+                } else {
+                    /* Set the property directly and trigger
+                     * _propertiesChanged()
+                     */
+                    this.__data[prop] = resolved;
+                    this._propertiesChanged(prop, resolved);
                 }
-                element._propertiesChanged(prop, resolved);
             }
         });
 
         if (typeof info === 'object') {
+            if (info.reflectToAttribute &&
+                (info.type === Object || info.type === Array)) {
+                console.warn('Rich Data shouldn\'t be set as attribte!')
+            }
             if (info.observer) {
                 if (this[info.observer]) {
+                    // Establish the property-change observer
                     this._methodsToCall[prop] = this[info.observer].bind(this);
                 } else {
                     console.warn(`Method ${info.observer} not defined!`);
                 }
             }
             if (info.value !== undefined) {
-                this.__data[prop] = (typeof(info.value) === 'function'
+                // Initialize using the included value and the new setter()
+                this[prop] = (typeof(info.value) === 'function'
                   ? info.value.call( this )
                   : info.value);
-            }
-        }
 
-        this.__data[prop] = this.getAttribute(attr);
+            } else {
+                // Initialize via the matching attribute and the new setter()
+                this[prop] = this.getAttribute(attr);
+            }
+
+        } else {
+            // Initialize via the matching attribute and the new setter()
+            this[prop] = this.getAttribute(attr);
+        }
     }
 
     /**
