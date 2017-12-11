@@ -84,7 +84,9 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
             this._makeGetterSetter(prop, props[prop])
         }
         delete this._wait;
-        litRender(this.render(), this.shadowRoot);
+
+        this.refresh();
+
         if (this.afterFirstRender)
             this.afterFirstRender();
     }
@@ -162,9 +164,7 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
         if (this._methodsToCall[prop]) {
             this._methodsToCall[prop](val);
         }
-        if (!this._wait) {
-            litRender(this.render(), this.shadowRoot)
-        }
+        this.refresh();
     }
 
     /**
@@ -220,6 +220,16 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
              * the fuzzy attribute value.
              */
             this._propertiesChanged(prop, this.__data[prop]);
+        }
+    }
+
+    /**
+     * Refresh this element, re-rendering.
+     *
+     */
+    refresh() {
+        if (!this._wait) {
+            litRender(this.render(), this.shadowRoot)
         }
     }
 
