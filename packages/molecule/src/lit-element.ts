@@ -22,7 +22,7 @@ export interface data {
 }
 
 export interface methodsToCall {
-    [propName: string]: (newValue: any, oldValue: any) => void;
+    [propName: string]: (newValue: any, oldValue: any) => any;
 }
 
 export interface HTMLCollectionByID {
@@ -49,7 +49,7 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
     _methodsToCall: methodsToCall = {};
     _wait: any;
     _firstRender: boolean;
-    afterFirstRender?: () => void;
+    afterRender?: (isFirst: boolean) => void;
     shadowRoot: ShadowRoot;
     _propAttr: Map<string, string>;
     _attrProp: Map<string, string>;
@@ -251,14 +251,11 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
             delete this._wait;
             litRender(this.render(), this.shadowRoot)
 
-            if (this._firstRender) {
+            if (this.afterRender) {
+                this.afterRender( this._firstRender );
                 this._firstRender = false;
-
-                if (this.afterFirstRender) {
-                    this.afterFirstRender();
-                }
             }
-        }, 5)
+        }, 17)
     }
 
     /**
