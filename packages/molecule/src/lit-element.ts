@@ -196,6 +196,7 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
                      * attribute actually cause the attribute to be absent.
                      */
                     if (val === 'false' || val === 'null' ||
+                        val === 'undefined' ||
                         val === false || val === null) {
                         if (this.hasAttribute(attr)) {
                             this.removeAttribute(attr);
@@ -207,10 +208,11 @@ export const LitElement = (superclass: HTMLClass) => class extends superclass {
                     break;
 
                 case 'String':
-                    /* If a String value is falsey or the explicit 'null' string,
-                     * ensure that the attribute is removed.
+                    /* If a String value is falsey or the explicit 'null'
+                     * or 'undefined' string, ensure that the attribute is
+                     * removed.
                      */
-                    if (!val || val === 'null') {
+                    if (!val || val === 'null' || val === 'undefined') {
                         if (this.hasAttribute(attr)) {
                             this.removeAttribute(attr);
                         }
