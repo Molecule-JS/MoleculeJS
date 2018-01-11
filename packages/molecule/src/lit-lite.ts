@@ -13,6 +13,7 @@ export interface propConfig {
     reflectToAttribute?: boolean;
     value?: any;
     observer?: string;
+    notify?: boolean;
 }
 
 export interface data {
@@ -26,6 +27,11 @@ export interface methodsToCall {
 export interface HTMLCollectionByID {
     [id: string]: HTMLElement | Element;
 }
+
+export interface LitEventInit extends EventInit {
+    composed: boolean;
+}
+
 /**
  * Coverts a camelCase string to kebab-case.
  *
@@ -121,6 +127,13 @@ export const LitLite =
                              * _propertiesChanged()
                              */
                             this._propertiesChanged(prop, resolved);
+                        }
+                        if(info.notify) {
+                            this.dispatchEvent(new Event(`${attr}-changed`, <LitEventInit>{
+                                bubbles: true,
+                                composed: true,
+                                detail: resolved
+                            }));
                         }
                     }
                 });
