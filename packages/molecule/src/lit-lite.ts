@@ -96,7 +96,11 @@ export const LitLite =
                 delete this._wait;
 
                 this._firstRender = true;
-                this.refresh();
+
+                /* Perform the first render after connection immediately
+                 * without the delay of refresh()
+                 */
+                renderFunction(this.render(), this.shadowRoot)
             }
 
             /**
