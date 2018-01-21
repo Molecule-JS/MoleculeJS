@@ -3,23 +3,40 @@
     "lit-html": "^0.7.1"
   },
   "name": "lit-element",
-  "version": "0.4.0",
+  "version": "0.4.4",
   "description": "Implements lit-html via a LitElement class. Made for custom Elements.",
   "main": "lit-element.js",
   "repository": "https://github.com/DiiLord/lit-element.git",
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
   "devDependencies": {
+    "chai": "^4.1.2",
     "eslint": "^4.9.0",
     "eslint-plugin-html": "^3.2.2",
-    "gulp": "^3.9.1",
-    "gulp-minify": "^1.0.0",
+    "express": "^4.16.2",
+    "mocha": "^5.0.0",
+    "selenium-webdriver": "^4.0.0-alpha.1",
     "typescript": "^2.6.1",
     "uglify-es": "^3.1.9"
   },
   "scripts": {
-    "checksize": "uglifyjs lit-element.js -mc --toplevel | gzip -9 | wc -c",
-    "prepublish": "gulp",
-    "build": "tsc"
-  }
+    "checksize": "uglifyjs lit-lite.js -mc --toplevel | gzip -9 | wc -c",
+    "build": "tsc",
+    "test": "node test/selenium.js"
+  },
+  "files": [
+    "legacy",
+    "src",
+    "LICENSE",
+    "README.md",
+    "lit-element.js",
+    "lit-element.d.ts",
+    "lit-element.js.map",
+    "lit-lite.js",
+    "lit-lite.d.ts",
+    "lit-lite.js.map",
+    "lit-element-extended.js",
+    "lit-element-extended.d.ts",
+    "lit-element-extended.js.map"
+  ]
 }

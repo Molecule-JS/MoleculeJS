@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="mocha"></div>
+  <test-element id="test-el"></test-element>
+  <script src="/node_modules/mocha/mocha.js"></script>
+  <script src="/node_modules/chai/chai.js"></script>
+
+  <script>mocha.setup('bdd')</script>
+  <script type="module" src="./lit-element_test.js"></script>
+
+  <script>setTimeout(() => {
+      const runner = mocha.run();
+      runner.on('end', () => window.mochaResults = runner.stats)
+    }, 1000)</script>
+</body>
+
+</html>

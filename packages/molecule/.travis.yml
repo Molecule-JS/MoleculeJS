@@ -1,7 +1,8 @@
 language: node_js
 node_js:
   - "iojs"
-  - "7"
-before_script: 
-  - npm install -g gulp
-script: gulp
+  - "node"
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
