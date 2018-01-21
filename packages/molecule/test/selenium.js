@@ -1,4 +1,5 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
+require('chromedriver');
 require('./server.js');
 
 (() => {
