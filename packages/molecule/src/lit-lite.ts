@@ -58,13 +58,13 @@ export const LitLite =
             _firstRender: boolean;
             afterRender?: (isFirst: boolean) => void;
             shadowRoot: ShadowRoot;
-            _propAttr: Map<string, string>;
-            _attrProp: Map<string, string>;
+            _propAttr: Map<string, string> = new Map(); // propertyName   -> attribute-name
+            _attrProp: Map<string, string> = new Map(); // attribute-name -> propertyName
 
             static get observedAttributes(): Array<string> {
                 let attrs: Array<string> = [];
                 for (const prop in this.properties) {
-                    if (this.properties[prop].reflectToAttribute) {
+                    if ((<propConfig>this.properties[prop]).reflectToAttribute) {
                         attrs.push(camelCaseToKebab(prop));
                     }
                 }
@@ -75,9 +75,6 @@ export const LitLite =
                 super();
                 this.attachShadow({ mode: 'open' });
 
-                // Generate propertyName <-> attribute-name mappings
-                this._propAttr = new Map(); // propertyName   -> attribute-name
-                this._attrProp = new Map(); // attribute-name -> propertyName
                 for (let prop in this.constructor.properties) {
                     const attr = camelCaseToKebab(prop);
                     this._propAttr.set(prop, attr);
@@ -124,7 +121,7 @@ export const LitLite =
                              * convert the attribute data to a property,
                              * (this.__data[prop]) and trigger _propertiesChanged().
                              */
-                            this.setAttribute(attr, resolved);
+                            (<HTMLElement>this).setAttribute(attr, resolved);
 
                         } else {
                             /* Set the property directly and trigger
@@ -133,7 +130,7 @@ export const LitLite =
                             this._propertiesChanged(prop, resolved);
                         }
                         if(info.notify) {
-                            this.dispatchEvent(new Event(`${attr}-changed`, <LitEventInit>{
+                            (<HTMLElement>this).dispatchEvent(new Event(`${attr}-changed`, <LitEventInit>{
                                 bubbles: true,
                                 composed: true,
                                 detail: resolved
@@ -159,9 +156,6 @@ export const LitLite =
                         ? info.value.call(this)
                         : info.value);
 
-                } else {
-                    // Initialize via the matching attribute and the new setter()
-                    this[prop] = this.getAttribute(attr);
                 }
             }
 
@@ -211,12 +205,12 @@ export const LitLite =
                             if (val === 'false' || val === 'null' ||
                                 val === 'undefined' ||
                                 val === false || val === null) {
-                                if (this.hasAttribute(attr)) {
-                                    this.removeAttribute(attr);
-                                }
+                                this.removeAttribute(attr);
                                 newVal = false;
                             } else {
                                 newVal = this.hasAttribute(attr);
+                                if(newVal)
+                                    this.setAttribute(attr, '');
                             }
                             break;
 
@@ -226,9 +220,7 @@ export const LitLite =
                              * removed.
                              */
                             if (!val || val === 'null' || val === 'undefined') {
-                                if (this.hasAttribute(attr)) {
-                                    this.removeAttribute(attr);
-                                }
+                                this.removeAttribute(attr);
                                 newVal = '';
 
                             } else {
