@@ -130,7 +130,7 @@ export const LitLite =
                             this._propertiesChanged(prop, resolved);
                         }
                         if(info.notify) {
-                            (<HTMLElement>this).dispatchEvent(new Event(`${attr}-changed`, <LitEventInit>{
+                            (<HTMLElement>this).dispatchEvent(new CustomEvent(`${attr}-changed`, <LitEventInit>{
                                 bubbles: true,
                                 composed: true,
                                 detail: resolved
