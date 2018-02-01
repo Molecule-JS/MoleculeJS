@@ -28,11 +28,8 @@ yarn add lit-element
 ## Default Usage
 
 ```javascript
-// import html from lit-html
-import {html} from '../node-modules/lit-html/lit-html.js'
-
 // import lit-element
-import {LitElement} from '../node_modules/lit-element/lit-element.js'
+import {LitElement, html} from '../node_modules/lit-element/lit-element.js'
 
 // define Custom Element
 class MyElement extends LitElement(HTMLElement) {
@@ -78,6 +75,17 @@ class MyElement extends LitElement(HTMLElement) {
     }
 }
 ```
+
+## Declaring properties
+Properties of your element are set through a static getter of `properties`, as seen above.
+
+Properties can be set with the following options:
+- type: The type function of this property. Must be set!
+- reflectToAttribute: Keeps the property in sync with the attribute of the same name, konverted to kebab-case (myProp <-> my-prop)
+- value: The initial value of the property. If it should be an array or an object, set value to a function returning that object, to keep it unique for each instance of the element
+- observer: The name of the method that should be called whenever the property changes.
+- notify: Dispatch an event on property-change. The event name follows the pattern `my-prop-changed`. The new value is in `event.detail`.
+
 
 ## Notes
 
