@@ -1,7 +1,7 @@
 import { html, svg, render, TemplateResult } from '../lit-html/lit-html.js';
-import { LitLite, HTMLClass, HTMLCollectionByID, data, propConfig, properties, camelCaseToKebab, methodsToCall, LitEventInit } from './lit-lite.js';
+import { LitLite, HTMLCollectionByID, Data, PropConfig, Properties, camelCaseToKebab } from './lit-lite.js';
 
-export const LitElement = (superclass: HTMLClass) => LitLite(superclass, html, render);
+export const LitElement = (superclass = HTMLElement) => LitLite(superclass, html, render);
 
 export { html, svg, TemplateResult };
-export { HTMLClass, HTMLCollectionByID, data, propConfig, properties, camelCaseToKebab };
+export { HTMLCollectionByID, Data, PropConfig, Properties, camelCaseToKebab };

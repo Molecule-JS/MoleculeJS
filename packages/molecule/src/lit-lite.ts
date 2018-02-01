@@ -1,26 +1,24 @@
 import { TemplateResult, PartCallback } from '../node_modules/lit-html/lit-html.js';
 
-export interface HTMLClass extends HTMLElement {
-    new(): HTMLClass;
+export interface Properties {
+    [propName: string]: PropConfig | Type;
 }
 
-export interface properties {
-    [propName: string]: propConfig | typeof String | typeof Number | typeof Boolean | typeof Array | typeof Object;
-}
+export type Type = typeof String | typeof Number | typeof Boolean | typeof Array | typeof Object | typeof Date;
 
-export interface propConfig {
-    type: typeof String | typeof Number | typeof Boolean | typeof Array | typeof Object;
+export interface PropConfig {
+    type: Type;
     reflectToAttribute?: boolean;
     value?: any;
     observer?: string;
     notify?: boolean;
 }
 
-export interface data {
+export interface Data {
     [propName: string]: any;
 }
 
-export interface methodsToCall {
+export interface MethodsToCall {
     [propName: string]: (newValue: any, oldValue: any) => any;
 }
 
@@ -48,23 +46,24 @@ export function camelCaseToKebab(str: string): string {
  * @param {*} superclass
  */
 export const LitLite =
-    (superclass: HTMLClass,
+    (superclass = HTMLElement,
         html: (strings: TemplateStringsArray, ...values: any[]) => TemplateResult,
         renderFunction: (result: TemplateResult, container: Element | DocumentFragment, partCallback?: PartCallback) => void) => class extends superclass {
-            static properties: properties;
-            __data: data = {};
-            _methodsToCall: methodsToCall = {};
+            static properties: Properties;
+            __data: Data = {};
+            _methodsToCall: MethodsToCall = {};
             _wait: any;
             _firstRender: boolean;
             afterRender?: (isFirst: boolean) => void;
             shadowRoot: ShadowRoot;
             _propAttr: Map<string, string> = new Map(); // propertyName   -> attribute-name
             _attrProp: Map<string, string> = new Map(); // attribute-name -> propertyName
+            [key: string]: any
 
             static get observedAttributes(): Array<string> {
                 let attrs: Array<string> = [];
                 for (const prop in this.properties) {
-                    if ((<propConfig>this.properties[prop]).reflectToAttribute) {
+                    if ((<PropConfig>this.properties[prop]).reflectToAttribute) {
                         attrs.push(camelCaseToKebab(prop));
                     }
                 }
@@ -75,7 +74,7 @@ export const LitLite =
                 super();
                 this.attachShadow({ mode: 'open' });
 
-                for (let prop in this.constructor.properties) {
+                for (let prop in (this.constructor as any).properties) {
                     const attr = camelCaseToKebab(prop);
                     this._propAttr.set(prop, attr);
                     this._attrProp.set(attr, prop);
@@ -83,10 +82,10 @@ export const LitLite =
             }
 
             connectedCallback() {
-                if('connectedCallback' in super)
+                if(typeof super.connectedCallback === 'function')
                     super.connectedCallback();
 
-                const props = this.constructor.properties;
+                const props = (this.constructor as any).properties;
                 this._wait = true;
                 for (let prop in props) {
                     if (typeof props[prop] === 'function')
@@ -106,13 +105,13 @@ export const LitLite =
             /**
              * Creates the Propertyaccessors for the defined properties of the Element.
              * @param {string} prop
-             * @param {propConfig} info
+             * @param {PropConfig} info
              */
-            _makeGetterSetter(prop: string, info: propConfig) {
+            _makeGetterSetter(prop: string, info: PropConfig) {
                 const attr = <string>this._propAttr.get(prop);
                 Object.defineProperty(this, prop, {
                     get() {
-                        return this.__data[prop]
+                        return (<any>this).__data[prop]
                     },
                     async set(val: any) {
                         const resolved: any = (val != null && val instanceof Promise
@@ -130,7 +129,7 @@ export const LitLite =
                             /* Set the property directly and trigger
                              * _propertiesChanged()
                              */
-                            this._propertiesChanged(prop, resolved);
+                            (<any>this)._propertiesChanged(prop, resolved);
                         }
                         if(info.notify) {
                             (<HTMLElement>this).dispatchEvent(new CustomEvent(`${attr}-changed`, <LitEventInit>{
@@ -197,7 +196,7 @@ export const LitLite =
                 if (old === val) return;
                 const prop = <string>this._attrProp.get(attr);
                 if (this.__data[prop] !== val) {
-                    const { type } = this.constructor.properties[prop];
+                    const { type } = (this.constructor as any).properties[prop];
                     let newVal = val;
 
                     switch (type.name) {
