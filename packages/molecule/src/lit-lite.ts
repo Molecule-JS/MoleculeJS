@@ -83,6 +83,9 @@ export const LitLite =
             }
 
             connectedCallback() {
+                if('connectedCallback' in super)
+                    super.connectedCallback();
+
                 const props = this.constructor.properties;
                 this._wait = true;
                 for (let prop in props) {
