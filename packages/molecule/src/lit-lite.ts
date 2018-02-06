@@ -1,4 +1,4 @@
-import { TemplateResult, PartCallback } from '../node_modules/lit-html/lit-html.js';
+import { TemplateResult, TemplateFactory } from '../node_modules/lit-html/lit-html.js';
 
 export interface Properties {
     [propName: string]: PropConfig | Type;
@@ -109,7 +109,7 @@ export function _createProperty(prop: string, attr: string, context: any, info: 
 export const LitLite =
     (superclass = HTMLElement,
         html: (strings: TemplateStringsArray, ...values: any[]) => TemplateResult,
-        renderFunction: (result: TemplateResult, container: Element | DocumentFragment, partCallback?: PartCallback) => void) => 
+        renderFunction: (result: TemplateResult, container: Element | DocumentFragment, templateFactory?: TemplateFactory) => void) => 
         class extends superclass {
             static properties: Properties;
             __data: Data = {};

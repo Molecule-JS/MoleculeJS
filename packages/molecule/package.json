@@ -1,9 +1,9 @@
 {
   "dependencies": {
-    "lit-html": "^0.7.1"
+    "lit-html": "^0.9.0"
   },
   "name": "lit-element",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "Implements lit-html via a LitElement class. Made for custom Elements.",
   "main": "lit-element.js",
   "repository": "https://github.com/DiiLord/lit-element.git",

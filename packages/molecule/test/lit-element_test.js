@@ -30,6 +30,10 @@ describe('lit-element', () => {
                         reflectToAttribute: true,
                         observer: 'numberObserver',
                         notify: true
+                    },
+                    stringProp: {
+                        type: String,
+                        value: 'StringProp'
                     }
                 }
             }
@@ -59,11 +63,13 @@ describe('lit-element', () => {
         it('correct type', () => {
             expect(testElement.longBool).to.be.a('boolean');
             expect(testElement.longNumber).to.be.a('number');
+            expect(testElement.stringProp).to.be.a('string');
         });
 
         it('correct value', () => {
             expect(testElement.longBool).to.be.true;
             expect(testElement.longNumber).to.equal(123);
+            expect(testElement.stringProp).to.equal('StringProp')
         });
 
         it('changes the value', () => {
@@ -100,34 +106,55 @@ describe('lit-element', () => {
         it('changes the property', () => {
             testElement.setAttribute('long-number', '456');
             expect(testElement.longNumber).to.equal(456);
+
             testElement.longBool = true;
             testElement.removeAttribute('long-bool');
             expect(testElement.longBool).to.be.false;
+            
+            testElement.setAttribute('long-bool', '');
+            expect(testElement.longBool).to.be.true;
         })
     });
 
+    describe('Handles async property setting', () => {
+        it('Sets the resolved value of a Promise to a property', done => {
+            testElement.longBool = false;
+            testElement.longBool = new Promise((res, rej) => {
+                setTimeout(res(true), 10);
+            });
+
+            setTimeout(() => {
+                expect(testElement.longBool).to.be.true;
+                done();
+            }, 30);
+        })
+    })
+
     describe('events', () => {
         it('fires events', done => {
+            const listener = e => eventFired = true;
             let eventFired = false;
             setTimeout(() => {
                 expect(eventFired, 'custom event did not fire').to.be.true;
+                testElement.removeEventListener('long-bool-changed', listener);
                 done();
-            }, 100);
+            }, 30);
 
-            testElement.addEventListener('long-bool-changed', e => eventFired = true);
+            testElement.addEventListener('long-bool-changed', listener);
 
             testElement.longBool = true;
             testElement.longBool = false;
         });
 
         it('event has correct deatil', done => {
-            testElement.addEventListener('long-bool-changed', ({ detail }) => {
+            const listener = ({ detail }) => {
                 expect(detail).to.be.true;
+                testElement.removeEventListener('long-bool-changed', listener);
                 done();
-            });
+            };
+            testElement.addEventListener('long-bool-changed',listener);
 
             testElement.longBool = true;
-            testElement.longBool = false;
         });
-    })
+    });
 });
