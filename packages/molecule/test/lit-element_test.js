@@ -10,12 +10,6 @@ describe('lit-element', () => {
     let observerVals
     before(() => {
         observerVals = new Map;
-       /*  testElement = document.createElement('test-element');
-        document.body.appendChild(testElement);
-
-        const div = document.createElement('div');
-        div.id = 'mocha';
-        document.body.appendChild(div); */
         testElement = document.getElementById('test-el');
 
         class TestElement extends LitElement(HTMLElement) {
@@ -124,6 +118,16 @@ describe('lit-element', () => {
 
             testElement.longBool = true;
             testElement.longBool = false;
-        })
+        });
+
+        it('event has correct deatil', done => {
+            testElement.addEventListener('long-bool-changed', ({ detail }) => {
+                expect(detail).to.be.true;
+                done();
+            });
+
+            testElement.longBool = true;
+            testElement.longBool = false;
+        });
     })
 });

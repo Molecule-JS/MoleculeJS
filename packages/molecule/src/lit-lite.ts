@@ -42,13 +42,75 @@ export function camelCaseToKebab(str: string): string {
 }
 
 /**
+ * 
+ * @param {string} prop The name of the property to create
+ * @param {string} attr The name of the attribute
+ * @param {any} context The context of the element
+ * @param {PropConfig} info The configuration of the property
+ */
+export function _createProperty(prop: string, attr: string, context: any, info: PropConfig) {
+    Object.defineProperty(context, prop, {
+        get() {
+            return context.__data[prop];
+        },
+        async set(val: any) {
+            const resolved: any = (val != null && val instanceof Promise
+                ? await val
+                : val);
+            if (info.reflectToAttribute) {
+                /* Set the new value by setting the observed attribute.
+                 * This will trigger attributeChangedCallback() which will
+                 * convert the attribute data to a property,
+                 * (this.__data[prop]) and trigger _propertiesChanged().
+                 */
+                context.setAttribute(attr, resolved);
+
+            } else {
+                /* Set the property directly and trigger
+                 * _propertiesChanged()
+                 */
+                context._propertiesChanged(prop, resolved);
+            }
+            if (info.notify) {
+                context.dispatchEvent(new CustomEvent(`${attr}-changed`, <LitEventInit>{
+                    bubbles: true,
+                    composed: true,
+                    detail: resolved
+                }));
+            }
+        }
+    });
+
+    if (info.reflectToAttribute &&
+        (info.type === Object || info.type === Array)) {
+        console.warn('Rich Data shouldn\'t be set as attribte!')
+    }
+    if (info.observer) {
+        if (context[info.observer]) {
+            // Establish the property-change observer
+            context._methodsToCall[prop] = context[info.observer].bind(context);
+        } else {
+            console.warn(`Method ${info.observer} not defined!`);
+        }
+    }
+    if (info.value !== undefined) {
+        // Initialize using the included value and the new setter()
+        context[prop] = (typeof (info.value) === 'function'
+            ? info.value.call(context)
+            : info.value);
+
+    }
+}
+
+/**
  * Returns a class with the Lit-Element features, that extends `superclass`.
  * @param {*} superclass
  */
 export const LitLite =
     (superclass = HTMLElement,
         html: (strings: TemplateStringsArray, ...values: any[]) => TemplateResult,
-        renderFunction: (result: TemplateResult, container: Element | DocumentFragment, partCallback?: PartCallback) => void) => class extends superclass {
+        renderFunction: (result: TemplateResult, container: Element | DocumentFragment, partCallback?: PartCallback) => void) => 
+        class extends superclass {
             static properties: Properties;
             __data: Data = {};
             _methodsToCall: MethodsToCall = {};
@@ -82,9 +144,6 @@ export const LitLite =
             }
 
             connectedCallback() {
-                if(typeof super.connectedCallback === 'function')
-                    super.connectedCallback();
-
                 const props = (this.constructor as any).properties;
                 this._wait = true;
                 for (let prop in props) {
@@ -109,56 +168,7 @@ export const LitLite =
              */
             _makeGetterSetter(prop: string, info: PropConfig) {
                 const attr = <string>this._propAttr.get(prop);
-                Object.defineProperty(this, prop, {
-                    get() {
-                        return (<any>this).__data[prop]
-                    },
-                    async set(val: any) {
-                        const resolved: any = (val != null && val instanceof Promise
-                            ? await val
-                            : val);
-                        if (info.reflectToAttribute) {
-                            /* Set the new value by setting the observed attribute.
-                             * This will trigger attributeChangedCallback() which will
-                             * convert the attribute data to a property,
-                             * (this.__data[prop]) and trigger _propertiesChanged().
-                             */
-                            (<HTMLElement>this).setAttribute(attr, resolved);
-
-                        } else {
-                            /* Set the property directly and trigger
-                             * _propertiesChanged()
-                             */
-                            (<any>this)._propertiesChanged(prop, resolved);
-                        }
-                        if(info.notify) {
-                            (<HTMLElement>this).dispatchEvent(new CustomEvent(`${attr}-changed`, <LitEventInit>{
-                                bubbles: true,
-                                composed: true,
-                                detail: resolved
-                            }));
-                        }
-                    }
-                });
-                if (info.reflectToAttribute &&
-                    (info.type === Object || info.type === Array)) {
-                    console.warn('Rich Data shouldn\'t be set as attribte!')
-                }
-                if (info.observer) {
-                    if (this[info.observer]) {
-                        // Establish the property-change observer
-                        this._methodsToCall[prop] = this[info.observer].bind(this);
-                    } else {
-                        console.warn(`Method ${info.observer} not defined!`);
-                    }
-                }
-                if (info.value !== undefined) {
-                    // Initialize using the included value and the new setter()
-                    this[prop] = (typeof (info.value) === 'function'
-                        ? info.value.call(this)
-                        : info.value);
-
-                }
+                _createProperty(prop, attr, this, info);
             }
 
             /**
@@ -211,7 +221,7 @@ export const LitLite =
                                 newVal = false;
                             } else {
                                 newVal = this.hasAttribute(attr);
-                                if(newVal)
+                                if (newVal)
                                     this.setAttribute(attr, '');
                             }
                             break;
@@ -227,7 +237,6 @@ export const LitLite =
 
                             } else {
                                 newVal = type(val);
-
                             }
                             break;
 
