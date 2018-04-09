@@ -112,10 +112,12 @@ export const LitLite =
         renderFunction: (result: TemplateResult, container: Element | DocumentFragment, templateFactory?: TemplateFactory) => void) => 
         class extends superclass {
             static properties: Properties;
+            __renderCallbacks: Set<any> = new Set();
+            __pendingRender: boolean = false;
             __data: Data = {};
             _methodsToCall: MethodsToCall = {};
             _wait: any;
-            _firstRender: boolean;
+            _firstRender: boolean = false;
             afterRender?: (isFirst: boolean) => void;
             shadowRoot: ShadowRoot;
             _propAttr: Map<string, string> = new Map(); // propertyName   -> attribute-name
@@ -253,25 +255,52 @@ export const LitLite =
             }
 
             /**
-             * Refresh this element, re-rendering.
+             *  Handle a postponed render.
+             *  @method postponedRender
              *
+             *  @return void
              */
-            refresh() {
+            postponedRender() {
+                renderFunction(this.render(), this.shadowRoot)
+
+                for (let callback of this.__renderCallbacks) {
+                  callback();
+                }
+                this.__renderCallbacks.clear();
+
+                if (this.afterRender) {
+                    this.afterRender( this._firstRender );
+                    this._firstRender = false;
+                }
+            }
+
+            /**
+             *  Refresh this element, re-rendering.
+             *  @method refresh
+             *  @param {function} callback
+             *
+             *  @return void
+             */
+            async refresh( callback?: () => any ) {
                 if (this._wait === true) { return }
-                if (this._wait) {
-                    // Reset the throttle
-                    clearTimeout(this._wait);
+
+                if (callback != null) {
+                    // Queue this render/refresh callback
+                    this.__renderCallbacks.add( callback );
                 }
 
-                this._wait = setTimeout(() => {
-                    delete this._wait;
-                    renderFunction(this.render(), this.shadowRoot)
-
-                    if (this.afterRender) {
-                        this.afterRender(this._firstRender);
-                        this._firstRender = false;
-                    }
-                }, 17)
+                if (! this.__pendingRender) {
+                    this.__pendingRender = true;
+                    /* Schedule the following as a microtask, which runs before
+                     * requestAnimationFrame. Any additional refresh() calls
+                     * will have any callback queued but otherwise will be
+                     * ignored.
+                     *
+                     * https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/
+                     */
+                    this.__pendingRender = await false;
+                    this.postponedRender();
+                }
             }
 
             /**
