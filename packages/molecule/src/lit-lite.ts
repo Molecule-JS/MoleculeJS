@@ -119,7 +119,7 @@ export const LitLite =
             _wait: any;
             _firstRender: boolean = false;
             afterRender?: (isFirst: boolean) => void;
-            shadowRoot: ShadowRoot;
+            shadowRoot!: ShadowRoot;
             _propAttr: Map<string, string> = new Map(); // propertyName   -> attribute-name
             _attrProp: Map<string, string> = new Map(); // attribute-name -> propertyName
             [key: string]: any
@@ -136,7 +136,7 @@ export const LitLite =
 
             constructor() {
                 super();
-                this.shadowRoot = this.attachShadow({ mode: 'open' });
+                this.attachShadow({ mode: 'open' });
 
                 for (let prop in (this.constructor as any).properties) {
                     const attr = camelCaseToKebab(prop);
