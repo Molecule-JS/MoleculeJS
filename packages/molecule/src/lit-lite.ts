@@ -104,12 +104,12 @@ export function _createProperty(prop: string, attr: string, context: any, info: 
 
 /**
  * Returns a class with the Lit-Element features, that extends `superclass`.
- * @param {*} superclass
+ * @param superclass
  */
 export const LitLite =
     (superclass = HTMLElement,
         html: (strings: TemplateStringsArray, ...values: any[]) => TemplateResult,
-        renderFunction: (result: TemplateResult, container: Element | DocumentFragment, templateFactory?: TemplateFactory) => void) => 
+        renderFunction: (result: TemplateResult, container: Element | DocumentFragment, templateFactory?: TemplateFactory) => void) =>
         class extends superclass {
             static properties: Properties;
             __renderCallbacks: Set<any> = new Set();
@@ -136,7 +136,7 @@ export const LitLite =
 
             constructor() {
                 super();
-                this.attachShadow({ mode: 'open' });
+                this.shadowRoot = this.attachShadow({ mode: 'open' });
 
                 for (let prop in (this.constructor as any).properties) {
                     const attr = camelCaseToKebab(prop);
@@ -264,12 +264,12 @@ export const LitLite =
                 renderFunction(this.render(), this.shadowRoot)
 
                 for (let callback of this.__renderCallbacks) {
-                  callback();
+                    callback();
                 }
                 this.__renderCallbacks.clear();
 
                 if (this.afterRender) {
-                    this.afterRender( this._firstRender );
+                    this.afterRender(this._firstRender);
                     this._firstRender = false;
                 }
             }
@@ -281,15 +281,15 @@ export const LitLite =
              *
              *  @return void
              */
-            async refresh( callback?: () => any ) {
+            async refresh(callback?: () => any) {
                 if (this._wait === true) { return }
 
                 if (callback != null) {
                     // Queue this render/refresh callback
-                    this.__renderCallbacks.add( callback );
+                    this.__renderCallbacks.add(callback);
                 }
 
-                if (! this.__pendingRender) {
+                if (!this.__pendingRender) {
                     this.__pendingRender = true;
                     /* Schedule the following as a microtask, which runs before
                      * requestAnimationFrame. Any additional refresh() calls
