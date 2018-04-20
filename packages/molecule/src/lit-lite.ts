@@ -49,6 +49,8 @@ export function camelCaseToKebab(str: string): string {
  * @param {PropConfig} info The configuration of the property
  */
 export function _createProperty(prop: string, attr: string, context: any, info: PropConfig) {
+    // get value that was already set on the property (if any)
+    const setVal = context[prop];
     Object.defineProperty(context, prop, {
         get() {
             return context.__data[prop];
@@ -92,6 +94,11 @@ export function _createProperty(prop: string, attr: string, context: any, info: 
         } else {
             console.warn(`Method ${info.observer} not defined!`);
         }
+    }
+    // Check, if the property was already set, set it accordingly
+    if (setVal) {
+        context[prop] = setVal;
+        return;
     }
     if (info.value !== undefined) {
         // Initialize using the included value and the new setter()
