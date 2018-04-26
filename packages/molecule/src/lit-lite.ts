@@ -167,7 +167,7 @@ export const LitLite =
                 /* Perform the first render after connection immediately
                  * without the delay of refresh()
                  */
-                renderFunction(this.render(), this.shadowRoot)
+                renderFunction(this.render({...this.__data}), this.shadowRoot)
             }
 
             /**
@@ -268,7 +268,7 @@ export const LitLite =
              *  @return void
              */
             postponedRender() {
-                renderFunction(this.render(), this.shadowRoot)
+                renderFunction(this.render({...this.__data}), this.shadowRoot)
 
                 for (let callback of this.__renderCallbacks) {
                     callback();
@@ -315,7 +315,7 @@ export const LitLite =
              *
              * @returns
              */
-            render(): TemplateResult {
+            render(data?: object): TemplateResult {
                 return html``;
             }
 
