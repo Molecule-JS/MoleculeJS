@@ -48,7 +48,7 @@ export function camelCaseToKebab(str: string): string {
  * @param {any} context The context of the element
  * @param {PropConfig} info The configuration of the property
  */
-export function _createProperty(prop: string, attr: string, context: any, info: PropConfig) {
+export function createProperty(prop: string, attr: string, context: any, info: PropConfig) {
     // get value that was already set on the property (if any)
     const setVal = context[prop];
     Object.defineProperty(context, prop, {
@@ -59,27 +59,7 @@ export function _createProperty(prop: string, attr: string, context: any, info: 
             const resolved: any = (val != null && val instanceof Promise
                 ? await val
                 : val);
-            if (info.reflectToAttribute) {
-                /* Set the new value by setting the observed attribute.
-                 * This will trigger attributeChangedCallback() which will
-                 * convert the attribute data to a property,
-                 * (this.__data[prop]) and trigger _propertiesChanged().
-                 */
-                context.setAttribute(attr, resolved);
-
-            } else {
-                /* Set the property directly and trigger
-                 * _propertiesChanged()
-                 */
-                context._propertiesChanged(prop, resolved);
-            }
-            if (info.notify) {
-                context.dispatchEvent(new CustomEvent(`${attr}-changed`, <LitEventInit>{
-                    bubbles: true,
-                    composed: true,
-                    detail: resolved
-                }));
-            }
+            context.setProperty(prop, resolved);
         }
     });
 
@@ -90,7 +70,7 @@ export function _createProperty(prop: string, attr: string, context: any, info: 
     if (info.observer) {
         if (context[info.observer]) {
             // Establish the property-change observer
-            context._methodsToCall[prop] = context[info.observer].bind(context);
+            context.__methodsToCall[prop] = context[info.observer].bind(context);
         } else {
             console.warn(`Method ${info.observer} not defined!`);
         }
@@ -122,13 +102,13 @@ export const LitLite =
             __renderCallbacks: Set<any> = new Set();
             __pendingRender: boolean = false;
             __data: Data = {};
-            _methodsToCall: MethodsToCall = {};
-            _wait: any;
-            _firstRender: boolean = false;
+            __methodsToCall: MethodsToCall = {};
+            __wait: any;
+            __firstRender: boolean = false;
             afterRender?: (isFirst: boolean) => void;
             shadowRoot!: ShadowRoot;
-            _propAttr: Map<string, string> = new Map(); // propertyName   -> attribute-name
-            _attrProp: Map<string, string> = new Map(); // attribute-name -> propertyName
+            __propAttr: Map<string, string> = new Map(); // propertyName   -> attribute-name
+            __attrProp: Map<string, string> = new Map(); // attribute-name -> propertyName
             [key: string]: any
 
             static get observedAttributes(): Array<string> {
@@ -147,27 +127,35 @@ export const LitLite =
 
                 for (let prop in (this.constructor as any).properties) {
                     const attr = camelCaseToKebab(prop);
-                    this._propAttr.set(prop, attr);
-                    this._attrProp.set(attr, prop);
+                    this.__propAttr.set(prop, attr);
+                    this.__attrProp.set(attr, prop);
                 }
             }
 
             connectedCallback() {
                 const props = (this.constructor as any).properties;
-                this._wait = true;
+                this.__wait = true;
                 for (let prop in props) {
                     if (typeof props[prop] === 'function')
                         props[prop] = { type: props[prop] };
-                    this._makeGetterSetter(prop, props[prop])
+                    this.__makeGetterSetter(prop, props[prop])
                 }
-                delete this._wait;
+                delete this.__wait;
 
-                this._firstRender = true;
+                this.__firstRender = true;
+
+                if(this.connected)
+                    this.connected.call(this);
 
                 /* Perform the first render after connection immediately
                  * without the delay of refresh()
                  */
-                renderFunction(this.render({...this.__data}), this.shadowRoot)
+                this.postponedRender();
+            }
+
+            disconnectedCallback() {
+                if(this.disconnected)
+                    this.disconnected.call(this);
             }
 
             /**
@@ -175,9 +163,9 @@ export const LitLite =
              * @param {string} prop
              * @param {PropConfig} info
              */
-            _makeGetterSetter(prop: string, info: PropConfig) {
-                const attr = <string>this._propAttr.get(prop);
-                _createProperty(prop, attr, this, info);
+            __makeGetterSetter(prop: string, info: PropConfig) {
+                const attr = <string>this.__propAttr.get(prop);
+                createProperty(prop, attr, this, info);
             }
 
             /**
@@ -186,14 +174,14 @@ export const LitLite =
              * @param {string} prop
              * @param {any} newVal
              */
-            _propertiesChanged(prop: string, newVal: any) {
+            __propertiesChanged(prop: string, newVal: any) {
                 if (this.__data[prop] !== newVal) {
                     const oldVal = this.__data[prop];
                     let doRefresh = true;
                     this.__data[prop] = newVal;
 
-                    if (this._methodsToCall[prop]) {
-                        if (this._methodsToCall[prop](newVal, oldVal) === false) {
+                    if (this.__methodsToCall[prop]) {
+                        if (this.__methodsToCall[prop](newVal, oldVal) === false) {
                             doRefresh = false;
                         }
                     }
@@ -204,8 +192,34 @@ export const LitLite =
                 }
             }
 
+            setProperty(prop: string, newVal: any) {
+                const info = (this.constructor as any).properties[prop];
+                const attr = this.__propAttr.get(prop);
+                if (info.reflectToAttribute) {
+                    /* Set the new value by setting the observed attribute.
+                     * This will trigger attributeChangedCallback() which will
+                     * convert the attribute data to a property,
+                     * (this.__data[prop]) and trigger __propertiesChanged().
+                     */
+                    this.setAttribute(attr!, newVal);
+    
+                } else {
+                    /* Set the property directly and trigger
+                     * __propertiesChanged()
+                     */
+                    this.__propertiesChanged(prop, newVal);
+                }
+                if (info.notify) {
+                    this.dispatchEvent(new CustomEvent(`${attr}-changed`, <LitEventInit>{
+                        bubbles: true,
+                        composed: true,
+                        detail: newVal
+                    }));
+                }
+            }
+
             /**
-             * Gets called when an observed attribute changes. Calls `_propertiesChanged`
+             * Gets called when an observed attribute changes. Calls `__propertiesChanged`
              *
              * @param {string} prop
              * @param {any} old
@@ -213,7 +227,7 @@ export const LitLite =
              */
             attributeChangedCallback(attr: string, old: any, val: any) {
                 if (old === val) return;
-                const prop = <string>this._attrProp.get(attr);
+                const prop = <string>this.__attrProp.get(attr);
                 if (this.__data[prop] !== val) {
                     const { type } = (this.constructor as any).properties[prop];
                     let newVal = val;
@@ -257,7 +271,7 @@ export const LitLite =
                     /* Pass along the new, more concrete *property* value instead of
                      * the fuzzy attribute value.
                      */
-                    this._propertiesChanged(prop, newVal);
+                    this.__propertiesChanged(prop, newVal);
                 }
             }
 

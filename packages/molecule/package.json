@@ -30,7 +30,6 @@
     "test": "npm run build && node test/selenium.js"
   },
   "files": [
-    "legacy",
     "src",
     "LICENSE",
     "README.md",

@@ -138,7 +138,7 @@ describe('lit-element', () => {
                 expect(eventFired, 'custom event did not fire').to.be.true;
                 testElement.removeEventListener('long-bool-changed', listener);
                 done();
-            }, 30);
+            }, 20);
 
             testElement.addEventListener('long-bool-changed', listener);
 
