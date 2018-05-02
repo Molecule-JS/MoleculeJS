@@ -144,7 +144,7 @@ export const LitLite =
 
                 this.__firstRender = true;
 
-                if(this.connected)
+                if (this.connected)
                     this.connected.call(this);
 
                 /* Perform the first render after connection immediately
@@ -154,7 +154,7 @@ export const LitLite =
             }
 
             disconnectedCallback() {
-                if(this.disconnected)
+                if (this.disconnected)
                     this.disconnected.call(this);
             }
 
@@ -191,8 +191,15 @@ export const LitLite =
                     }
                 }
             }
-
-            setProperty(prop: string, newVal: any) {
+            /**
+             * Set the prop to a new value, or signal that it changed
+             * 
+             * @param {string} prop 
+             * @param {*} [newVal] 
+             */
+            setProperty(prop: string, newVal?: any) {
+                if (arguments.length < 2)
+                    newVal = this[prop];
                 const info = (this.constructor as any).properties[prop];
                 const attr = this.__propAttr.get(prop);
                 if (info.reflectToAttribute) {
@@ -202,7 +209,6 @@ export const LitLite =
                      * (this.__data[prop]) and trigger __propertiesChanged().
                      */
                     this.setAttribute(attr!, newVal);
-    
                 } else {
                     /* Set the property directly and trigger
                      * __propertiesChanged()
@@ -282,7 +288,7 @@ export const LitLite =
              *  @return void
              */
             postponedRender() {
-                renderFunction(this.render({...this.__data}), this.shadowRoot)
+                renderFunction(this.render({ ...this.__data }), this.shadowRoot)
 
                 for (let callback of this.__renderCallbacks) {
                     callback();
