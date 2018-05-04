@@ -8,9 +8,12 @@ const path = require('path');
         res.sendFile(path.join(__dirname.slice(0, __dirname.lastIndexOf('/')) + req.url))
     });
 
+    app.get('/lit-element.js', (req, res) => res.sendFile(path.join(__dirname.slice(0, __dirname.lastIndexOf('/')) + '/lit-element.js')));
     app.get('/lit-lite.js', (req, res) => res.sendFile(path.join(__dirname.slice(0, __dirname.lastIndexOf('/')) + '/lit-lite.js')));
 
     app.get('/lib*', (req, res) => res.sendFile(path.join(__dirname.slice(0, __dirname.lastIndexOf('/')) + req.url)));
+
+    app.get('/lit-html/*', (req, res) => res.sendFile(path.join(__dirname.slice(0, __dirname.lastIndexOf('/')) + '/node_modules' + req.url)));
 
     app.get('*', (req, res) => res.sendFile(path.join(__dirname, req.url)));
 

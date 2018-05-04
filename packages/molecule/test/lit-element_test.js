@@ -1,7 +1,5 @@
-import { html, render } from '/node_modules/lit-html/lit-html.js';
-import { LitLite } from '/lit-lite.js';
+import { LitElement, html } from '/lit-element.js';
 
-const LitElement = (superclass) => LitLite(superclass, html, render);
 const {expect} = chai;
 //mocha.setup('bdd');
 
@@ -12,7 +10,7 @@ describe('lit-element', () => {
         observerVals = new Map;
         testElement = document.getElementById('test-el');
 
-        class TestElement extends LitElement(HTMLElement) {
+        class TestElement extends LitElement() {
             static get properties() {
                 return {
                     shortBool: Boolean,
