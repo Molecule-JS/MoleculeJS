@@ -1,4 +1,6 @@
-import { TemplateResult, TemplateFactory } from '../node_modules/lit-html/lit-html.js';
+import { camelCaseToKebab } from './lib/helpers/camel-to-kebab-case.js';
+
+export { camelCaseToKebab };
 
 export interface Properties {
     [propName: string]: PropConfig | Type;
@@ -31,24 +33,13 @@ export interface LitEventInit extends EventInit {
 }
 
 /**
- * Coverts a camelCase string to kebab-case.
- *
- * @export
- * @param {string} str The camelCaseString
- * @returns {string} The kebab-version of the string
- */
-export function camelCaseToKebab(str: string): string {
-    return str.replace(/([A-Z])/g, '-$1').toLowerCase();
-}
-
-/**
  * 
  * @param {string} prop The name of the property to create
  * @param {string} attr The name of the attribute
  * @param {any} context The context of the element
  * @param {PropConfig} info The configuration of the property
  */
-export function createProperty(prop: string, attr: string, context: any, info: PropConfig) {
+export function createProperty(prop: string, context: any, info: PropConfig) {
     // get value that was already set on the property (if any)
     const setVal = context[prop];
     Object.defineProperty(context, prop, {
@@ -94,9 +85,8 @@ export function createProperty(prop: string, attr: string, context: any, info: P
  * @param superclass
  */
 export const LitLite =
-    (superclass = HTMLElement,
-        html: (strings: TemplateStringsArray, ...values: any[]) => TemplateResult,
-        renderFunction: (result: TemplateResult, container: Element | DocumentFragment, templateFactory?: TemplateFactory) => void) =>
+    <T, U>(superclass = HTMLElement,
+        renderFunction: (result: T, container: Element | DocumentFragment, templateFactory?: U) => void) =>
         class extends superclass {
             static properties: Properties;
             __renderCallbacks: Set<any> = new Set();
@@ -121,7 +111,7 @@ export const LitLite =
                 return attrs;
             }
 
-            constructor() {
+            protected constructor() {
                 super();
                 this.attachShadow({ mode: 'open' });
 
@@ -164,8 +154,7 @@ export const LitLite =
              * @param {PropConfig} info
              */
             __makeGetterSetter(prop: string, info: PropConfig) {
-                const attr = <string>this.__propAttr.get(prop);
-                createProperty(prop, attr, this, info);
+                createProperty(prop, this, info);
             }
 
             /**
@@ -335,8 +324,8 @@ export const LitLite =
              *
              * @returns
              */
-            render(data?: object): TemplateResult {
-                return html``;
+            render(data?: object): T {
+                throw Error('render function not defined');
             }
 
             /**
