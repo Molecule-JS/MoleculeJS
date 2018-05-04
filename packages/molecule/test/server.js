@@ -10,6 +10,8 @@ const path = require('path');
 
     app.get('/lit-lite.js', (req, res) => res.sendFile(path.join(__dirname.slice(0, __dirname.lastIndexOf('/')) + '/lit-lite.js')));
 
+    app.get('/lib*', (req, res) => res.sendFile(path.join(__dirname.slice(0, __dirname.lastIndexOf('/')) + req.url)));
+
     app.get('*', (req, res) => res.sendFile(path.join(__dirname, req.url)));
 
     app.listen(3000);
