@@ -9,6 +9,10 @@
   "repository": "https://github.com/DiiLord/lit-element.git",
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
+  "keywords": [
+    "web components",
+    "lit-html"
+  ],
   "devDependencies": {
     "chai": "^4.1.2",
     "chromedriver": "^2.34.1",
