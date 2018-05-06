@@ -85,8 +85,8 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
  * @param superclass
  */
 export const LitLite =
-    <T, U>(superclass = HTMLElement,
-        renderFunction: (result: T, container: Element | DocumentFragment, templateFactory?: U) => void) =>
+    <T>(superclass = HTMLElement,
+        renderFunction: (result: T, container: Element | DocumentFragment) => void) =>
         class extends superclass {
             static properties: Properties;
             __renderCallbacks: Set<any> = new Set();
