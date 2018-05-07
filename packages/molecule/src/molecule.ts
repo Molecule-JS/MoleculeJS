@@ -85,9 +85,8 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
  * @param superclass
  */
 export const Molecule =
-    <T>(superclass = HTMLElement,
-        renderFunction: (result: T, container: Element | DocumentFragment) => void) =>
-        class extends superclass {
+    <T>(renderFunction: (result: T, container: Element | DocumentFragment) => void) =>
+        class extends HTMLElement {
             static properties: Properties;
             __renderCallbacks: Set<any> = new Set();
             __pendingRender: boolean = false;

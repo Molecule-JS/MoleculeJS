@@ -28,7 +28,7 @@ Let's start with an simple Example:
 ```js
 import { MoleculeLit, html } from '../node_modules/@moleculejs/molecule/molecule-lit.js';
 
-class HelloWorld extends MoleculeLit() {
+class HelloWorld extends MoleculeLit {
     static get properties() {
         return {
             name: String,

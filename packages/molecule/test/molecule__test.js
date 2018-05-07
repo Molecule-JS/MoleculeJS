@@ -10,7 +10,7 @@ describe('molecule', () => {
         observerVals = new Map;
         testElement = document.getElementById('test-el');
 
-        class TestElement extends MoleculeLit() {
+        class TestElement extends MoleculeLit {
             static get properties() {
                 return {
                     shortBool: Boolean,
