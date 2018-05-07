@@ -2,7 +2,7 @@
   "dependencies": {
     "lit-html": "^0.10.0"
   },
-  "name": "moleculejs",
+  "name": "@moleculejs/molecule",
   "version": "0.5.0",
   "description": "A small, declarative library for creating ui web components",
   "main": "molecule-lit.js",
