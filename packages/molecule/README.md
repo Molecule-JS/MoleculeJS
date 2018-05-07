@@ -1,94 +1,59 @@
-# Molecule
+# Molecule &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Molecule-JS/molecule/blob/master/LICENSE) [![Build Status](https://travis-ci.org/Molecule-JS/molecule.svg?branch=master)](https://travis-ci.org/Molecule-JS/molecule) [![npm version](https://badge.fury.io/js/%40moleculejs%2Fmolecule.svg)](https://badge.fury.io/js/%40moleculejs%2Fmolecule)
 
-Implements [lit-html](https://github.com/PolymerLabs/lit-html) via a LitElement class. Made for custom Elements.
 
-[![Build Status](https://travis-ci.org/Molecule-JS/molecule.svg?branch=master)](https://travis-ci.org/Molecule-JS/molecule)
+## Overview
+Molecule is a JavaScript library for building user interfaces using web components.
 
-## New in 0.4.0
-- We now allow you to switch out the standard lit-html `render` and `html` functions
-- You can now use `lit-html-extended` via `lit-element-extended.js`
-- Added `notify` option for properties, which will fire an event, if the value changes
-- A lot of bug fixes
-
-## New in 0.3.0
-- You can now set any property of your element to a promise and LitElement will set the property to the resolved value of the promise. (credit: [depeele](https://github.com/depeele))
-- Attributes of properties with `reflectToAttribute: true` are now transformed to kebab-case. (credit: [depeele](https://github.com/depeele))
-- Codebase moved to TypeScript.
+It provides several classes from which you can build your Custom Elements
+- The Molecule base class. It is agnositic about your actual templatization and rendering function.
+- MoleculeLit class which uses the standard functions from [lit-html](https://github.com/PolymerLabs/lit-html) by the Polymer team.
+- MoleculeLitExtended uses the extended rendering functions of `lit-html`.
 
 ## Installation
-
-You can get it through npm or yarn
+The `@moleculejs/molecule` package can be installes using npm or yarn:
 
 ```
-npm install lit-element
-```
-```
-yarn add lit-element
+npm install --save @moleculejs/molecule
 ```
 
-## Default Usage
+```
+yarn add @moleculejs/molecule
+```
 
-```javascript
-// import lit-element
-import {LitElement, html} from '../node_modules/lit-element/lit-element.js'
+## Documentation
+More detailed documentation coming soon!
 
-// define Custom Element
-class MyElement extends LitElement(HTMLElement) {
+## Examples
+Let's start with an simple Example:
+```js
+import { MoleculeLit, html } from '../node_modules/@moleculejs/molecule/molecule-lit.js';
 
-    // define properties similiar to Polymer 2/3
+class HelloWorld extends MoleculeLit() {
     static get properties() {
         return {
-            title: String,
-            body: {
-                type: String,
-                value: 'That is a cool LitElement',
-                observer: '_bodyChanged',
-                reflectToAttribute: true,
-                notify: true
-            }
+            name: String,
+            reflectToAttribute: true,
+            value: 'John Doe'
         }
     }
-    
-    // define your template in render
-    render() {
-        this.title = 'This is lit';
-        return html`
-            <h1 id="title">${this.title}</h1>
-            <p>${this.body}</h1>
-        `;
-    }
-
-    // observer callback
-    _bodyChanged(newValue) {
-        console.log(`Body updated to ${newValue}`);
-    }
-
-    // If you want work done after the first render, like accessing elements with ids, do it here
-    afterRender(isFirstRender) {
-        if(isFirstRender) {
-            // access the element with id 'title'
-            this.$.title.classList.add('title--main');
-            this.addEventListener('body-changed', e => {
-                const body = e.detail;
-                ...
-            })
-        }
+    render({ name }) {
+        html`
+            <div>Hello ${name}</div>
+        `
     }
 }
+
+customElements.define('hello-world', HelloWorld);
+
 ```
 
-## Declaring properties
-Properties of your element are set through a static getter of `properties`, as seen above.
+This creates a new Custom Element called `hello-world`, which can now be used anywhere in your application using `<hello-world>`.
 
-Properties can be set with the following options:
-- type: The type function of this property. Must be set!
-- reflectToAttribute: Keeps the property in sync with the attribute of the same name, konverted to kebab-case (myProp <-> my-prop)
-- value: The initial value of the property. If it should be an array or an object, set value to a function returning that object, to keep it unique for each instance of the element
-- observer: The name of the method that should be called whenever the property changes.
-- notify: Dispatch an event on property-change. The event name follows the pattern `my-prop-changed`. The new value is in `event.detail`.
+This new element will also keep the *property* `name` in sync with the *attribute* `name`, meaning that the element will look like this in the DOM:
+```html
+<hello-world name="John Doe"></hello-world>
+```
+If you change the attribute or the property, both will be kept in sync and the element will be rerendered.
 
-
-## Notes
-
- - This Element does not use Polymer, just Polymer-like syntax for properties.
- - Currently only `type`, `reflectToAttribute`, `observer`, `value` and `notify` are supported for properties.
+## Contributing
+Coming soon!
