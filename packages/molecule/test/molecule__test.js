@@ -1,16 +1,16 @@
-import { LitElement, html } from '/lit-element.js';
+import { MoleculeLit, html } from '/molecule-lit.js';
 
 const {expect} = chai;
 //mocha.setup('bdd');
 
-describe('lit-element', () => {
+describe('molecule', () => {
     let testElement;
     let observerVals
     before(() => {
         observerVals = new Map;
         testElement = document.getElementById('test-el');
 
-        class TestElement extends LitElement() {
+        class TestElement extends MoleculeLit() {
             static get properties() {
                 return {
                     shortBool: Boolean,

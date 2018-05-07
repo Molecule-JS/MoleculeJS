@@ -28,7 +28,7 @@ export interface HTMLCollectionByID {
     [id: string]: HTMLElement | Element;
 }
 
-export interface LitEventInit extends EventInit {
+export interface MoleculeEventInit extends EventInit {
     composed: boolean;
 }
 
@@ -81,10 +81,10 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
 }
 
 /**
- * Returns a class with the Lit-Element features, that extends `superclass`.
+ * Returns a class with the Molecule features, that extends `superclass`.
  * @param superclass
  */
-export const LitLite =
+export const Molecule =
     <T>(superclass = HTMLElement,
         renderFunction: (result: T, container: Element | DocumentFragment) => void) =>
         class extends superclass {
@@ -205,7 +205,7 @@ export const LitLite =
                     this.__propertiesChanged(prop, newVal);
                 }
                 if (info.notify) {
-                    this.dispatchEvent(new CustomEvent(`${attr}-changed`, <LitEventInit>{
+                    this.dispatchEvent(new CustomEvent(`${attr}-changed`, <MoleculeEventInit>{
                         bubbles: true,
                         composed: true,
                         detail: newVal
@@ -320,7 +320,7 @@ export const LitLite =
             }
 
             /**
-             * Returns what lit-html should render.
+             * Returns should be passed to the render function.
              *
              * @returns
              */

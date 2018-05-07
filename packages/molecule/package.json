@@ -2,10 +2,10 @@
   "dependencies": {
     "lit-html": "^0.10.0"
   },
-  "name": "lit-element",
-  "version": "0.4.12",
-  "description": "Implements lit-html via a LitElement class. Made for custom Elements.",
-  "main": "lit-element.js",
+  "name": "moleculejs",
+  "version": "0.5.0",
+  "description": "A small, declarative library for creating ui web components",
+  "main": "molecule-lit.js",
   "repository": "https://github.com/DiiLord/lit-element.git",
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",

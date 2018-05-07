@@ -1,4 +1,4 @@
-import { createProperty, PropConfig } from './lit-lite.js'
+import { createProperty, PropConfig } from './molecule.js'
 
 export function property(config: PropConfig = { type: String }) {
     return (prototype: any, propName: string) => {
