@@ -16,14 +16,6 @@ export interface PropConfig {
     notify?: boolean;
 }
 
-export interface Data {
-    [propName: string]: any;
-}
-
-export interface MethodsToCall {
-    [propName: string]: (newValue: any, oldValue: any) => any;
-}
-
 export interface HTMLCollectionByID {
     [id: string]: HTMLElement | Element;
 }
@@ -90,8 +82,8 @@ export const Molecule =
             static properties: Properties;
             __renderCallbacks: Set<any> = new Set();
             __pendingRender: boolean = false;
-            __data: Data = {};
-            __methodsToCall: MethodsToCall = {};
+            __data: { [propName: string]: any } = {};
+            __methodsToCall: {[propName: string]: (newValue: any, oldValue: any) => any} = {};
             __wait: any;
             __firstRender: boolean = false;
             afterRender?: (isFirst: boolean) => void;
