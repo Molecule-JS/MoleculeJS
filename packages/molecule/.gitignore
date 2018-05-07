@@ -58,5 +58,5 @@ typings/
 .env
 
 # Compiler Output
-/molecule-*
+/molecule*
 /lib/*
