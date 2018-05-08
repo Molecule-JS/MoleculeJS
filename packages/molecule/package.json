@@ -49,7 +49,7 @@
     "molecule-lit.d.ts",
     "molecule-lit.js.map",
     "molecule-lit-extended.js",
-    "molecule-lit-element.d.ts",
-    "molecule-lit-element.js.map"
+    "molecule-lit-extended.d.ts",
+    "molecule-lit-extended.js.map"
   ]
 }
