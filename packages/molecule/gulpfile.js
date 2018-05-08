@@ -21,7 +21,7 @@ const config = {
 gulp.task('build', () => {
   gulp.src(['src/**/*.ts'])
     .pipe(typescript(config))
-    .pipe(replace(/..\/node_modules/g, '..'))
+    .pipe(replace(/..\/node_modules/g, '../..'))
     .pipe(gulp.dest('.'));
 });
 
