@@ -1,4 +1,4 @@
-import { camelCaseToKebab } from './lib/helpers/camel-to-kebab-case.js';
+import { camelCaseToKebab } from './lib/helpers/camel-to-kebab-case';
 
 export { camelCaseToKebab };
 
@@ -316,6 +316,7 @@ export const Molecule =
              * @returns
              */
             render(data?: object): T {
+                data;
                 throw Error('render function not defined');
             }
 

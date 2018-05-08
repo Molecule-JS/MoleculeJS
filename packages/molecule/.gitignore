@@ -60,3 +60,4 @@ typings/
 # Compiler Output
 /molecule*
 /lib/*
+/dist/*
