@@ -37,14 +37,14 @@
     "src",
     "LICENSE",
     "README.md",
-    "lit-element.js",
-    "lit-element.d.ts",
-    "lit-element.js.map",
-    "lit-lite.js",
-    "lit-lite.d.ts",
-    "lit-lite.js.map",
-    "lit-element-extended.js",
-    "lit-element-extended.d.ts",
-    "lit-element-extended.js.map"
+    "molecule.js",
+    "molecule.d.ts",
+    "molecule.js.map",
+    "molecule-lit.js",
+    "molecule-lit.d.ts",
+    "molecule-lit.js.map",
+    "molecule-lit-extended.js",
+    "molecule-lit-element.d.ts",
+    "molecule-lit-element.js.map"
   ]
 }
