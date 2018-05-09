@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "node"
+  - "9.4.0"
 addons: # get google-chrome-stable
   chrome: stable
 install: # Install ChromeDriver (64bits; replace 64 with 32 for 32bits).
@@ -10,9 +10,8 @@ install: # Install ChromeDriver (64bits; replace 64 with 32 for 32bits).
   - sudo mv -f ~/chromedriver /usr/local/share/
   - sudo chmod +x /usr/local/share/chromedriver
   - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
-  - npm install
+  - yarn
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 3
-  - nvm install 9.4.0
