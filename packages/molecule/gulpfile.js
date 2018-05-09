@@ -1,6 +1,6 @@
 const gulp = require('gulp');
-const replace = require('gulp-replace-path');
-const typescript = require('gulp-tsc');
+const replacePath = require('gulp-replace-path');
+const typescript = require('gulp-typescript');
 
 const config = {
   "target": "ES2015",
@@ -20,8 +20,9 @@ const config = {
 
 gulp.task('build', () => {
   gulp.src(['src/**/*.ts'])
+    .pipe(replacePath(/..\/node_modules/g, '../..'))
+    .pipe(replacePath(/from '([^']+)'/g, 'from \'$1.js\''))
     .pipe(typescript(config))
-    .pipe(replace(/..\/node_modules/g, '../..'))
     .pipe(gulp.dest('.'));
 });
 

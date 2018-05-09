@@ -1,5 +1,5 @@
-import { svg, TemplateResult } from '../node_modules/lit-html/lit-html.js';
-import { html, render } from '../node_modules/lit-html/lib/lit-extended.js';
+import { svg, TemplateResult } from '../node_modules/lit-html/lit-html';
+import { html, render } from '../node_modules/lit-html/lib/lit-extended';
 import { Molecule, HTMLCollectionByID, PropConfig, Properties, camelCaseToKebab } from './molecule';
 
 export const MoleculeLitExtended = Molecule(render);
