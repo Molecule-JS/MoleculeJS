@@ -3,7 +3,7 @@
     "lit-html": "^0.10.0"
   },
   "name": "@moleculejs/molecule",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "A small, declarative library for creating ui web components",
   "main": "dist/molecule-lit.js",
   "repository": "https://github.com/DiiLord/lit-element.git",
@@ -34,13 +34,14 @@
   },
   "scripts": {
     "checksize": "uglifyjs lit-lite.js -mc --toplevel | gzip -9 | wc -c",
-    "build": "gulp && webpack-cli --mode=development",
-    "build:prod": "gulp && webpack-cli --mode=production",
+    "build": "webpack-cli --mode=development && gulp",
+    "build:prod": "webpack-cli --mode=production && gulp",
     "test": "npm run build:prod && node test/selenium.js"
   },
   "files": [
     "src",
     "dist",
+    "lib",
     "LICENSE",
     "README.md",
     "molecule.js",
