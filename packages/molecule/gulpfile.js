@@ -26,4 +26,11 @@ gulp.task('build', () => {
     .pipe(gulp.dest('.'));
 });
 
-gulp.task('default', ['build'])
+gulp.task('fix-path-dist', () => {
+  gulp.src(['dist/**/*.ts'])
+    .pipe(replacePath(/..\/node_modules/g, '../../..'))
+    .pipe(replacePath(/from '([^']+)'/g, 'from \'$1.js\''))
+    .pipe(gulp.dest('./dist'))
+})
+
+gulp.task('default', ['build', 'fix-path-dist']);
