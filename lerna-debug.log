@@ -1,0 +1,25 @@
+0 silly input [ '../molecule' ]
+1 silly flags { _: [ 'import' ],
+1 silly flags   'reject-cycles': false,
+1 silly flags   rejectCycles: false,
+1 silly flags   pathToRepo: '../molecule' }
+2 verbose rootPath /home/daniel/Documents/webdev/moleculejs
+3 info version 2.11.0
+4 silly isInitialized
+5 silly isInitialized true
+6 silly existsSync /home/daniel/Documents/webdev/moleculejs/VERSION
+7 silly initialize attempt
+8 silly statSync /home/daniel/Documents/webdev/molecule
+9 silly getWorkspaceRoot
+10 verbose getWorkspaceRoot /home/daniel/Documents/webdev/moleculejs
+11 silly existsSync /home/daniel/Documents/webdev/moleculejs/packages/molecule
+12 silly getCurrentSHA
+13 error initialize caught error
+14 error Error: fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.
+14 error Use '--' to separate paths from revisions, like this:
+14 error 'git <command> [<revision>...] -- [<file>...]'
+14 error
+14 error     at Function.module.exports.sync (/home/daniel/.nvm/versions/node/v9.4.0/lib/node_modules/lerna/node_modules/execa/index.js:303:26)
+14 error     at Function.execSync (/home/daniel/.nvm/versions/node/v9.4.0/lib/node_modules/lerna/lib/ChildProcessUtilities.js:59:30)
+14 error     at Function.getCurrentSHA (/home/daniel/.nvm/versions/node/v9.4.0/lib/node_modules/lerna/lib/GitUtilities.js:212:49)
+14 error     at ImportCommand.initialize (/home/daniel/.nvm/versions/node/v9.4.0/lib/node_modules/lerna/lib/commands/ImportCommand.js:155:51)
