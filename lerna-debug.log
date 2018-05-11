@@ -14,12 +14,7 @@
 10 verbose getWorkspaceRoot /home/daniel/Documents/webdev/moleculejs
 11 silly existsSync /home/daniel/Documents/webdev/moleculejs/packages/molecule
 12 silly getCurrentSHA
-13 error initialize caught error
-14 error Error: fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.
-14 error Use '--' to separate paths from revisions, like this:
-14 error 'git <command> [<revision>...] -- [<file>...]'
-14 error
-14 error     at Function.module.exports.sync (/home/daniel/.nvm/versions/node/v9.4.0/lib/node_modules/lerna/node_modules/execa/index.js:303:26)
-14 error     at Function.execSync (/home/daniel/.nvm/versions/node/v9.4.0/lib/node_modules/lerna/lib/ChildProcessUtilities.js:59:30)
-14 error     at Function.getCurrentSHA (/home/daniel/.nvm/versions/node/v9.4.0/lib/node_modules/lerna/lib/GitUtilities.js:212:49)
-14 error     at ImportCommand.initialize (/home/daniel/.nvm/versions/node/v9.4.0/lib/node_modules/lerna/lib/commands/ImportCommand.js:155:51)
+13 verbose getCurrentSHA e638c31565ab0fcd218517d768d99b42a1e25107
+14 error initialize callback with error
+15 error Error: Local repository has un-committed changes
+15 error     at ImportCommand.initialize (/home/daniel/.nvm/versions/node/v9.4.0/lib/node_modules/lerna/lib/commands/ImportCommand.js:158:25)
