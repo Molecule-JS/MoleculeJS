@@ -4,8 +4,10 @@ import { Molecule, HTMLCollectionByID, PropConfig, Properties, camelCaseToKebab 
 
 export const MoleculeLitExtended = Molecule(render);
 
-if (!('LitExtended' in (window as any).Molecule))
+if (!('LitExtended' in (window as any).Molecule)) {
     (window as any).Molecule.LitExtended = MoleculeLitExtended;
+    (window as any).litHTMLExtended = { html, render };
+}
 
 export { html, svg, TemplateResult };
 export { HTMLCollectionByID, PropConfig, Properties, camelCaseToKebab };
