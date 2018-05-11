@@ -3,7 +3,7 @@
     "lit-html": "^0.10.0"
   },
   "name": "@moleculejs/molecule",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "A small, declarative library for creating ui web components",
   "main": "dist/molecule-lit.js",
   "repository": "https://github.com/DiiLord/lit-element.git",
@@ -64,7 +64,7 @@
     {
       "path": "./dist/molecule-lit.js",
       "maxSize": "4.5 kb"
-    }, 
+    },
     {
       "path": "./dist/molecule-lit-extended.js",
       "maxSize": "5 kb"
