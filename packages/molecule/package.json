@@ -9,6 +9,7 @@
   "repository": "https://github.com/DiiLord/lit-element.git",
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
+  "module": "molecule-lit.js",
   "keywords": [
     "web components",
     "lit-html"
