@@ -335,3 +335,9 @@ export const Molecule =
                 return obj;
             }
         }
+
+if(!('Molecule' in window))
+        (window as any).Molecule = { 
+            base: Molecule 
+        };
+

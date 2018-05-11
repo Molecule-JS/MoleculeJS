@@ -13,3 +13,6 @@ export function attribute(config: PropConfig = { type: String, reflectToAttribut
         createProperty(propName, prototype, config);
     }
 }
+
+if (!('Decorators' in (window as any).Molecule))
+    (window as any).Molecule.Decorators = { property, attribute };

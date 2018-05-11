@@ -3,5 +3,8 @@ import { Molecule, HTMLCollectionByID, PropConfig, Properties, camelCaseToKebab 
 
 export const MoleculeLit = Molecule(render);
 
+if (!('Lit' in (window as any).Molecule))
+    (window as any).Molecule.Lit = MoleculeLit;
+
 export { html, svg, TemplateResult };
 export { HTMLCollectionByID, PropConfig, Properties, camelCaseToKebab };

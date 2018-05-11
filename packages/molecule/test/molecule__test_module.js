@@ -57,6 +57,14 @@ describe('molecule', () => {
 
         customElements.define('test-element', TestElement);
     });
+    describe('defined globally', () => {
+        it('Molecule and MoleculeLit defined on window', () => {
+            expect('Molecule' in window).to.be.true;
+            expect(window.Molecule.base).to.be.a('function');
+            expect('Lit' in window.Molecule).to.be.true;
+            expect(window.Molecule.Lit).to.be.a('function');
+        })
+    })
     describe('properties', function () {
         it('correct type', () => {
             expect(testElement.longBool).to.be.a('boolean');
