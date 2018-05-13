@@ -14,5 +14,4 @@ export function attribute(config: PropConfig = { type: String, reflectToAttribut
     }
 }
 
-if (!('Decorators' in (window as any).Molecule))
-    (window as any).Molecule.Decorators = { property, attribute };
+export default { property, attribute }

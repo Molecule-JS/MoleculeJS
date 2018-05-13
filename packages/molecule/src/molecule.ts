@@ -336,8 +336,4 @@ export const Molecule =
             }
         }
 
-if(!('Molecule' in window))
-        (window as any).Molecule = { 
-            base: Molecule 
-        };
-
+export default { Molecule, createProperty };
