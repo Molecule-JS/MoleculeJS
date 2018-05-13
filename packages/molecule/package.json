@@ -3,7 +3,7 @@
     "lit-html": "^0.10.0"
   },
   "name": "@moleculejs/molecule",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "description": "A small, declarative library for creating ui web components",
   "main": "dist/molecule-lit.js",
   "repository": "https://github.com/DiiLord/lit-element.git",
