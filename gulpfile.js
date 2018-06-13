@@ -53,9 +53,12 @@ gulp.task('build-module-tests', () => {
             return stream
                 .pipe(ts(testConfig))
                 .pipe(replacePath('../../../test', '..'))
-                .pipe(replacePath('../src', `../../packages/${src}/src`))
+                .pipe(replacePath(`../${src}`, `../../packages/${src}/${src}`))
                 .pipe(gulp.dest(`./test/tests/`));
-        })
+        }),
+        gulp.src('./test/common/*.ts')
+            .pipe(ts(testConfig))
+            .pipe(gulp.dest('./test/common-built'))
     )
 });
 
@@ -67,7 +70,7 @@ gulp.task('build-modules', () => {
             let stream = gulp.src(`./packages/${src}/src/**/*.ts`);
 
             return stream
-                .pipe(ts(config))
+                .pipe(ts( { ...config, rootDir: `./packages/${src}/` }))
                 .pipe(replacePath(/..\/node_modules/g, '../..'))
                 .pipe(replacePath(/from '([^']+)'/g, 'from \'$1.js\''))
                 .pipe(gulp.dest(`./packages/${src}/.`));

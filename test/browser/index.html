@@ -9,12 +9,19 @@
 
 <body>
   <div id="mocha"></div>
+
   <test-element id="test-el"></test-element>
+  <test-element-lit id="test-el-lit"></test-element-lit>
+  <test-element-lit-xtd id="test-el-lit-xtd"></test-element-lit-xtd>
+  <test-element-dec id="test-el-dec"></test-element-dec>
+
   <script src="/node_modules/mocha/mocha.js"></script>
   <script src="/node_modules/chai/chai.js"></script>
 
   <script>mocha.setup('bdd')</script>
   <script type="module" src=""></script>
+
+  <script src="modules.js" type="module"></script>
 
   <script>setTimeout(() => {
       const runner = mocha.run();
