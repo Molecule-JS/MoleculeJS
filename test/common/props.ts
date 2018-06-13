@@ -3,7 +3,7 @@
 
 const { expect } = chai;
 
-export const propTests = (testElement: any) =>
+export const propTests = (testElement: any, { observers = true } = {}) =>
     describe('properties', () => {
         it('correct type', () => {
             expect(testElement.longBool).to.be.a('boolean');
@@ -25,9 +25,10 @@ export const propTests = (testElement: any) =>
             expect(testElement.longNumber).to.equal(random);
         });
 
-        it('calls observer', () => {
-            expect((window as any).observerVals.get('bool')).to.equal(testElement.longBool);
-            expect((window as any).observerVals.get('number')).to.equal(testElement.longNumber);
-        });
+        if(observers)
+            it('calls observer', () => {
+                expect((window as any).observerVals.get('bool')).to.equal(testElement.longBool);
+                expect((window as any).observerVals.get('number')).to.equal(testElement.longNumber);
+            });
 
     });

@@ -14,7 +14,7 @@ const path = require('path');
 
     app.get('/common*', (req, res) => res.sendFile(path.resolve(__dirname, '../') + req.url));
 
-    app.get('/@molecule*', (req, res) => res.sendFile(path.resolve(__dirname, '../../packages/molecule-lit/node_modules') + req.url));
+    app.get('/@molecule*', (req, res) => res.sendFile(path.resolve(__dirname, '../../packages') + req.url.replace('@moleculejs/', '')));
 
     app.get('/lit-html*', (req, res) => res.sendFile(path.resolve(__dirname, '../../packages/molecule-lit/node_modules') + req.url));
 

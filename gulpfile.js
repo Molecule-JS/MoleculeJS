@@ -39,7 +39,10 @@ const sources = [
     'molecule',
     'molecule-lit',
     'molecule-lit-extended',
-    'molecule-decorators'
+    'molecule-decorators',
+    'molecule-functional',
+    'molecule-functional-lit',
+    'molecule-functional-lit-extended'
 ];
 
 function getTestGlobFromSource(source) {
