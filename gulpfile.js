@@ -3,6 +3,7 @@ const merge = require('merge-stream');
 const ts = require('gulp-typescript');
 const replacePath = require('gulp-replace-path');
 const path = require('path');
+const clean = require('gulp-clean');
 
 const testConfig = {
     "target": "ES2015",
@@ -76,4 +77,7 @@ gulp.task('build-modules', () => {
                 .pipe(gulp.dest(`./packages/${src}/.`));
         })
     )
-})
+});
+
+gulp.task('clean-test-folder', () => gulp.src(['test/tests/*.js', 'test/common-built/*.js'])
+    .pipe(clean()));
