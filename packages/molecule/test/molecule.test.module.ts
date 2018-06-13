@@ -1,19 +1,18 @@
-import { Molecule } from '../src/molecule.js';
+import { Molecule } from '../molecule.js';
 
-import { propTests } from '../../../test/common/props';
-import { eventTests } from '../../../test/common/events';
-import { attrTests } from '../../../test/common/attributes';
-import { asyncPropTests } from '../../../test/common/async-props';
+import { propTests } from '../../../test/common-built/props.js';
+import { eventTests } from '../../../test/common-built/events.js';
+import { attrTests } from '../../../test/common-built/attributes.js';
+import { asyncPropTests } from '../../../test/common-built/async-props.js';
 
 //mocha.setup('bdd');
 
-describe('molecule', () => {
-    let testElement: any;
-    let observerVals = new Map<string, any>();
+describe('Molecule', () => {
+    const testElement = document.getElementById('test-el');
+    (window as any).observerVals = new Map<string, any>();
     const MoleculeSimple = Molecule((tmpl, container) => (container as any).innerHTML = tmpl);
     before(() => {
-        observerVals = new Map<string, any>();
-        testElement = document.getElementById('test-el');
+        (window as any).observerVals = new Map<string, any>();
 
         class TestElement extends MoleculeSimple {
             static get properties() {
@@ -52,18 +51,18 @@ describe('molecule', () => {
             }
 
             boolObserver(bool: boolean) {
-                observerVals.set('bool', bool);
+                (window as any).observerVals.set('bool', bool);
             }
 
             numberObserver(num: number) {
-                observerVals.set('number', num);
+                (window as any).observerVals.set('number', num);
             }
         }
 
         customElements.define('test-element', TestElement);
     });
-    
-    propTests(testElement, observerVals);
+
+    propTests(testElement);
 
     attrTests(testElement);
 

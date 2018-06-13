@@ -21,7 +21,7 @@ export const eventTests = (testElement: any) =>
             testElement.longBool = false;
         });
 
-        it('event has correct deatil', done => {
+        it('event has correct detail', done => {
             const listener = ({ detail }: { detail: any }) => {
                 expect(detail).to.be.true;
                 testElement.removeEventListener('long-bool-changed', listener);

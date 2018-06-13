@@ -3,9 +3,8 @@
 
 const { expect } = chai;
 
-export const propTests = (testElement: any, observerVals: Map<string, any>) =>
-
-    describe('properties', function () {
+export const propTests = (testElement: any) =>
+    describe('properties', () => {
         it('correct type', () => {
             expect(testElement.longBool).to.be.a('boolean');
             expect(testElement.longNumber).to.be.a('number');
@@ -27,7 +26,8 @@ export const propTests = (testElement: any, observerVals: Map<string, any>) =>
         });
 
         it('calls observer', () => {
-            expect(observerVals.get('bool')).to.equal(testElement.longBool);
-            expect(observerVals.get('number')).to.equal(testElement.longNumber);
+            expect((window as any).observerVals.get('bool')).to.equal(testElement.longBool);
+            expect((window as any).observerVals.get('number')).to.equal(testElement.longNumber);
         });
+
     });
