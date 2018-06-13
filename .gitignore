@@ -67,5 +67,6 @@ packages/**/*.d.ts
 /dist/*
 
 /test/tests/*
+/test/common-built/*
 
 lerna-debug.log
