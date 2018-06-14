@@ -3,7 +3,7 @@ import { Molecule, HTMLCollectionByID, PropConfig, Properties, camelCaseToKebab 
 
 export const MoleculeLit = Molecule(render);
 
-export { html, svg, TemplateResult, SVGTemplateResult };
+export { html, svg, TemplateResult, SVGTemplateResult, render };
 export { HTMLCollectionByID, PropConfig, Properties, camelCaseToKebab };
 
 export default { MoleculeLit, Molecule, html, svg, render };
