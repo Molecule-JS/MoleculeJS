@@ -59,7 +59,7 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
         }
     }
     // Check, if the property was already set, set it accordingly
-    if (setVal) {
+    if (setVal !== undefined) {
         context[prop] = setVal;
         return;
     }
