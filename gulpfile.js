@@ -42,12 +42,9 @@ const sources = [
     'molecule-decorators',
     'molecule-functional',
     'molecule-functional-lit',
-    'molecule-functional-lit-extended'
+    'molecule-functional-lit-extended',
+    'molecule-lit-directive-set-element'
 ];
-
-function getTestGlobFromSource(source) {
-    return `./${source}/*/test/**/*.ts`;
-}
 
 gulp.task('build-module-tests', () => {
     return merge(
