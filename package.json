@@ -34,7 +34,7 @@
 		"build:dist": "webpack-cli --mode=production",
 		"clean:modules": "gulp clean-test-folder",
 		"test": "npm run test:modules",
-		"build": "npm run build:modules && npm run build:dist",
+		"build": "lerna bootstrap && npm run build:modules && npm run build:dist",
 		"build:dev": "npm run build:modules && npm run build:distdev"
 	}
 }
