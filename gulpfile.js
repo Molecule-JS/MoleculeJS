@@ -72,9 +72,9 @@ gulp.task('build-modules', () => {
 
             return stream
                 .pipe(ts( { ...config, rootDir: `./packages/${src}/` }))
-                .pipe(replacePath(/..\/node_modules/g, '../..'))
+                .pipe(replacePath(/..\/node_modules/g, '../../..'))
                 .pipe(replacePath(/from '([^']+)'/g, 'from \'$1.js\''))
-                .pipe(gulp.dest(`./packages/${src}/.`));
+                .pipe(gulp.dest(`./packages/${src}/module/.`));
         })
     )
 });

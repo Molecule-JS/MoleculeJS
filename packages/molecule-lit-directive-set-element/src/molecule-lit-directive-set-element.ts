@@ -23,4 +23,4 @@ export const setElement = (
       part.setValue(elem);
     });
 
-export default setElement;
+export default { MoleculeSetElement: setElement };

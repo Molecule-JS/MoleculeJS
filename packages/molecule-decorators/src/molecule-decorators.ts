@@ -1,4 +1,4 @@
-import { createProperty, PropConfig } from '../node_modules/@moleculejs/molecule/molecule';
+import { createProperty, PropConfig } from '../../molecule/module/molecule';
 
 export function property(config: PropConfig = { type: String }) {
   return (prototype: any, propName: string) => {
@@ -15,4 +15,4 @@ export function attribute(config: PropConfig = { type: String, reflectToAttribut
   };
 }
 
-export default { property, attribute };
+export default { MoleculeDecorators: { property, attribute } };

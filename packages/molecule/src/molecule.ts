@@ -346,4 +346,4 @@ export const Molecule =
       }
     };
 
-export default { Molecule, createProperty };
+export default { Molecule: { Element: Molecule } };

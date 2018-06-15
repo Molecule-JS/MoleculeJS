@@ -1,13 +1,20 @@
-import { Molecule, Properties } from '../node_modules/@moleculejs/molecule/molecule';
-
-export {
+import {
+  Molecule,
   Properties,
   PropConfig,
   HTMLCollectionByID,
   MoleculeEventInit,
-  Molecule,
   createProperty,
-} from '../node_modules/@moleculejs/molecule/molecule';
+} from '../../molecule/module/molecule';
+
+export {
+  Molecule,
+  Properties,
+  PropConfig,
+  HTMLCollectionByID,
+  MoleculeEventInit,
+  createProperty,
+};
 
 export const functionalMolecule = <T>(renderFunction:
   (result: T, container: Element | DocumentFragment) => void) =>
@@ -19,8 +26,8 @@ export const functionalMolecule = <T>(renderFunction:
         }
 
         render(props: { [key: string]: any }) {
-          return template(props);
+          return template.bind(this)(props);
         }
       };
 
-export default functionalMolecule;
+export default { functionalMolecule };
