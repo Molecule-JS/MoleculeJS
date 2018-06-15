@@ -1,6 +1,11 @@
 import { svg, TemplateResult, SVGTemplateResult } from '../node_modules/lit-html/lit-html';
 import { html, render } from '../node_modules/lit-html/lib/lit-extended';
-import { Molecule, HTMLCollectionByID, PropConfig, Properties, camelCaseToKebab } from '../node_modules/@moleculejs/molecule/molecule';
+import {
+    Molecule,
+    HTMLCollectionByID,
+    PropConfig,
+    Properties,
+    camelCaseToKebab } from '../node_modules/@moleculejs/molecule/molecule';
 
 export const MoleculeLitExtended = Molecule(render);
 

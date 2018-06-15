@@ -1,5 +1,15 @@
-import { html, svg, render, TemplateResult, SVGTemplateResult } from '../node_modules/lit-html/lit-html';
-import { Molecule, HTMLCollectionByID, PropConfig, Properties, camelCaseToKebab } from '../node_modules/@moleculejs/molecule/molecule';
+import {
+    html,
+    svg,
+    render,
+    TemplateResult,
+    SVGTemplateResult } from '../node_modules/lit-html/lit-html';
+import {
+    Molecule,
+    HTMLCollectionByID,
+    PropConfig,
+    Properties,
+    camelCaseToKebab } from '../node_modules/@moleculejs/molecule/molecule';
 
 export const MoleculeLit = Molecule(render);
 
