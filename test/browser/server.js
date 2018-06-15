@@ -23,6 +23,8 @@ const path = require('path');
     app.get('/module/lib*', (req, res) => res.sendFile(path.resolve(__dirname, '../../packages/molecule') + req.url))
 
     app.get('/module*', (req, res) => {
+        console.log('\nFetching tests works');
+
         if (req.url === '/modules.js')
             return res.sendFile(path.join(__dirname, req.url));
 
