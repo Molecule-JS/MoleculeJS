@@ -3,7 +3,7 @@ require('./server.js');
 
 let browser, page, failure;
 
-puppeteer.launch()
+puppeteer.launch({args: ['--no-sandbox']})
     .then(b => {
         browser = b;
         return browser.newPage();
