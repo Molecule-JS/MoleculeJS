@@ -3,13 +3,14 @@ require('./server.js');
 
 let browser, page, failure;
 
-puppeteer.launch({args: ['--no-sandbox']})
+puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
     .then(b => {
         console.log('\nStarting browser');
         browser = b;
         return browser.newPage();
     })
     .then(p => {
+        console.log('\nNavigating to test page');
         page = p;
         return page.goto('http://localhost:3000');
     })
