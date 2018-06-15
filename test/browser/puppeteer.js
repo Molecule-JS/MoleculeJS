@@ -5,6 +5,7 @@ let browser, page, failure;
 
 puppeteer.launch({args: ['--no-sandbox']})
     .then(b => {
+        console.log('\nStarting browser');
         browser = b;
         return browser.newPage();
     })

@@ -2,6 +2,8 @@ const app = require('express')();
 const path = require('path');
 
 (() => {
+    console.log('\nStarting server...');
+
     app.get('/favicon.ico', (req, res) => res.sendStatus(200))
 
     app.get('/node_modules*', (req, res) => {
