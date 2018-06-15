@@ -18,6 +18,16 @@ const path = require('path');
 
     app.get('/molecule*', (req, res) => res.sendFile(path.resolve(__dirname, '../../packages') + req.url));
 
+    app.get('/module/lib*', (req, res) => res.sendFile(path.resolve(__dirname, '../../packages/molecule') + req.url))
+
+    app.get('/module*', (req, res) => {
+        if (req.url === '/modules.js')
+            return res.sendFile(path.join(__dirname, req.url));
+
+        const package = req.url.split('/')[2].replace('.js', '');
+        return res.sendFile(path.resolve(__dirname, `../../packages/${package}`) + req.url)
+    });
+
     app.get('/lit-html*', (req, res) => res.sendFile(path.resolve(__dirname, '../../packages/molecule-lit/node_modules') + req.url));
 
     app.get('*', (req, res) => res.sendFile(path.join(__dirname, req.url)));

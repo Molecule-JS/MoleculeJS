@@ -30,7 +30,11 @@
 	"scripts": {
 		"test:modules": "npm run build:modules && gulp build-module-tests && node test/browser/puppeteer.js && npm run clean:modules",
 		"build:modules": "gulp build-modules",
+		"build:distdev": "webpack-cli --mode=development",
+		"build:dist": "webpack-cli --mode=production",
 		"clean:modules": "gulp clean-test-folder",
-		"test": "npm run test:modules"
+		"test": "npm run test:modules",
+		"build": "npm run build:modules && npm run build:dist",
+		"build:dev": "npm run build:modules && npm run build:distdev"
 	}
 }
