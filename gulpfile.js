@@ -1,39 +1,8 @@
 const gulp = require('gulp');
-const merge = require('merge-stream');
-const ts = require('gulp-typescript');
-const replacePath = require('gulp-replace-path');
-const path = require('path');
 const clean = require('gulp-clean');
-
-const testConfig = {
-    "target": "ES2015",
-    "module": "es2015",
-    "lib": ["dom", "dom.iterable", "es2017", "es6"],
-    "declaration": false,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "inlineSources": true,
-    "experimentalDecorators": true,
-}
-
-const config = {
-    "target": "ES2015",
-    "module": "es2015",
-    "lib": ["dom", "dom.iterable", "es2017", "es6"],
-    "declaration": true,
-    "sourceMap": true,
-    "outDir": "./",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "inlineSources": true,
-    "experimentalDecorators": true,
-}
+const rollup = require('rollup');
+const rollupTS = require('rollup-plugin-typescript2');
+const runSequence = require('run-sequence');
 
 const sources = [
     'molecule',
@@ -46,38 +15,65 @@ const sources = [
     'molecule-lit-directive-set-element'
 ];
 
-gulp.task('build-module-tests', () => {
-    return merge(
-        sources.map(src => {
-            let stream = gulp.src(`./packages/${src}/test/${src}.test.module.ts`);
+const kebabToPascal = str => {
+    const sub = str.substring(1, str.length);
+    return str[0].toUpperCase() + sub.replace(/(\-\w)/g, x => x[1].toUpperCase());
+}
 
-            return stream
-                .pipe(ts(testConfig))
-                .pipe(replacePath('../../../test', '..'))
-                .pipe(replacePath(`../${src}`, `../../packages/${src}/${src}`))
-                .pipe(gulp.dest(`./test/tests/`));
-        }),
-        gulp.src('./test/common/*.ts')
-            .pipe(ts(testConfig))
-            .pipe(gulp.dest('./test/common-built'))
-    )
-});
+const rollupBuilds = {
+    iife: (name, extra = '') => `${name}${extra}.js`,
+    es: (name, extra = '') => `${name}${extra}.mjs`
+};
 
-
-
-gulp.task('build-modules', () => {
-    return merge(
-        sources.map(src => {
-            let stream = gulp.src(`./packages/${src}/src/**/*.ts`);
-
-            return stream
-                .pipe(ts( { ...config, rootDir: `./packages/${src}/` }))
-                .pipe(replacePath(/..\/node_modules/g, '../../..'))
-                .pipe(replacePath(/from '([^']+)'/g, 'from \'$1.js\''))
-                .pipe(gulp.dest(`./packages/${src}/module/.`));
+for (const format in rollupBuilds) {
+    for (const src of sources) {
+        gulp.task(`rollup:${format}:${src}`, () => rollup.rollup({
+            input: `./packages/${src}/src/${src}.ts`,
+            plugins: [rollupTS()]
         })
-    )
-});
+            .then(bundle => bundle.write({
+                file: `./packages/${src}/dist/${rollupBuilds[format](src)}`,
+                format,
+                name: kebabToPascal(src),
+                sourcemap: true,
+                exports: format === 'iife' ? 'named' : 'auto',
+                strict: true
+            }))
+        );
+    }
+    gulp.task(`rollup:${format}`, sources.map(src => `rollup:${format}:${src}`));
+}
 
-gulp.task('clean-test-folder', () => gulp.src(['test/tests/*.js', 'test/common-built/*.js'])
+for(const src of sources)
+    gulp.task(`rollup:${src}`, () => runSequence(...Object.keys(rollupBuilds).map(format => `rollup:${format}:${src}`)))
+
+gulp.task('rollup', () => runSequence('rollup:es', 'rollup:iife'));
+
+for (const format in rollupBuilds) {
+    for (const src of sources) {
+        gulp.task(`rollup:test:${format}:${src}`, () => rollup.rollup({
+            input: `./packages/${src}/test/${src}.test.module.ts`,
+            plugins: [rollupTS({
+              tsconfigOverride: {
+                compilerOptions: {
+                  declaration: false
+                }
+              }
+            })]
+        })
+            .then(bundle => bundle.write({
+                file: `./test/tests/${rollupBuilds[format](src, '.test')}`,
+                format,
+                name: kebabToPascal(src),
+                sourcemap: true,
+                strict: true
+            }))
+        );
+    }
+    gulp.task(`rollup:test:${format}`, sources.map(src => `rollup:test:${format}:${src}`));
+}
+
+gulp.task('rollup:test', () => runSequence('rollup:test:es', 'rollup:test:iife'));
+
+gulp.task('clean-test-folder', () => gulp.src(['test/tests', 'test/common-built'])
     .pipe(clean()));

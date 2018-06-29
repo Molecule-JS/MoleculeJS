@@ -1,9 +1,9 @@
-import { functionalMoleculeLitExtended, html } from '../module/molecule-functional-lit-extended.js';
+import { functionalMoleculeLitExtended, html } from '../dist/molecule-functional-lit-extended';
 
-import { propTests } from '../../../test/common-built/props.js';
-import { eventTests } from '../../../test/common-built/events.js';
-import { attrTests } from '../../../test/common-built/attributes.js';
-import { asyncPropTests } from '../../../test/common-built/async-props.js';
+import { propTests } from '../../../test/common/props';
+import { eventTests } from '../../../test/common/events';
+import { attrTests } from '../../../test/common/attributes';
+import { asyncPropTests } from '../../../test/common/async-props';
 
 describe('Functional MoleculeLitExtended', () => {
   const testElement = document.getElementById('test-el-func-lit-xtd');
@@ -30,12 +30,12 @@ describe('Functional MoleculeLitExtended', () => {
         type: String,
         value: 'StringProp',
       },
-    })(({ shortBool, longBool, shortNumber, longNumber }) => html`<div id="results">
-  <span id="shortBool">${shortBool}</span>
-  <span id="longBool">${longBool}</span>
+    })((props = {}) => html`<div id="results">
+  <span id="shortBool">${props.shortBool!}</span>
+  <span id="longBool">${props.longBool!}</span>
 
-  <span id="shortNumber">${shortNumber}</span>
-  <span id="longNumber">${longNumber}</span>
+  <span id="shortNumber">${props.shortNumber!}</span>
+  <span id="longNumber">${props.longNumber!}</span>
 </div>`);
     customElements.define('test-element-func-lit-xtd', TestElement);
   });

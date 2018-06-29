@@ -1,7 +1,8 @@
 {
   "name": "@moleculejs/molecule-lit-directive-set-element",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "dist/molecule-lit-directive-set-element.js",
+  "module": "dist/molecule-lit-directive-set-element.mjs",
   "license": "MIT",
   "dependencies": {
     "lit-html": "^0.10.0"

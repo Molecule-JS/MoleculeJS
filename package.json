@@ -11,12 +11,12 @@
 		"express": "^4.16.3",
 		"gulp": "^3.9.1",
 		"gulp-clean": "^0.4.0",
-		"gulp-replace-path": "^0.4.0",
-		"gulp-typescript": "^4.0.2",
 		"lerna": "^2.11.0",
-		"merge-stream": "^1.0.1",
 		"mocha": "^5.2.0",
 		"puppeteer": "^1.5.0",
+		"rollup": "^0.62.0",
+		"rollup-plugin-typescript2": "^0.15.1",
+		"run-sequence": "^2.2.1",
 		"ts-loader": "^4.4.1",
 		"tslint": "^5.10.0",
 		"tslint-config-airbnb": "^5.9.2",
@@ -28,13 +28,13 @@
 	},
 	"private": true,
 	"scripts": {
-		"test:modules": "npm run build && gulp build-module-tests && env DEBUG=\"puppeteer:*\" node test/browser/puppeteer.js && npm run clean:modules",
-		"build:modules": "gulp build-modules",
-		"build:distdev": "webpack-cli --mode=development",
-		"build:dist": "webpack-cli --mode=production",
-		"clean:modules": "gulp clean-test-folder",
+		"test:modules": "npm run build && gulp rollup:test && env DEBUG=\"puppeteer:*\" node test/browser/puppeteer.js && npm run clean:test",
+		"build:modules": "gulp rollup:es",
+		"build:iife:dev": "gulp rollup:iife",
+		"build:iife": "echo TODO",
+		"clean:test": "gulp clean-test-folder",
 		"test": "npm run test:modules",
-		"build": "lerna bootstrap && npm run build:modules && npm run build:dist",
-		"build:dev": "npm run build:modules && npm run build:distdev"
+		"build": "lerna bootstrap && npm run build:modules && npm run build:iife:dev",
+		"build:dev": "npm run build:modules && npm run build:iife:dev"
 	}
 }

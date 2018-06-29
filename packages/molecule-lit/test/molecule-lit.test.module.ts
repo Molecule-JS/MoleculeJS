@@ -1,9 +1,9 @@
-import { MoleculeLit, html } from '../module/molecule-lit.js';
+import { MoleculeLit, html } from '../dist/molecule-lit';
 
-import { propTests } from '../../../test/common-built/props.js';
-import { eventTests } from '../../../test/common-built/events.js';
-import { attrTests } from '../../../test/common-built/attributes.js';
-import { asyncPropTests } from '../../../test/common-built/async-props.js';
+import { propTests } from '../../../test/common/props';
+import { eventTests } from '../../../test/common/events';
+import { attrTests } from '../../../test/common/attributes';
+import { asyncPropTests } from '../../../test/common/async-props';
 
 describe('MoleculeLit', () => {
   const testElement = document.getElementById('test-el-lit');

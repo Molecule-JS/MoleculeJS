@@ -1,9 +1,9 @@
-import { Element } from '../module/molecule.js';
+import { Element } from '../dist/molecule';
 
-import { propTests } from '../../../test/common-built/props.js';
-import { eventTests } from '../../../test/common-built/events.js';
-import { attrTests } from '../../../test/common-built/attributes.js';
-import { asyncPropTests } from '../../../test/common-built/async-props.js';
+import { propTests } from '../../../test/common/props';
+import { eventTests } from '../../../test/common/events';
+import { attrTests } from '../../../test/common/attributes';
+import { asyncPropTests } from '../../../test/common/async-props';
 
 describe('Molecule', () => {
   const testElement = document.getElementById('test-el');

@@ -1,7 +1,8 @@
 {
   "name": "@moleculejs/molecule-functional-lit",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "dist/molecule-functional-lit.js",
+  "module": "dist/molecule-functional-lit.mjs",
   "license": "MIT",
   "dependencies": {
     "@moleculejs/molecule-functional": "^0.0.1",

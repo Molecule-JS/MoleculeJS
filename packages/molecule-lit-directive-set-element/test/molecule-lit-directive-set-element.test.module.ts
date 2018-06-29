@@ -1,6 +1,6 @@
-import { MoleculeLit, render, html } from '../../molecule-lit/module/molecule-lit.js';
+import { MoleculeLit, render, html } from '../../molecule-lit/dist/molecule-lit';
 
-import { setElement } from '../module/molecule-lit-directive-set-element.js';
+import { setElement } from '../dist/molecule-lit-directive-set-element';
 
 const { expect } = chai;
 

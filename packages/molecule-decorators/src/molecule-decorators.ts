@@ -1,4 +1,4 @@
-import Molecule, { PropConfig, createProperty } from '../../molecule/module/molecule';
+import Molecule, { PropConfig, createProperty } from '../../molecule/dist/molecule';
 
 export function property(config: PropConfig = { type: String }) {
   return (prototype: any, propName: string) => {

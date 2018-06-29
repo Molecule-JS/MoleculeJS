@@ -183,10 +183,7 @@ const Molecule =
        * @param {string} prop
        * @param {*} [newVal]
        */
-      setProperty(prop: string, newVal?: any) {
-        if (arguments.length < 2) {
-          newVal = this[prop];
-        }
+      setProperty(prop: string, newVal = this[prop]) {
         const info = (this.constructor as any).properties[prop];
         const attr = this.__propAttr.get(prop);
         if (info.reflectToAttribute) {
@@ -323,7 +320,7 @@ const Molecule =
        *
        * @returns
        */
-      render(data?: object): T {
+      render(data: object): T {
         data;
         throw Error('render function not defined');
       }

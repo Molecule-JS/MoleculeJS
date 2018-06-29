@@ -1,7 +1,8 @@
 {
   "name": "@moleculejs/molecule-lit-extended",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "dist/molecule-lit-extended.js",
+  "module": "dist/molecule-lit-extended.mjs",
   "license": "MIT",
   "dependencies": {
     "@moleculejs/molecule": "^0.6.7",

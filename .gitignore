@@ -61,7 +61,7 @@ typings/
 .env
 
 # Compiler Output
-packages/**/*.js
+packages/**/dist/*
 packages/**/*.d.ts
 /lib/*
 /dist/*
@@ -70,3 +70,5 @@ packages/**/*.d.ts
 /test/common-built/*
 
 lerna-debug.log
+
+*cache
