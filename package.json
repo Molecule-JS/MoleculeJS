@@ -28,7 +28,7 @@
 	},
 	"private": true,
 	"scripts": {
-		"test:modules": "npm run build && gulp build-module-tests && node test/browser/puppeteer.js && npm run clean:modules",
+		"test:modules": "npm run build && gulp build-module-tests && env DEBUG=\"puppeteer:*\" node test/browser/puppeteer.js && npm run clean:modules",
 		"build:modules": "gulp build-modules",
 		"build:distdev": "webpack-cli --mode=development",
 		"build:dist": "webpack-cli --mode=production",
