@@ -12,6 +12,7 @@ puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
     .then(p => {
         console.log('\nNavigating to test page');
         page = p;
+        page.on('console', msg => console.log('PAGE LOG:', msg.text()));
         return page.goto('http://localhost:3000');
     })
     .then(() => page.waitFor(() => window.mochaResults !== undefined))
