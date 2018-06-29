@@ -34,7 +34,7 @@
 		"build:iife": "echo TODO",
 		"clean:test": "gulp clean-test-folder",
 		"test": "npm run test:modules",
-		"build": "lerna bootstrap && npm run build:modules && npm run build:iife:dev",
+		"build": "lerna bootstrap && gulp rollup:es && gulp rollup:iife",
 		"build:dev": "npm run build:modules && npm run build:iife:dev"
 	}
 }

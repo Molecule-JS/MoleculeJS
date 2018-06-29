@@ -41,13 +41,11 @@ for (const format in rollupBuilds) {
             }))
         );
     }
-    gulp.task(`rollup:${format}`, sources.map(src => `rollup:${format}:${src}`));
+    gulp.task(`rollup:${format}`, () => runSequence(...sources.map(src => `rollup:${format}:${src}`)));
 }
 
 for(const src of sources)
-    gulp.task(`rollup:${src}`, () => runSequence(...Object.keys(rollupBuilds).map(format => `rollup:${format}:${src}`)))
-
-gulp.task('rollup', () => runSequence('rollup:es', 'rollup:iife'));
+    gulp.task(`rollup:${src}`, () => runSequence(...Object.keys(rollupBuilds).map(format => `rollup:${format}:${src}`)));
 
 for (const format in rollupBuilds) {
     for (const src of sources) {
@@ -74,6 +72,8 @@ for (const format in rollupBuilds) {
 }
 
 gulp.task('rollup:test', () => runSequence('rollup:test:es', 'rollup:test:iife'));
+
+gulp.task('clean-dist', () => gulp.src('packages/**/dist').pipe(clean()));
 
 gulp.task('clean-test-folder', () => gulp.src(['test/tests', 'test/common-built'])
     .pipe(clean()));
