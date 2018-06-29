@@ -1,4 +1,4 @@
-import { Molecule } from '../module/molecule.js';
+import { Element } from '../module/molecule.js';
 
 import { propTests } from '../../../test/common-built/props.js';
 import { eventTests } from '../../../test/common-built/events.js';
@@ -8,7 +8,7 @@ import { asyncPropTests } from '../../../test/common-built/async-props.js';
 describe('Molecule', () => {
   const testElement = document.getElementById('test-el');
   (window as any).observerVals = new Map<string, any>();
-  const MoleculeSimple = Molecule((tmpl, container) => (container as any).innerHTML = tmpl);
+  const MoleculeSimple = Element((tmpl, container) => (container as any).innerHTML = tmpl);
   before(() => {
     (window as any).observerVals = new Map<string, any>();
 

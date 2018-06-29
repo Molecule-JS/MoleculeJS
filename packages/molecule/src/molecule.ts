@@ -1,7 +1,5 @@
 import { camelCaseToKebab } from './lib/helpers/camel-to-kebab-case';
 
-export { camelCaseToKebab };
-
 export interface Properties {
   [propName: string]: PropConfig | Type;
 }
@@ -81,9 +79,9 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
  * Returns a class with the Molecule features, that extends `superclass`.
  * @param superclass
  */
-export const Molecule =
+const Molecule =
   <T>(renderFunction: (result: T, container: Element | DocumentFragment) => void) =>
-    class extends HTMLElement {
+    class Molecule extends HTMLElement {
       static properties: Properties;
       __renderCallbacks: Set<any> = new Set();
       __pendingRender: boolean = false;
@@ -346,4 +344,6 @@ export const Molecule =
       }
     };
 
-export default { Molecule: { Element: Molecule } };
+export { camelCaseToKebab, Molecule as Element };
+
+export default { createProperty, camelCaseToKebab, Element: Molecule };

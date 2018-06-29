@@ -5,23 +5,25 @@ import {
   TemplateResult,
   SVGTemplateResult,
 } from '../node_modules/lit-html/lit-html';
-import {
-  Molecule,
+
+export type camelCaseToKebab = typeof Molecule.camelCaseToKebab;
+
+import Molecule,
+{
   HTMLCollectionByID,
   PropConfig,
   Properties,
-  camelCaseToKebab,
 } from '../../molecule/module/molecule';
 
-export const MoleculeLit = Molecule(render);
+export const MoleculeLit = Molecule.Element(render);
 
-export { html, svg, TemplateResult, SVGTemplateResult, render };
-export { HTMLCollectionByID, PropConfig, Properties, camelCaseToKebab };
+export { html, svg, render, TemplateResult, SVGTemplateResult };
+export { HTMLCollectionByID, PropConfig, Properties, Molecule };
 
 export default {
-  MoleculeLit: {
-    html,
-    render,
-    Element: MoleculeLit,
-  },
+  html,
+  svg,
+  render,
+  ...Molecule,
+  Element: MoleculeLit,
 };

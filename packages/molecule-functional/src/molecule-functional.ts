@@ -1,26 +1,27 @@
-import {
-  Molecule,
+import Molecule,
+{
   Properties,
   PropConfig,
   HTMLCollectionByID,
   MoleculeEventInit,
-  createProperty,
+  Element,
 } from '../../molecule/module/molecule';
 
+export type camelCaseToKebab = typeof Molecule.camelCaseToKebab;
+
 export {
-  Molecule,
   Properties,
   PropConfig,
   HTMLCollectionByID,
   MoleculeEventInit,
-  createProperty,
+  Molecule,
 };
 
 export const functionalMolecule = <T>(renderFunction:
   (result: T, container: Element | DocumentFragment) => void) =>
   (propConfig: Properties) =>
     (template: (props?: { [key: string]: any }) => T) =>
-      class extends Molecule(renderFunction) {
+      class extends Element(renderFunction) {
         static get properties() {
           return propConfig;
         }
@@ -30,4 +31,4 @@ export const functionalMolecule = <T>(renderFunction:
         }
       };
 
-export default { functionalMolecule };
+export default { functionalMolecule, ...Molecule };

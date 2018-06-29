@@ -1,22 +1,21 @@
 import { svg, TemplateResult, SVGTemplateResult } from '../node_modules/lit-html/lit-html';
 import { html, render } from '../node_modules/lit-html/lib/lit-extended';
-import {
-  Molecule,
+import Molecule,
+{
   HTMLCollectionByID,
   PropConfig,
   Properties,
-  camelCaseToKebab,
 } from '../../molecule/module/molecule';
 
-export const MoleculeLitExtended = Molecule(render);
+export const MoleculeLitExtended = Molecule.Element(render);
 
-export { html, svg, TemplateResult, SVGTemplateResult };
-export { HTMLCollectionByID, PropConfig, Properties, camelCaseToKebab };
+export { html, svg, render, TemplateResult, SVGTemplateResult };
+export { HTMLCollectionByID, PropConfig, Properties, Molecule };
 
 export default {
-  MoleculeLitExtended: {
-    html,
-    render,
-    Element: MoleculeLitExtended,
-  },
+  html,
+  svg,
+  render,
+  ...Molecule,
+  Element: MoleculeLitExtended,
 };
