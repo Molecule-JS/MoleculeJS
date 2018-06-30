@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-lit-directive-set-element",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "main": "dist/molecule-lit-directive-set-element.js",
   "module": "dist/molecule-lit-directive-set-element.mjs",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
