@@ -73,7 +73,9 @@ for (const format in rollupBuilds) {
 
 gulp.task('rollup:test', () => runSequence('rollup:test:es', 'rollup:test:iife'));
 
-gulp.task('clean-dist', () => gulp.src('packages/**/dist').pipe(clean()));
+gulp.task('clean:dist', () => gulp.src('packages/**/dist').pipe(clean()));
 
-gulp.task('clean-test-folder', () => gulp.src(['test/tests', 'test/common-built'])
+gulp.task('clean:test', () => gulp.src(['test/tests', 'test/common-built'])
     .pipe(clean()));
+
+gulp.task('clean:cache', () => gulp.src('.rpt2_cache'));
