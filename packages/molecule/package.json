@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "A small, declarative library for creating ui web components",
   "main": "dist/molecule.js",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
