@@ -1,11 +1,18 @@
 {
   "name": "@moleculejs/molecule-functional",
-  "version": "0.8.3",
+  "version": "0.8.6",
   "main": "dist/molecule-functional.js",
   "module": "dist/molecule-functional.mjs",
+  "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
+  "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
   "typings": "dist/molecule-functional.d.ts",
+  "keywords": [
+    "web components",
+    "molecule",
+    "custom elements"
+  ],
   "peerDependencies": {
-    "@moleculejs/molecule": "^0.6.7"
+    "@moleculejs/molecule": "^0.8.5"
   }
 }

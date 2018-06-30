@@ -1,13 +1,21 @@
 {
   "name": "@moleculejs/molecule-lit-directive-set-element",
-  "version": "0.8.3",
+  "version": "0.8.6",
   "main": "dist/molecule-lit-directive-set-element.js",
   "module": "dist/molecule-lit-directive-set-element.mjs",
+  "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
+  "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
   "typings": "dist/molecule-lit-directive-set-element.d.ts",
   "dependencies": {
     "lit-html": "^0.10.0"
   },
+  "keywords": [
+    "web components",
+    "molecule",
+    "custom elements",
+    "lit-html"
+  ],
   "files": [
     "src",
     "dist",

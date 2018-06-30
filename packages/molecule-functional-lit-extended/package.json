@@ -1,14 +1,22 @@
 {
   "name": "@moleculejs/molecule-functional-lit-extended",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "main": "dist/molecule-functional-lit-extended.js",
   "module": "dist/molecule-functional-lit-extended.mjs",
+  "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
+  "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
   "typings": "dist/molecule-functional-lit-extended.d.ts",
   "dependencies": {
-    "@moleculejs/molecule-functional": "^0.8.3",
+    "@moleculejs/molecule-functional": "^0.8.6",
     "lit-html": "^0.10.0"
   },
+  "keywords": [
+    "web components",
+    "molecule",
+    "custom elements",
+    "lit-html"
+  ],
   "files": [
     "src",
     "dist",

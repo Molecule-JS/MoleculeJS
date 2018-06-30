@@ -1,14 +1,22 @@
 {
   "name": "@moleculejs/molecule-lit-extended",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "main": "dist/molecule-lit-extended.js",
   "module": "dist/molecule-lit-extended.mjs",
+  "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
+  "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
   "typings": "dist/molecule-lit-extended.d.ts",
   "dependencies": {
-    "@moleculejs/molecule": "^0.8.5",
+    "@moleculejs/molecule": "^0.8.6",
     "lit-html": "^0.10.0"
   },
+  "keywords": [
+    "web components",
+    "molecule",
+    "custom elements",
+    "lit-html"
+  ],
   "files": [
     "src",
     "dist",

@@ -1,13 +1,21 @@
 {
   "name": "@moleculejs/molecule-decorators",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "main": "dist/molecule-decorators.js",
   "module": "dist/molecule-decorators.mjs",
+  "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
+  "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
   "typings": "dist/molecule-decorators.d.ts",
   "dependencies": {
     "@moleculejs/molecule": "^0.7.0"
   },
+  "keywords": [
+    "web components",
+    "molecule",
+    "custom elements",
+    "decorators"
+  ],
   "files": [
     "src",
     "dist",

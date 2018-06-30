@@ -1,15 +1,17 @@
 {
   "name": "@moleculejs/molecule",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "A small, declarative library for creating ui web components",
   "main": "dist/molecule.js",
-  "repository": "https://github.com/DiiLord/lit-element.git",
+  "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
   "module": "dist/molecule.mjs",
   "typings": "dist/molecule.d.ts",
   "keywords": [
-    "web components"
+    "web components",
+    "molecule",
+    "custom elements"
   ],
   "files": [
     "src",
