@@ -15,10 +15,10 @@ import Molecule,
   Properties,
 } from '../../molecule/dist/molecule';
 
-export const MoleculeLit = Molecule.Element(render);
+const MoleculeLit = Molecule.Element(render);
 
 export { html, svg, render, TemplateResult, SVGTemplateResult };
-export { HTMLCollectionByID, PropConfig, Properties, Molecule };
+export { MoleculeLit as Element, HTMLCollectionByID, PropConfig, Properties, Molecule };
 
 export default {
   html,

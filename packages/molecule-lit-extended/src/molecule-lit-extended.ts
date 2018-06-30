@@ -7,7 +7,7 @@ import Molecule,
   Properties,
 } from '../../molecule/dist/molecule';
 
-export const MoleculeLitExtended = Molecule.Element(render);
+export const Element = Molecule.Element(render);
 
 export { html, svg, render, TemplateResult, SVGTemplateResult };
 export { HTMLCollectionByID, PropConfig, Properties, Molecule };
@@ -17,5 +17,5 @@ export default {
   svg,
   render,
   ...Molecule,
-  Element: MoleculeLitExtended,
+  Element,
 };
