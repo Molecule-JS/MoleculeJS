@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-lit",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "main": "dist/molecule-lit.js",
   "module": "dist/molecule-lit.mjs",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
@@ -8,7 +8,7 @@
   "license": "MIT",
   "typings": "dist/molecule-lit.d.ts",
   "dependencies": {
-    "@moleculejs/molecule": "^0.9.6",
+    "@moleculejs/molecule": "^0.9.7",
     "lit-html": "^0.10.0"
   },
   "keywords": [
