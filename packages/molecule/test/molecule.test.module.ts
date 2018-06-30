@@ -16,6 +16,12 @@ describe('Molecule', () => {
       [x: string]: any;
       static get properties(): Properties {
         return {
+          undefinedValue: undefined,
+          alreadyGiven: {
+            value: 404,
+            attribute: true,
+            type: Number,
+          },
           shortBool: false,
           longBool: {
             type: Boolean,
@@ -60,6 +66,9 @@ describe('Molecule', () => {
 
     customElements.define('test-element', TestElement);
   });
+
+  it('Preset attributes are used',
+     () => chai.expect((testElement as any).alreadyGiven!).to.equal(303));
 
   propTests(testElement);
 

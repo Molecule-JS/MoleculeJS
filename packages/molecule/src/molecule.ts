@@ -4,12 +4,7 @@ export interface Properties {
   [propName: string]: PropConfig | any;
 }
 
-export type Type = typeof String
-  | typeof Number
-  | typeof Boolean
-  | typeof Array
-  | typeof Object
-  | typeof Date;
+export type Type = (val: any) => any;
 
 export interface PropConfig {
   type?: Type;
@@ -38,7 +33,10 @@ declare var __DEV__: boolean;
  */
 export function createProperty(prop: string, context: any, info: PropConfig) {
   // get value that was already set on the property (if any)
-  const setVal = context[prop];
+  let setVal = context[prop];
+  if (setVal === undefined) {
+    setVal = context.__data[prop];
+  }
   Object.defineProperty(context, prop, {
     get() {
       return context.__data[prop];
@@ -107,6 +105,7 @@ const Molecule =
       __propAttr: Map<string, string> = new Map(); // propertyName   -> attribute-name
       __attrProp: Map<string, string> = new Map(); // attribute-name -> propertyName
       __propEvent: Map<string, string> = new Map();
+      __properties: { [key: string] : PropConfig } = {};
 
       afterRender?: (isFirst: boolean) => void;
       connected?: () => void;
@@ -133,8 +132,14 @@ const Molecule =
         const props = (this.constructor as any).properties as Properties;
 
         for (const prop in props) {
+          if (typeof props[prop] !== 'object' || !('value' in props[prop])) {
+            this.__properties[prop] = { value: props[prop] };
+            continue;
+          }
+          this.__properties[prop] = props[prop];
+
           const attr = getAttributeforProp(prop,
-                                           props[prop].attribute);
+                                           this.__properties[prop].attribute || false);
           this.__propAttr.set(prop, attr);
           this.__attrProp.set(attr, prop);
           if (props[prop].event) {
@@ -146,12 +151,9 @@ const Molecule =
       }
 
       connectedCallback() {
-        const props: Properties = (this.constructor as any).properties;
+        const props = this.__properties;
         this.__wait = true;
         for (const prop in props) {
-          if (typeof props[prop] === 'function') {
-            props[prop] = { value: props[prop] };
-          }
           this.__makeGetterSetter(prop, props[prop]);
         }
         delete this.__wait;
@@ -210,7 +212,7 @@ const Molecule =
        * Set the prop to a new value, or signal that it changed
        */
       setProperty(prop: string, newVal = (this as any)[prop]) {
-        const info = (this.constructor as any).properties[prop];
+        const info = this.__properties[prop];
         const attr = this.__propAttr.get(prop);
         if (info.attribute) {
           /* Set the new value by setting the observed attribute.
@@ -246,7 +248,7 @@ const Molecule =
         if (old === val) return;
         const prop = <string>this.__attrProp.get(attr);
         if (this.__data[prop] !== val) {
-          const { type } = (this.constructor as any).properties[prop];
+          const type = this.__properties[prop].type || String;
           let newVal = val;
 
           switch (type.name) {
