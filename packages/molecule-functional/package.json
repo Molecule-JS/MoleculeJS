@@ -4,6 +4,7 @@
   "main": "dist/molecule-functional.js",
   "module": "dist/molecule-functional.mjs",
   "license": "MIT",
+  "typings": "dist/molecule-functional.d.ts",
   "peerDependencies": {
     "@moleculejs/molecule": "^0.6.7"
   }

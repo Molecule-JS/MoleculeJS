@@ -179,9 +179,6 @@ const Molecule =
       }
       /**
        * Set the prop to a new value, or signal that it changed
-       *
-       * @param {string} prop
-       * @param {*} [newVal]
        */
       setProperty(prop: string, newVal = this[prop]) {
         const info = (this.constructor as any).properties[prop];

@@ -4,6 +4,7 @@
   "main": "dist/molecule-decorators.js",
   "module": "dist/molecule-decorators.mjs",
   "license": "MIT",
+  "typings": "dist/molecule-decorators.d.ts",
   "dependencies": {
     "@moleculejs/molecule": "^0.6.7"
   }
