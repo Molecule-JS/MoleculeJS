@@ -27,6 +27,8 @@ export interface MoleculeEventInit extends EventInit {
   composed: boolean;
 }
 
+declare var __DEV__: boolean;
+
 /**
  *
  * @param {string} prop The name of the property to create
@@ -48,17 +50,20 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
       context.setProperty(prop, resolved);
     },
   });
-
-  if (info.reflectToAttribute &&
-    (info.type === Object || info.type === Array)) {
-    console.warn('Rich Data shouldn\'t be set as attribte!');
+  if (__DEV__) {
+    if (info.reflectToAttribute &&
+      (info.type === Object || info.type === Array)) {
+      console.warn('Rich Data shouldn\'t be set as attribte!');
+    }
   }
   if (info.observer) {
     if (context[info.observer]) {
       // Establish the property-change observer
       context.__methodsToCall[prop] = context[info.observer].bind(context);
     } else {
-      console.warn(`Method ${info.observer} not defined!`);
+      if (__DEV__) {
+        console.error(`Method ${info.observer} not defined!`);
+      }
     }
   }
   // Check, if the property was already set, set it accordingly

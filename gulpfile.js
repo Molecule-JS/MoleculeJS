@@ -4,6 +4,7 @@ const rollup = require('rollup');
 const rollupTS = require('rollup-plugin-typescript2');
 const runSequence = require('run-sequence');
 const terser = require('rollup-plugin-terser');
+const replace = require('rollup-plugin-replace');
 
 const sources = [
   'molecule',
@@ -30,7 +31,11 @@ for (const format in rollupBuilds) {
   for (const src of sources) {
     gulp.task(`rollup:dist:${format}:${src}`, () => rollup.rollup({
       input: `./packages/${src}/src/${src}.ts`,
-      plugins: [rollupTS(), terser.terser({
+      plugins: [rollupTS(),
+        replace({
+          __DEV__: 'false'
+        }),
+        terser.terser({
         output: {
           comments: function (node, comment) {
             var text = comment.value;
@@ -63,7 +68,9 @@ for (const format in rollupBuilds) {
   for (const src of sources) {
     gulp.task(`rollup:dev:${format}:${src}`, () => rollup.rollup({
       input: `./packages/${src}/src/${src}.ts`,
-      plugins: [rollupTS()]
+      plugins: [rollupTS(), replace({
+        __DEV__: 'true'
+      }),]
     })
       .then(bundle => bundle.write({
         file: `./packages/${src}/dist/${rollupBuilds[format](src, '.dev')}`,
