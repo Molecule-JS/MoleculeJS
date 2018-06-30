@@ -1,11 +1,20 @@
 {
   "name": "@moleculejs/molecule-lit-directive-set-element",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "main": "dist/molecule-lit-directive-set-element.js",
   "module": "dist/molecule-lit-directive-set-element.mjs",
   "license": "MIT",
   "typings": "dist/molecule-lit-directive-set-element.d.ts",
   "dependencies": {
     "lit-html": "^0.10.0"
+  },
+  "files": [
+    "src",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

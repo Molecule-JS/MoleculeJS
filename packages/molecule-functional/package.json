@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-functional",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "main": "dist/molecule-functional.js",
   "module": "dist/molecule-functional.mjs",
   "license": "MIT",

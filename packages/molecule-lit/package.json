@@ -1,12 +1,21 @@
 {
   "name": "@moleculejs/molecule-lit",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "main": "dist/molecule-lit.js",
   "module": "dist/molecule-lit.mjs",
   "license": "MIT",
   "typings": "dist/molecule-lit.d.ts",
   "dependencies": {
-    "@moleculejs/molecule": "^0.8.0",
+    "@moleculejs/molecule": "^0.8.1",
     "lit-html": "^0.10.0"
+  },
+  "files": [
+    "src",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

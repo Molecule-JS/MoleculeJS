@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "A small, declarative library for creating ui web components",
   "main": "dist/molecule.js",
   "repository": "https://github.com/DiiLord/lit-element.git",
@@ -14,10 +14,10 @@
   "files": [
     "src",
     "dist",
-    "lib",
     "LICENSE",
-    "README.md",
-    "molecule.js",
-    "molecule.d.ts"
-  ]
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
