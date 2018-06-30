@@ -1,4 +1,4 @@
-import { Element } from '../dist/molecule';
+import { Element, Properties } from '../dist/molecule';
 
 import { propTests } from '../../../test/common/props';
 import { eventTests } from '../../../test/common/events';
@@ -13,23 +13,24 @@ describe('Molecule', () => {
     (window as any).observerVals = new Map<string, any>();
 
     class TestElement extends MoleculeSimple {
-      static get properties() {
+      [x: string]: any;
+      static get properties(): Properties {
         return {
-          shortBool: Boolean,
+          shortBool: false,
           longBool: {
             type: Boolean,
             value: true,
-            reflectToAttribute: true,
+            attribute: true,
             observer: 'boolObserver',
-            notify: true,
+            event: true,
           },
-          shortNumber: Number,
+          shortNumber: 0,
           longNumber: {
             type: Number,
             value: 123,
-            reflectToAttribute: true,
+            attribute: true,
             observer: 'numberObserver',
-            notify: true,
+            event: true,
           },
           stringProp: {
             type: String,

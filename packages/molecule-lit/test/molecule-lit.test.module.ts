@@ -1,4 +1,4 @@
-import { MoleculeLit, html } from '../dist/molecule-lit';
+import { Element, html } from '../dist/molecule-lit';
 
 import { propTests } from '../../../test/common/props';
 import { eventTests } from '../../../test/common/events';
@@ -12,24 +12,25 @@ describe('MoleculeLit', () => {
   before(() => {
     (window as any).observerVals = new Map<string, any>();
 
-    class TestElementLit extends MoleculeLit {
+    class TestElementLit extends Element {
+      [x: string]: any;
       static get properties() {
         return {
-          shortBool: Boolean,
+          shortBool: false,
           longBool: {
             type: Boolean,
             value: true,
-            reflectToAttribute: true,
+            attribute: true,
             observer: 'boolObserver',
-            notify: true,
+            event: true,
           },
-          shortNumber: Number,
+          shortNumber: 0,
           longNumber: {
             type: Number,
             value: 123,
-            reflectToAttribute: true,
+            attribute: true,
             observer: 'numberObserver',
-            notify: true,
+            event: true,
           },
           stringProp: {
             type: String,

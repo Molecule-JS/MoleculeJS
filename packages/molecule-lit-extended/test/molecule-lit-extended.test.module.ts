@@ -1,4 +1,4 @@
-import { MoleculeLitExtended, html } from '../dist/molecule-lit-extended';
+import { Element, html } from '../dist/molecule-lit-extended';
 
 import { propTests } from '../../../test/common/props';
 import { eventTests } from '../../../test/common/events';
@@ -12,24 +12,24 @@ describe('MoleculeLitExtended', () => {
   before(() => {
     (window as any).observerVals = new Map<string, any>();
 
-    class TestElementLitXtd extends MoleculeLitExtended {
+    class TestElementLitXtd extends Element {
       static get properties() {
         return {
-          shortBool: Boolean,
+          shortBool: false,
           longBool: {
             type: Boolean,
             value: true,
-            reflectToAttribute: true,
+            attribute: true,
             observer: 'boolObserver',
-            notify: true,
+            event: true,
           },
-          shortNumber: Number,
+          shortNumber: 0,
           longNumber: {
             type: Number,
             value: 123,
-            reflectToAttribute: true,
+            attribute: true,
             observer: 'numberObserver',
-            notify: true,
+            event: true,
           },
           stringProp: {
             type: String,

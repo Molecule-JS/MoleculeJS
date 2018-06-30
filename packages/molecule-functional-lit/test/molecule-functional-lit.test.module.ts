@@ -12,19 +12,19 @@ describe('Functional MoleculeLit', () => {
     (window as any).observerVals = new Map<string, any>();
 
     const TestElement = functionalMoleculeLit({
-      shortBool: Boolean,
+      shortBool: false,
       longBool: {
         type: Boolean,
         value: true,
-        reflectToAttribute: true,
-        notify: true,
+        attribute: true,
+        event: true,
       },
-      shortNumber: Number,
+      shortNumber: 0,
       longNumber: {
         type: Number,
         value: 123,
-        reflectToAttribute: true,
-        notify: true,
+        attribute: true,
+        event: true,
       },
       stringProp: {
         type: String,

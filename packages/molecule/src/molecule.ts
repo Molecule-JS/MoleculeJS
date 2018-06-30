@@ -1,7 +1,7 @@
 import { camelCaseToKebab } from './lib/helpers/camel-to-kebab-case';
 
 export interface Properties {
-  [propName: string]: PropConfig | Type;
+  [propName: string]: PropConfig | any;
 }
 
 export type Type = typeof String
@@ -12,11 +12,11 @@ export type Type = typeof String
   | typeof Date;
 
 export interface PropConfig {
-  type: Type;
-  reflectToAttribute?: boolean;
-  value?: any;
+  type?: Type;
+  attribute?: boolean | string;
+  value: any;
   observer?: string;
-  notify?: boolean;
+  event?: boolean | string;
 }
 
 export interface HTMLCollectionByID {
@@ -51,9 +51,13 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
     },
   });
   if (__DEV__) {
-    if (info.reflectToAttribute &&
-      (info.type === Object || info.type === Array)) {
-      console.warn('Rich Data shouldn\'t be set as attribte!');
+    if (info.attribute) {
+      if (!info.type) {
+        console.error(`Property ${prop}: Attributes must have a type specified`);
+      }
+      if (info.type === Object || info.type === Array) {
+        console.warn(`Property ${prop}: Rich Data shouldn\'t be set as attribute!`);
+      }
     }
   }
   if (info.observer) {
@@ -62,7 +66,7 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
       context.__methodsToCall[prop] = context[info.observer].bind(context);
     } else {
       if (__DEV__) {
-        console.error(`Method ${info.observer} not defined!`);
+        console.error(`Property ${prop}: Method ${info.observer} not defined!`);
       }
     }
   }
@@ -71,14 +75,19 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
     context[prop] = setVal;
     return;
   }
-  if (info.value !== undefined) {
-    // Initialize using the included value and the new setter()
-    context[prop] = (typeof (info.value) === 'function'
-      ? info.value.call(context)
-      : info.value);
+  // Initialize using the included value and the new setter()
+  context[prop] = (typeof (info.value) === 'function'
+    ? info.value.call(context)
+    : info.value);
 
-  }
 }
+
+export const getAttributeforProp = (prop: string, attrConfig: boolean | string) => {
+  if (typeof attrConfig === 'boolean') {
+    return camelCaseToKebab(prop);
+  }
+  return attrConfig;
+};
 
 /**
  * Returns a class with the Molecule features, that extends `superclass`.
@@ -94,17 +103,21 @@ const Molecule =
       __methodsToCall: { [propName: string]: (newValue: any, oldValue: any) => any } = {};
       __wait: any;
       __firstRender: boolean = false;
-      afterRender?: (isFirst: boolean) => void;
       shadowRoot!: ShadowRoot;
       __propAttr: Map<string, string> = new Map(); // propertyName   -> attribute-name
       __attrProp: Map<string, string> = new Map(); // attribute-name -> propertyName
-      [key: string]: any
+      __propEvent: Map<string, string> = new Map();
+
+      afterRender?: (isFirst: boolean) => void;
+      connected?: () => void;
+      disconnected?: () => void;
 
       static get observedAttributes(): string[] {
         const attrs: string[] = [];
         for (const prop in this.properties) {
-          if ((<PropConfig>this.properties[prop]).reflectToAttribute) {
-            attrs.push(camelCaseToKebab(prop));
+          const attr = (<PropConfig>this.properties[prop]).attribute;
+          if (attr) {
+            attrs.push(getAttributeforProp(prop, attr));
           }
         }
         return attrs;
@@ -114,19 +127,27 @@ const Molecule =
         super();
         this.attachShadow({ mode: 'open' });
 
-        for (const prop in (this.constructor as any).properties) {
-          const attr = camelCaseToKebab(prop);
+        const props = (this.constructor as any).properties as Properties;
+
+        for (const prop in props) {
+          const attr = getAttributeforProp(prop,
+                                           props[prop].attribute);
           this.__propAttr.set(prop, attr);
           this.__attrProp.set(attr, prop);
+          if (props[prop].event) {
+            const eventName = typeof props[prop].event === 'boolean'
+              ? attr : props[prop].event as string;
+            this.__propEvent.set(prop, eventName);
+          }
         }
       }
 
       connectedCallback() {
-        const props = (this.constructor as any).properties;
+        const props: Properties = (this.constructor as any).properties;
         this.__wait = true;
         for (const prop in props) {
           if (typeof props[prop] === 'function') {
-            props[prop] = { type: props[prop] };
+            props[prop] = { value: props[prop] };
           }
           this.__makeGetterSetter(prop, props[prop]);
         }
@@ -185,10 +206,10 @@ const Molecule =
       /**
        * Set the prop to a new value, or signal that it changed
        */
-      setProperty(prop: string, newVal = this[prop]) {
+      setProperty(prop: string, newVal = (this as any)[prop]) {
         const info = (this.constructor as any).properties[prop];
         const attr = this.__propAttr.get(prop);
-        if (info.reflectToAttribute) {
+        if (info.attribute) {
           /* Set the new value by setting the observed attribute.
            * This will trigger attributeChangedCallback() which will
            * convert the attribute data to a property,
@@ -201,8 +222,9 @@ const Molecule =
            */
           this.__propertiesChanged(prop, newVal);
         }
-        if (info.notify) {
-          this.dispatchEvent(new CustomEvent(`${attr}-changed`, <MoleculeEventInit>{
+        if (info.event) {
+          const eventName = this.__propEvent.get(prop);
+          this.dispatchEvent(new CustomEvent(`${eventName}-changed`, <MoleculeEventInit>{
             bubbles: true,
             composed: true,
             detail: newVal,
@@ -283,8 +305,8 @@ const Molecule =
         this.__renderCallbacks.clear();
 
         if (this.afterRender) {
-          this.afterRender(this._firstRender);
-          this._firstRender = false;
+          this.afterRender(this.__firstRender);
+          this.__firstRender = false;
         }
       }
 
@@ -296,7 +318,7 @@ const Molecule =
        *  @return void
        */
       async refresh(callback?: () => any) {
-        if (this._wait === true) { return; }
+        if (this.__wait === true) { return; }
 
         if (callback != null) {
           // Queue this render/refresh callback

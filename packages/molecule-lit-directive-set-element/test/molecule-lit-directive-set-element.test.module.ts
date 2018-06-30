@@ -1,4 +1,4 @@
-import { MoleculeLit, render, html } from '../../molecule-lit/dist/molecule-lit';
+import { Element, render, html } from '../../molecule-lit/dist/molecule-lit';
 
 import { setElement } from '../dist/molecule-lit-directive-set-element';
 
@@ -10,22 +10,22 @@ describe('Molecule', () => {
     div = document.createElement('div');
     document.body.appendChild(div);
 
-    class TestElementSet extends MoleculeLit {
+    class TestElementSet extends Element {
       static get properties() {
         return {
-          shortBool: Boolean,
+          shortBool: false,
           longBool: {
             type: Boolean,
             value: true,
-            reflectToAttribute: true,
-            notify: true,
+            attribute: true,
+            event: true,
           },
-          shortNumber: Number,
+          shortNumber: 0,
           longNumber: {
             type: Number,
             value: 123,
-            reflectToAttribute: true,
-            notify: true,
+            attribute: true,
+            event: true,
           },
           stringProp: {
             type: String,

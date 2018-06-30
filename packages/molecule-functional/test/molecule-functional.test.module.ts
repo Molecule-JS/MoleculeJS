@@ -20,15 +20,15 @@ describe('Functional Molecule', () => {
       longBool: {
         type: Boolean,
         value: true,
-        reflectToAttribute: true,
-        notify: true,
+        attribute: true,
+        event: true,
       },
-      shortNumber: Number,
+      shortNumber: 0,
       longNumber: {
         type: Number,
         value: 123,
-        reflectToAttribute: true,
-        notify: true,
+        event: true,
+        attribute: true,
       },
       stringProp: {
         type: String,
