@@ -1,0 +1,17 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "package.json",
+        "packages/molecule-decorators/package.json",
+        "packages/molecule-functional-lit-extended/package.json",
+        "packages/molecule-functional-lit/package.json",
+        "packages/molecule-functional/package.json",
+        "packages/molecule-lit-directive-set-element/package.json",
+        "packages/molecule-lit-extended/package.json",
+        "packages/molecule-lit/package.json",
+        "packages/molecule/package.json"
+      ]
+    }
+  }
+}
