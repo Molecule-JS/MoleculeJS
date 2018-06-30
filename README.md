@@ -23,11 +23,9 @@ yarn add @moleculejs/molecule
 More detailed documentation coming soon!
 
 ## Examples
-Let's start with an simple Example:
+Let's start with a simple Example:
 ```js
-import { MoleculeLit, html } from '../node_modules/@moleculejs/molecule/molecule-lit.js';
-
-class HelloWorld extends MoleculeLit {
+class HelloWorld extends MoleculeLit.Element {
     static get properties() {
         return {
             name: String,
