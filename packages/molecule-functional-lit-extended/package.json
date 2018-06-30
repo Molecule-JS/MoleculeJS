@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-functional-lit-extended",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "main": "dist/molecule-functional-lit-extended.js",
   "module": "dist/molecule-functional-lit-extended.mjs",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
@@ -8,7 +8,7 @@
   "license": "MIT",
   "typings": "dist/molecule-functional-lit-extended.d.ts",
   "dependencies": {
-    "@moleculejs/molecule-functional": "^0.9.4",
+    "@moleculejs/molecule-functional": "^0.9.5",
     "lit-html": "^0.10.0"
   },
   "keywords": [
