@@ -115,6 +115,9 @@ const Molecule =
       static get observedAttributes(): string[] {
         const attrs: string[] = [];
         for (const prop in this.properties) {
+          if (typeof this.properties[prop] !== 'object') {
+            continue;
+          }
           const attr = (<PropConfig>this.properties[prop]).attribute;
           if (attr) {
             attrs.push(getAttributeforProp(prop, attr));
