@@ -1,11 +1,11 @@
 {
   "name": "@moleculejs/molecule-decorators",
-  "version": "0.6.7",
+  "version": "0.7.0",
   "main": "dist/molecule-decorators.js",
   "module": "dist/molecule-decorators.mjs",
   "license": "MIT",
   "typings": "dist/molecule-decorators.d.ts",
   "dependencies": {
-    "@moleculejs/molecule": "^0.6.7"
+    "@moleculejs/molecule": "^0.7.0"
   }
 }
