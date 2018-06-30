@@ -9,7 +9,7 @@ It provides several classes from which you can build your Custom Elements
 - MoleculeLitExtended uses the extended rendering functions of `lit-html`.
 
 ## Installation
-The `@moleculejs/molecule` package can be installes using npm or yarn:
+The `@moleculejs/molecule` package can be installed using npm or yarn:
 
 ```
 npm install --save @moleculejs/molecule
