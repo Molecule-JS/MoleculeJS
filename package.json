@@ -20,8 +20,7 @@
 		"ts-loader": "^4.4.1",
 		"tslint": "^5.10.0",
 		"tslint-config-airbnb": "^5.9.2",
-		"typescript": "^3.0.0-dev.20180630",
-		"wct-browser-legacy": "^1.0.1"
+		"typescript": "^3.0.0-dev.20180630"
 	},
 	"private": true,
 	"scripts": {
