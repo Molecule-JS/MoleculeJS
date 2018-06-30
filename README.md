@@ -1,4 +1,4 @@
-# Molecule &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Molecule-JS/molecule/blob/master/LICENSE) [![Build Status](https://travis-ci.org/Molecule-JS/molecule.svg?branch=master)](https://travis-ci.org/Molecule-JS/molecule) [![npm version](https://badge.fury.io/js/%40moleculejs%2Fmolecule.svg)](https://badge.fury.io/js/%40moleculejs%2Fmolecule) [![Greenkeeper badge](https://badges.greenkeeper.io/Molecule-JS/molecule.svg)](https://greenkeeper.io/)
+# Molecule &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Molecule-JS/MoleculeJS/blob/master/LICENSE) [![Build Status](https://travis-ci.org/Molecule-JS/MoleculeJS.svg?branch=master)](https://travis-ci.org/Molecule-JS/MoleculeJS)
 
 ## Overview
 Molecule is a JavaScript library for building user interfaces using web components.
