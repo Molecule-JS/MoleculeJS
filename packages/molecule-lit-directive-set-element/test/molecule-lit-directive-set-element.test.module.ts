@@ -11,6 +11,7 @@ describe('Molecule', () => {
     document.body.appendChild(div);
 
     class TestElementSet extends Element {
+      [x: string]: any;
       static get properties() {
         return {
           shortBool: false,
