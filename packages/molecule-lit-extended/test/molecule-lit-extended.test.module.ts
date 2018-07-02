@@ -13,6 +13,7 @@ describe('MoleculeLitExtended', () => {
     (window as any).observerVals = new Map<string, any>();
 
     class TestElementLitXtd extends Element {
+      [x: string]: any;
       static get properties() {
         return {
           shortBool: false,
