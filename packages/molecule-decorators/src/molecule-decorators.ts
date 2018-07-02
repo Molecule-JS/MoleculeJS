@@ -1,14 +1,14 @@
 import Molecule, { PropConfig, createProperty } from '../../molecule/dist/molecule';
 
-export function property(config: PropConfig = { type: String }) {
+export function property(config: PropConfig = { }) {
   return (prototype: any, propName: string) => {
     createProperty(propName, prototype, config);
   };
 }
 
-export function attribute(config: PropConfig = { type: String, reflectToAttribute: true }) {
-  if (!('reflectToAttribute' in config)) {
-    config.reflectToAttribute = true;
+export function attribute(config: PropConfig = { type: String, attribute: true }) {
+  if (!('a' in config)) {
+    config.attribute = true;
   }
   return (prototype: any, propName: string) => {
     createProperty(propName, prototype, config);

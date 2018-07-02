@@ -9,7 +9,7 @@ export type Type = (val: any) => any;
 export interface PropConfig {
   type?: Type;
   attribute?: boolean | string;
-  value: any;
+  value?: any;
   observer?: string;
   event?: boolean | string;
 }
@@ -132,7 +132,7 @@ const Molecule =
         const props = (this.constructor as any).properties as Properties;
 
         for (const prop in props) {
-          if (typeof props[prop] !== 'object' || !('value' in props[prop])) {
+          if (typeof props[prop] !== 'object') {
             this.__properties[prop] = { value: props[prop] };
             continue;
           }
