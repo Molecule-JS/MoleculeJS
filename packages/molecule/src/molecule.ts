@@ -1,15 +1,17 @@
 import { camelCaseToKebab } from './lib/helpers/camel-to-kebab-case';
 
 export interface Properties {
-  [propName: string]: PropConfig | any;
+  [propName: string]: PropConfig | Value;
 }
 
 export type Type = (val: any) => any;
 
+export type Value = boolean | string | number | symbol | (() => any);
+
 export interface PropConfig {
   type?: Type;
   attribute?: boolean | string;
-  value?: any;
+  value?: Value;
   observer?: string;
   event?: boolean | string;
 }
@@ -133,18 +135,18 @@ const Molecule =
 
         for (const prop in props) {
           if (typeof props[prop] !== 'object') {
-            this.__properties[prop] = { value: props[prop] };
+            this.__properties[prop] = { value: props[prop] as Value };
             continue;
           }
-          this.__properties[prop] = props[prop];
+          this.__properties[prop] = props[prop] as PropConfig;
 
           const attr = getAttributeforProp(prop,
                                            this.__properties[prop].attribute || false);
           this.__propAttr.set(prop, attr);
           this.__attrProp.set(attr, prop);
-          if (props[prop].event) {
-            const eventName = typeof props[prop].event === 'boolean'
-              ? attr : props[prop].event as string;
+          if (this.__properties[prop].event) {
+            const eventName = typeof this.__properties[prop].event === 'boolean'
+              ? attr : this.__properties[prop].event as string;
             this.__propEvent.set(prop, eventName);
           }
         }
@@ -246,7 +248,7 @@ const Molecule =
        */
       attributeChangedCallback(attr: string, old: any, val: any) {
         if (old === val) return;
-        const prop = <string>this.__attrProp.get(attr);
+        const prop = this.__attrProp.get(attr)!;
         if (this.__data[prop] !== val) {
           const type = this.__properties[prop].type || String;
           let newVal = val;
