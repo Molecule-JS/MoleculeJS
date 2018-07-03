@@ -1,4 +1,4 @@
-import { Element, Properties } from '../dist/molecule';
+import { Element } from '../dist/molecule';
 
 import { propTests } from '../../../test/common/props';
 import { eventTests } from '../../../test/common/events';
@@ -14,7 +14,7 @@ describe('Molecule', () => {
 
     class TestElement extends MoleculeSimple {
       [x: string]: any;
-      static get properties(): Properties {
+      static get properties() {
         return {
           undefinedValue: undefined,
           alreadyGiven: {
