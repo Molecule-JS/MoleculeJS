@@ -6,7 +6,7 @@ export interface Properties {
 
 export type Type = (val: any) => any;
 
-export type Value = boolean | string | number | symbol | (() => any);
+export type Value = boolean | string | number | symbol | (() => any) | undefined;
 
 export interface PropConfig {
   type?: Type;
@@ -107,7 +107,7 @@ const Molecule =
       __propAttr: Map<string, string> = new Map(); // propertyName   -> attribute-name
       __attrProp: Map<string, string> = new Map(); // attribute-name -> propertyName
       __propEvent: Map<string, string> = new Map();
-      __properties: { [key: string] : PropConfig } = {};
+      __properties: { [key: string]: PropConfig } = {};
 
       afterRender?: (isFirst: boolean) => void;
       connected?: () => void;
@@ -144,6 +144,7 @@ const Molecule =
                                            this.__properties[prop].attribute || false);
           this.__propAttr.set(prop, attr);
           this.__attrProp.set(attr, prop);
+
           if (this.__properties[prop].event) {
             const eventName = typeof this.__properties[prop].event === 'boolean'
               ? attr : this.__properties[prop].event as string;
@@ -156,7 +157,7 @@ const Molecule =
         const props = this.__properties;
         this.__wait = true;
         for (const prop in props) {
-          this.__makeGetterSetter(prop, props[prop]);
+          createProperty(prop, this, props[prop]);
         }
         delete this.__wait;
 
@@ -176,15 +177,6 @@ const Molecule =
         if (this.disconnected) {
           this.disconnected.call(this);
         }
-      }
-
-      /**
-       * Creates the Propertyaccessors for the defined properties of the Element.
-       * @param {string} prop
-       * @param {PropConfig} info
-       */
-      __makeGetterSetter(prop: string, info: PropConfig) {
-        createProperty(prop, this, info);
       }
 
       /**
