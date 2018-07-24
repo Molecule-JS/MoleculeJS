@@ -22,7 +22,8 @@
 		"ts-loader": "^4.4.1",
 		"tslint": "^5.10.0",
 		"tslint-config-airbnb": "^5.9.2",
-		"typescript": "^3.0.0-dev.20180630"
+		"typescript": "^3.0.0-dev.20180630",
+		"vuepress": "^0.10.2"
 	},
 	"private": true,
 	"scripts": {
@@ -37,6 +38,8 @@
 		"clean": "npm run clean:dist && npm run clean:test && npm run clean:cache",
 		"test": "npm run test:modules",
 		"build": "npm run clean && lerna bootstrap && npm run build:modules && npm run build:iife && npm run build:dev && npm run clean:cache",
-		"build:dev": "npm run build:modules:dev && npm run build:iife:dev && npm run clean:cache"
+    "build:dev": "npm run build:modules:dev && npm run build:iife:dev && npm run clean:cache",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
 	}
 }

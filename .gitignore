@@ -72,3 +72,4 @@ packages/**/*.d.ts
 lerna-debug.log
 
 *cache
+docs/.vuepress/dist
