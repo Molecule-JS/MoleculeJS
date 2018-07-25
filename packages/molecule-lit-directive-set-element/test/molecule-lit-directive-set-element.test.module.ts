@@ -55,11 +55,11 @@ describe('Molecule', () => {
                   shortNumber: 33333,
                   longNumber: 45,
                   stringProp: 'Albert',
+                  innerHTML: '<button>Click</button>',
                 },
                 attributes: {
                   class: 'set-el',
                 },
-                innerHTML: '<button>Click</button>',
               })}
               `,
            div);
