@@ -21,5 +21,6 @@
   ],
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "homepage": "https://moleculejs.org"
 }
