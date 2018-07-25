@@ -43,11 +43,8 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
     get() {
       return context.__data[prop];
     },
-    async set(val: any) {
-      const resolved: any = (val != null && val instanceof Promise
-        ? await val
-        : val);
-      context.setProperty(prop, resolved);
+    set(val: any) {
+      context.setProperty(prop, val);
     },
   });
   if (__DEV__) {
@@ -205,7 +202,10 @@ const Molecule =
       /**
        * Set the prop to a new value, or signal that it changed
        */
-      setProperty(prop: string, newVal = (this as any)[prop]) {
+      async setProperty(prop: string, newVal = (this as any)[prop]) {
+        newVal = (newVal != null && newVal instanceof Promise
+          ? await newVal
+          : newVal);
         const info = this.__properties[prop];
         const attr = this.__propAttr.get(prop);
         if (info.attribute) {
