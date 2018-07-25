@@ -73,7 +73,7 @@ All declared properties are *reactive*, which means that changes to these proper
 
 Example:
 ```js
-class MyExample extends MoleculeLit {
+class MyExample extends MoleculeLit.Element {
   static get properties() {
     return {
       a: 3
@@ -97,7 +97,7 @@ elem.a = 5;
 But there are some important caveats with reactivity. Molecule can only change for shallow changes, meaning that changes in properties that are objects or arrays, will not be registered.
 
 ```js
-class MyExample extends MoleculeLit {
+class MyExample extends MoleculeLit.Element {
   static get properties() {
     return {
       a: () => [1, 2]

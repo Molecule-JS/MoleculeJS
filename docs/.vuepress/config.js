@@ -18,7 +18,8 @@ module.exports = {
           children: [
             '',
             'lifecycle',
-            'properties'
+            'properties',
+            'packages'
           ]
         },
       ]
