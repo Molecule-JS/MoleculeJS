@@ -5,6 +5,10 @@ module.exports = {
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide/' },
     ],
+    repo: 'Molecule-JS/MoleculeJS',
+    editLinks: true,
+    editLinkText: 'Help us improve this page!',
+    lastUpdated: true,
     docsDir: 'docs',
     sidebar: {
       '/guide/': [
@@ -13,6 +17,7 @@ module.exports = {
           collapsable: false,
           children: [
             '',
+            'lifecycle',
             'properties'
           ]
         },
