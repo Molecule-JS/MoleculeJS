@@ -71,3 +71,58 @@ The name of the function to call, when the property changes. The method must exi
 ## Reactivity
 All declared properties are *reactive*, which means that changes to these properties will queue a rerender and if necessary update atributes, dispatch events and call methods.
 
+Example:
+```js
+class MyExample extends MoleculeLit {
+  static get properties() {
+    return {
+      a: 3
+    }
+  }
+
+  // ...
+}
+customElements.define('my-example', MyExample);
+
+const elem = new MyExample();
+document.body.append(elem);
+
+// Not reactive
+elem.b = 4;
+
+// Reactive
+elem.a = 5;
+```
+### Caveats
+But there are some important caveats with reactivity. Molecule can only change for shallow changes, meaning that changes in properties that are objects or arrays, will not be registered.
+
+```js
+class MyExample extends MoleculeLit {
+  static get properties() {
+    return {
+      a: () => [1, 2]
+    }
+  }
+
+  // ...
+}
+customElements.define('my-example', MyExample);
+
+const elem = new MyExample();
+document.body.append(elem);
+
+// The element will **not** rerender!
+elem.a.push(3);
+```
+To change these properties, so that Molecule can react to them, you have to use the `setProperty` method. With the same example as above:
+```js
+// The element will **not** rerender!
+elem.a.push(3);
+
+// But this will
+elem.setProperty('a', [...elem.a, 3]);
+```
+If no value is passed as the second argument, the old value will be used for events, observers and the rerender.
+
+### Async properties
+You can also set your properties to a promise. Molecule will wait for the promise to resolve and then set the property to the resolved value for updates.
