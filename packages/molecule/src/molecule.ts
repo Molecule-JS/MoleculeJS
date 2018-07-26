@@ -106,9 +106,9 @@ const Molecule =
       __propEvent: Map<string, string> = new Map();
       __properties: { [key: string]: PropConfig } = {};
 
-      afterRender?: (isFirst: boolean) => void;
-      connected?: () => void;
-      disconnected?: () => void;
+      afterRender?(isFirst: boolean): void;
+      connected?(): void;
+      disconnected?(): void;
 
       static get observedAttributes(): string[] {
         const attrs: string[] = [];
