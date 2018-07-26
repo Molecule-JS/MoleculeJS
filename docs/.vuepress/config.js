@@ -7,6 +7,7 @@ module.exports = {
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide/' },
     ],
+    logo: 'molecules.svg',
     repo: 'Molecule-JS/MoleculeJS',
     editLinks: true,
     editLinkText: 'Help us improve this page!',

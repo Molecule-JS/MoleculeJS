@@ -1,5 +1,6 @@
 ---
 home: true
+heroImage: /molecules.svg
 actionText: Get Started →
 actionLink: /guide/
 features:
