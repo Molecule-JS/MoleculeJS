@@ -5,6 +5,11 @@ import { eventTests } from '../../../test/common/events';
 import { attrTests } from '../../../test/common/attributes';
 import { asyncPropTests } from '../../../test/common/async-props';
 
+/// <reference path="../../node_modules/@types/mocha/index.d.ts" />
+/// <reference path="../../node_modules/@types/chai/index.d.ts" />
+
+const { expect } = chai;
+
 describe('Molecule', () => {
   const testElement = document.getElementById('test-el');
   (window as any).observerVals = new Map<string, any>();
@@ -77,4 +82,75 @@ describe('Molecule', () => {
   eventTests(testElement);
 
   asyncPropTests(testElement);
+
+  describe('afterRender', () => {
+    it('afterRender gets passed correct value', (done) => {
+      let called = 0;
+      class E extends MoleculeSimple {
+        static get properties() {
+          return {
+            a: 0,
+          };
+        }
+
+        render({ a }: { a: number }) {
+          return `${a}`;
+        }
+
+        afterRender(first: boolean) {
+          if (first) {
+            called++;
+          }
+          if (!first && called === 1) {
+            called = 2;
+          }
+        }
+      }
+
+      customElements.define('x-ar1', E);
+
+      const e = new E();
+      document.body.appendChild(e);
+
+      expect(called).to.equal(1);
+      (e as any).a = 1;
+      setTimeout(() => {
+        expect(called).to.equal(2);
+        done();
+      },
+                 10);
+    });
+
+    it('afterRender gets called on repeat renders', (done) => {
+      let called = 0;
+      class E extends MoleculeSimple {
+        static get properties() {
+          return {
+            a: 0,
+          };
+        }
+
+        render({ a }: { a: number }) {
+          return `${a}`;
+        }
+
+        afterRender() {
+          called++;
+        }
+      }
+
+      customElements.define('x-ar2', E);
+
+      const e = new E();
+      document.body.appendChild(e);
+
+      expect(called).to.equal(1);
+      (e as any).a = 1;
+      setTimeout(() => {
+        expect(called).to.equal(2);
+        done();
+      },
+                 10);
+    });
+  });
 });
