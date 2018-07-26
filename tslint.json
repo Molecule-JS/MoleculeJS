@@ -6,6 +6,7 @@
         "variable-name": [false, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"],
         "function-name": false,
         "no-parameter-reassignment": false,
-        "import-name": false
+        "import-name": false,
+        "no-increment-decrement": false
     }
 }
