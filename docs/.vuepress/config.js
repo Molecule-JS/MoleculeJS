@@ -1,5 +1,7 @@
 module.exports = {
   title: 'MoleculeJS',
+  description: 'Declarative, flexible Custom Elements',
+  ga: 'UA-122934953-1',
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
@@ -16,6 +18,7 @@ module.exports = {
           title: 'Guide',
           collapsable: false,
           children: [
+            'installation',
             '',
             'lifecycle',
             'properties',
