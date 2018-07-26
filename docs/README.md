@@ -10,7 +10,7 @@ features:
   details: Build declarative UIs with a rendering method of your choosing that react to changes of properties and attributes.
 - title: Performant
   details: Molecule is lightweight and only rerenders, if your data changes.
-footer: MIT Licensed | Copyright © 2018-present Daniel Drodt
+footer: MIT Licensed | Copyright © 2018-present | Daniel Drodt
 ---
 ### Easy Custom Elements
 ```js
@@ -26,3 +26,5 @@ class Greeting extends MoleculeLit.Element {
   }
 }
 ```
+### Icon
+Icon made by [Smashicons](https://www.flaticon.com/authors/smashicons) from [www.flaticon.com](https://www.flaticon.com/) is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)
