@@ -20,7 +20,7 @@ yarn add @moleculejs/molecule
 ```
 
 ## Documentation
-More detailed documentation coming soon!
+See the full documentation at [MoleculeJS.org](https://moleculejs.org).
 
 ## Examples
 Let's start with a simple Example:
