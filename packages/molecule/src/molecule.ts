@@ -93,7 +93,7 @@ export const getAttributeforProp = (prop: string, attrConfig: boolean | string) 
 const Molecule =
   <T>(renderFunction: (result: T, container: Element | DocumentFragment) => void) =>
     class Molecule extends HTMLElement {
-      static properties: Properties;
+      static readonly properties: Properties;
       __renderCallbacks: Set<any> = new Set();
       __pendingRender: boolean = false;
       __data: { [propName: string]: any } = {};
