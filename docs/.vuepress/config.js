@@ -15,6 +15,9 @@ module.exports = {
     ['meta', { name: 'msapplication-TileColor', content: '#00aba9' }]
   ],
   themeConfig: {
+    serviceWorker: {
+      updatePopup: true
+    },
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide/' },
