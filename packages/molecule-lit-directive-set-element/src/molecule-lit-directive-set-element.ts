@@ -1,4 +1,4 @@
-import { directive } from '../node_modules/lit-html/lit-html';
+import { directive } from 'lit-html/lit-html';
 
 /**
  * Sets the part to a new element of the type selector

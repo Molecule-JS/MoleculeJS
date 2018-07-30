@@ -1,5 +1,5 @@
-import { svg, TemplateResult, SVGTemplateResult } from '../node_modules/lit-html/lit-html';
-import { html, render } from '../node_modules/lit-html/lib/lit-extended';
+import { svg, TemplateResult, SVGTemplateResult } from 'lit-html/lit-html';
+import { html, render } from 'lit-html/lib/lit-extended';
 import Molecule,
 {
   HTMLCollectionByID,

@@ -5,9 +5,9 @@ import {
     Properties,
     Molecule,
 } from '../../molecule-functional/dist/molecule-functional';
-import { render, html } from '../node_modules/lit-html/lib/lit-extended';
+import { render, html } from 'lit-html/lib/lit-extended';
 
-import { TemplateResult } from '../node_modules/lit-html/lit-html';
+import { TemplateResult } from 'lit-html/lit-html';
 
 export {
     functionalMolecule,

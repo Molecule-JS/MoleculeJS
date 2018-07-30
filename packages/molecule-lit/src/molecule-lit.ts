@@ -4,26 +4,33 @@ import {
   render,
   TemplateResult,
   SVGTemplateResult,
-} from '../node_modules/lit-html/lit-html';
+} from 'lit-html/lit-html';
 
-export type camelCaseToKebab = typeof Molecule.camelCaseToKebab;
-
-import Molecule,
-{
+import {
+  Element,
+  createProperty,
+  camelCaseToKebab,
   HTMLCollectionByID,
   PropConfig,
   Properties,
 } from '../../molecule/dist/molecule';
 
-const MoleculeLit = Molecule.Element(render);
+const MoleculeLit = Element(render);
 
 export { html, svg, render, TemplateResult, SVGTemplateResult };
-export { MoleculeLit as Element, HTMLCollectionByID, PropConfig, Properties, Molecule };
+export {
+  MoleculeLit as Element,
+  HTMLCollectionByID,
+  PropConfig,
+  Properties,
+  createProperty,
+  camelCaseToKebab };
 
 export default {
   html,
   svg,
   render,
-  ...Molecule,
+  createProperty,
+  camelCaseToKebab,
   Element: MoleculeLit,
 };

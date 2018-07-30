@@ -5,6 +5,7 @@ const rollupTS = require('rollup-plugin-typescript2');
 const runSequence = require('run-sequence');
 const terser = require('rollup-plugin-terser');
 const replace = require('rollup-plugin-replace');
+const resolve = require('rollup-plugin-node-resolve');
 
 const sources = [
   'molecule',
@@ -23,7 +24,7 @@ const kebabToPascal = str => {
 }
 
 const rollupBuilds = {
-  iife: (name, extra = '') => `${name}${extra}.js`,
+  umd: (name, extra = '') => `${name}${extra}.js`,
   es: (name, extra = '') => `${name}${extra}.mjs`
 };
 
@@ -32,10 +33,14 @@ for (const format in rollupBuilds) {
     gulp.task(`rollup:dist:${format}:${src}`, () => rollup.rollup({
       input: `./packages/${src}/src/${src}.ts`,
       plugins: [rollupTS(),
-        replace({
-          __DEV__: 'false'
-        }),
-        terser.terser({
+      resolve({
+        main: false,
+        only: ['lit-html']
+      }),
+      replace({
+        __DEV__: 'false'
+      }),
+      terser.terser({
         output: {
           comments: function (node, comment) {
             var text = comment.value;
@@ -53,7 +58,7 @@ for (const format in rollupBuilds) {
         format,
         name: kebabToPascal(src),
         sourcemap: true,
-        exports: format === 'iife' ? 'named' : 'auto',
+        exports: format === 'umd' ? 'named' : 'auto',
         strict: true
       }))
     );
@@ -68,7 +73,10 @@ for (const format in rollupBuilds) {
   for (const src of sources) {
     gulp.task(`rollup:dev:${format}:${src}`, () => rollup.rollup({
       input: `./packages/${src}/src/${src}.ts`,
-      plugins: [rollupTS(), replace({
+      plugins: [rollupTS(), resolve({
+        main: false,
+        only: ['lit-html']
+      }), replace({
         __DEV__: 'true'
       }),]
     })
@@ -77,7 +85,7 @@ for (const format in rollupBuilds) {
         format,
         name: kebabToPascal(src),
         sourcemap: true,
-        exports: format === 'iife' ? 'named' : 'auto',
+        exports: format === 'umd' ? 'named' : 'auto',
         strict: true
       }))
     );
@@ -95,7 +103,10 @@ for (const format in rollupBuilds) {
             declaration: false
           }
         }
-      })]
+      }), resolve({
+        main: false,
+        only: ['lit-html']
+      }),]
     })
       .then(bundle => bundle.write({
         file: `./test/tests/${rollupBuilds[format](src, '.test')}`,
@@ -109,7 +120,7 @@ for (const format in rollupBuilds) {
   gulp.task(`rollup:test:${format}`, sources.map(src => `rollup:test:${format}:${src}`));
 }
 
-gulp.task('rollup:test', () => runSequence('rollup:test:es', 'rollup:test:iife'));
+gulp.task('rollup:test', () => runSequence('rollup:test:es', 'rollup:test:umd'));
 
 gulp.task('clean:dist', () => gulp.src('packages/**/dist').pipe(clean()));
 

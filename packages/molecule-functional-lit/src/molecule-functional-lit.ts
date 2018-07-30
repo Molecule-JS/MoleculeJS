@@ -6,7 +6,7 @@ import {
     Molecule,
 } from '../../molecule-functional/dist/molecule-functional';
 
-import { render, TemplateResult, html } from '../node_modules/lit-html/lit-html';
+import { render, TemplateResult, html } from 'lit-html/lit-html';
 
 export {
     functionalMolecule,
