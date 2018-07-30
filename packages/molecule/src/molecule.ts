@@ -100,7 +100,7 @@ const Molecule =
       __methodsToCall: { [propName: string]: (newValue: any, oldValue: any) => any } = {};
       __wait: any;
       __firstRender: boolean = false;
-      shadowRoot!: ShadowRoot;
+      __root: Element|DocumentFragment;
       __propAttr: Map<string, string> = new Map(); // propertyName   -> attribute-name
       __attrProp: Map<string, string> = new Map(); // attribute-name -> propertyName
       __propEvent: Map<string, string> = new Map();
@@ -110,6 +110,10 @@ const Molecule =
       afterRender?(isFirst: boolean): void;
       connected?(): void;
       disconnected?(): void;
+
+      createRoot() {
+        return this.attachShadow({ mode: 'open' });
+      }
 
       static get observedAttributes(): string[] {
         const attrs: string[] = [];
@@ -127,7 +131,8 @@ const Molecule =
 
       protected constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
+
+        this.__root = this.createRoot();
 
         const props = (this.constructor as any).properties as Properties;
 
@@ -299,7 +304,7 @@ const Molecule =
        *  @return void
        */
       postponedRender() {
-        renderFunction(this.render({ ...this.__data }), this.shadowRoot);
+        renderFunction(this.render({ ...this.__data }), this.__root);
 
         for (const callback of this.__renderCallbacks) {
           callback();
@@ -357,7 +362,7 @@ const Molecule =
        * @readonly
        */
       get $(): HTMLCollectionByID {
-        const arr = this.shadowRoot.querySelectorAll('[id]');
+        const arr = this.__root.querySelectorAll('[id]');
         const obj: HTMLCollectionByID = {};
         for (const el of arr) {
           obj[el.id] = el;
