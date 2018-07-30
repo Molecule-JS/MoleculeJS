@@ -44,7 +44,7 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
       return context.__data[prop];
     },
     set(val: any) {
-      context.setProperty(prop, val);
+      context.setProperty(prop, val, false);
     },
   });
   if (__DEV__) {
@@ -105,6 +105,7 @@ const Molecule =
       __attrProp: Map<string, string> = new Map(); // attribute-name -> propertyName
       __propEvent: Map<string, string> = new Map();
       __properties: { [key: string]: PropConfig } = {};
+      __forceUpdate: boolean = false;
 
       afterRender?(isFirst: boolean): void;
       connected?(): void;
@@ -182,8 +183,8 @@ const Molecule =
        * @param {string} prop
        * @param {any} newVal
        */
-      __propertiesChanged(prop: string, newVal: any) {
-        if (this.__data[prop] !== newVal) {
+      __propertiesChanged(prop: string, newVal: any, forceUpdate: boolean = false) {
+        if (forceUpdate || this.__data[prop] !== newVal) {
           const oldVal = this.__data[prop];
           let doRefresh = true;
           this.__data[prop] = newVal;
@@ -202,7 +203,7 @@ const Molecule =
       /**
        * Set the prop to a new value, or signal that it changed
        */
-      async setProperty(prop: string, newVal = (this as any)[prop]) {
+      async setProperty(prop: string, newVal = (this as any)[prop], forceUpdate: boolean = true) {
         newVal = (newVal != null && newVal instanceof Promise
           ? await newVal
           : newVal);
@@ -214,12 +215,13 @@ const Molecule =
            * convert the attribute data to a property,
            * (this.__data[prop]) and trigger __propertiesChanged().
            */
+          this.__forceUpdate = forceUpdate;
           this.setAttribute(attr!, newVal);
         } else {
           /* Set the property directly and trigger
            * __propertiesChanged()
            */
-          this.__propertiesChanged(prop, newVal);
+          this.__propertiesChanged(prop, newVal, forceUpdate);
         }
         if (info.event) {
           const eventName = this.__propEvent.get(prop);
@@ -239,7 +241,8 @@ const Molecule =
        * @param {any} val
        */
       attributeChangedCallback(attr: string, old: any, val: any) {
-        if (old === val) return;
+        if (this.__forceUpdate || old === val) return;
+        this.__forceUpdate = false;
         const prop = this.__attrProp.get(attr)!;
         if (this.__data[prop] !== val) {
           const type = this.__properties[prop].type || String;

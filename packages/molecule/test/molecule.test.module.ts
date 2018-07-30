@@ -153,4 +153,38 @@ describe('Molecule', () => {
                  10);
     });
   });
+
+  describe('setProperty', () => {
+    it('setProperty forces update', (done) => {
+      class E extends MoleculeSimple {
+        a!: number[];
+        static get properties() {
+          return {
+            a: {
+              observer: '_aChanged',
+              value: () => [1],
+            },
+          };
+        }
+
+        render({ a }: { a: number }) {
+          return `${a}`;
+        }
+
+        _aChanged(a: number[]) {
+          if (a.length === 2) {
+            done();
+          }
+        }
+      }
+
+      customElements.define('x-sp1', E);
+
+      const e = new E();
+      document.body.appendChild(e);
+
+      e.a.push(2);
+      e.setProperty('a');
+    });
+  });
 });
