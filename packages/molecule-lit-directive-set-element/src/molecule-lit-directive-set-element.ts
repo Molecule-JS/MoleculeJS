@@ -5,18 +5,18 @@ import { directive } from 'lit-html/lit-html';
  * with the given props, attributes and innerHTML
  */
 export const setElement = (
-    Element: any,
-    { props = {},
-        attributes = {},
-    } = {}) => directive((part: any) => {
-      const elem = new Element();
-      for (const prop in props) {
-        (elem as any)[prop] = (props as any)[prop];
-      }
-      for (const attr in attributes) {
-        elem.setAttribute(attr, (attributes as any)[attr]);
-      }
-      part.setValue(elem);
-    });
+  Element: any,
+  { props = {}, attributes = {} } = {},
+) =>
+  directive((part: any) => {
+    const elem = new Element();
+    for (const prop in props) {
+      (elem as any)[prop] = (props as any)[prop];
+    }
+    for (const attr in attributes) {
+      elem.setAttribute(attr, (attributes as any)[attr]);
+    }
+    part.setValue(elem);
+  });
 
 export default { MoleculeSetElement: setElement };

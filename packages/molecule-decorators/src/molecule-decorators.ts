@@ -1,12 +1,17 @@
-import Molecule, { PropConfig, createProperty } from '../../molecule/dist/molecule';
+import Molecule, {
+  PropConfig,
+  createProperty,
+} from '../../molecule/dist/molecule';
 
-export function property(config: PropConfig = { }) {
+export function property(config: PropConfig = {}) {
   return (prototype: any, propName: string) => {
     createProperty(propName, prototype, config);
   };
 }
 
-export function attribute(config: PropConfig = { type: String, attribute: true }) {
+export function attribute(
+  config: PropConfig = { type: String, attribute: true },
+) {
   if (!('a' in config)) {
     config.attribute = true;
   }

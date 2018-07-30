@@ -1,7 +1,6 @@
 import { svg, TemplateResult, SVGTemplateResult } from 'lit-html/lit-html';
 import { html, render } from 'lit-html/lib/lit-extended';
-import Molecule,
-{
+import Molecule, {
   HTMLCollectionByID,
   PropConfig,
   Properties,

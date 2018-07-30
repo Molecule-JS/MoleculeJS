@@ -24,7 +24,8 @@ export {
   PropConfig,
   Properties,
   createProperty,
-  camelCaseToKebab };
+  camelCaseToKebab,
+};
 
 export default {
   html,
