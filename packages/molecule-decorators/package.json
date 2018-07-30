@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-decorators",
-  "version": "0.10.3",
+  "version": "0.10.4",
   "main": "dist/molecule-decorators.js",
   "module": "dist/molecule-decorators.mjs",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
