@@ -1,4 +1,4 @@
-# Molecule &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Molecule-JS/MoleculeJS/blob/master/LICENSE) [![npm version](https://badge.fury.io/js/%40moleculejs%2Fmolecule-lit.svg)](https://badge.fury.io/js/%40moleculejs%2Fmolecule) [![Build Status](https://travis-ci.org/Molecule-JS/MoleculeJS.svg?branch=master)](https://travis-ci.org/Molecule-JS/MoleculeJS) [![Greenkeeper badge](https://badges.greenkeeper.io/Molecule-JS/MoleculeJS.svg)](https://greenkeeper.io/)
+# Molecule &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Molecule-JS/MoleculeJS/blob/master/LICENSE) [![npm version](https://badge.fury.io/js/%40moleculejs%2Fmolecule-lit-extended.svg)](https://badge.fury.io/js/%40moleculejs%2Fmolecule-lit-extended)(https://badge.fury.io/js/%40moleculejs%2Fmolecule) [![Build Status](https://travis-ci.org/Molecule-JS/MoleculeJS.svg?branch=master)](https://travis-ci.org/Molecule-JS/MoleculeJS) [![Greenkeeper badge](https://badges.greenkeeper.io/Molecule-JS/MoleculeJS.svg)](https://greenkeeper.io/)
 
 ## Overview
 
