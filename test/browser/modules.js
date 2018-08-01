@@ -6,3 +6,4 @@ import '/tests/molecule-functional.test.mjs';
 import '/tests/molecule-functional-lit.test.mjs';
 import '/tests/molecule-functional-lit-extended.test.mjs';
 import '/tests/molecule-lit-directive-set-element.test.mjs';
+import '/tests/molecule-jsx.test.mjs';
