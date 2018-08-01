@@ -4,11 +4,7 @@
 
 Molecule is a JavaScript library for building user interfaces using web components.
 
-It provides several classes from which you can build your Custom Elements
-
-- The Molecule base class. It is agnositic about your actual templatization and rendering function.
-- MoleculeLit class which uses the standard functions from [lit-html](https://github.com/PolymerLabs/lit-html) by the Polymer team.
-- MoleculeLitExtended uses the extended rendering functions of `lit-html`.
+This package provides a function that takes a render method and returns a baseclass to create Custom Elements.
 
 ## Installation
 
@@ -31,7 +27,16 @@ See the full documentation at [MoleculeJS.org](https://moleculejs.org).
 Let's start with a simple Example:
 
 ```js
-class HelloWorld extends MoleculeLit.Element {
+const render = (template, container) => {
+  /*  Your function that renders the template returned by your
+      elements `render` instance method (see below).
+      This gets called whenever properties of the element change.
+  */
+};
+
+const MyNewBaseClass = Molecule.Element(render);
+
+class HelloWorld extends MyNewBaseClass {
   static get properties() {
     return {
       name: String,
@@ -40,9 +45,10 @@ class HelloWorld extends MoleculeLit.Element {
     };
   }
   render({ name }) {
-    html`
-            <div>Hello ${name}</div>
-        `;
+    //  Returns a template of any type, in this case a string
+    `
+      <div>Hello ${name}</div>
+    `;
   }
 }
 
@@ -58,6 +64,10 @@ This new element will also keep the _property_ `name` in sync with the _attribut
 ```
 
 If you change the attribute or the property, both will be kept in sync and the element will be rerendered.
+
+## Premade Base Classes
+
+There are several other base classes for Molecule with different rendering methods, like lit-html or JSX. A complete list of official packages for Molecule can be found in the [full documentation](https://moleculejs.org/guide/packages.html)
 
 ## Contributing
 
