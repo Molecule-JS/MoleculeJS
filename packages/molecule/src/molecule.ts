@@ -406,4 +406,9 @@ const Molecule = <T>(
 
 export { camelCaseToKebab, Molecule as Element };
 
-export default { createProperty, camelCaseToKebab, Element: Molecule };
+export default {
+  createProperty,
+  getAttributeforProp,
+  camelCaseToKebab,
+  Element: Molecule,
+};
