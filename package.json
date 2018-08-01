@@ -47,7 +47,7 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "semantic-release": "semantic-release",
-    "prepublish": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+    "prepublish": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "version": "0.0.0-development",
   "repository": {
