@@ -1,5 +1,14 @@
 # MoleculeLitExtended &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Molecule-JS/MoleculeJS/blob/master/LICENSE) [![npm version](https://badge.fury.io/js/%40moleculejs%2Fmolecule-lit-extended.svg)](https://badge.fury.io/js/%40moleculejs%2Fmolecule-lit-extended) [![Build Status](https://travis-ci.org/Molecule-JS/MoleculeJS.svg?branch=master)](https://travis-ci.org/Molecule-JS/MoleculeJS) [![Greenkeeper badge](https://badges.greenkeeper.io/Molecule-JS/MoleculeJS.svg)](https://greenkeeper.io/)
 
+<p align="center"><a href="https://moleculejs.org" target="_blank" rel="noopener noreferrer"><img width="100" src="https://moleculejs.org/molecules.svg" alt="Molecule logo"></a></p>
+
+<p align="center">
+  <a href="https://travis-ci.org/Molecule-JS/MoleculeJS"><img src="https://travis-ci.org/Molecule-JS/MoleculeJS.svg?branch=master" alt="Build Status"></a>
+  <a href="https://www.npmjs.com/package/@moleculejs/molecule-lit-extended"><img src="https://badge.fury.io/js/%40moleculejs%2Fmolecule-lit-extended.svg" alt="Version"></a>
+  <a href="https://github.com/Molecule-JS/MoleculeJS/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+  <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/Molecule-JS/MoleculeJS.svg" alt="Greenkeeper badge"></a>
+</p>
+
 ## Overview
 
 Molecule is a JavaScript library for building user interfaces using web components.
