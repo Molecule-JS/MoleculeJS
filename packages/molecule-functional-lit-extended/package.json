@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-functional-lit-extended",
-  "version": "0.10.4",
+  "version": "0.11.0",
   "main": "dist/molecule-functional-lit-extended.js",
   "module": "dist/molecule-functional-lit-extended.mjs",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
@@ -9,7 +9,7 @@
   "typings": "dist/molecule-functional-lit-extended.d.ts",
   "description": "Functional Molecule lit-html extended elements",
   "dependencies": {
-    "@moleculejs/molecule-functional": "^0.10.4",
+    "@moleculejs/molecule-functional": "^0.11.0",
     "lit-html": "^0.10.0"
   },
   "keywords": [
