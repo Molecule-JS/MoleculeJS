@@ -7,6 +7,11 @@
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
   "typings": "dist/molecule-functional.d.ts",
+  "description": "Functional Molecule elements",
+  "files": [
+    "dist",
+    "src"
+  ],
   "keywords": [
     "web components",
     "molecule",

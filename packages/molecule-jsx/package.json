@@ -1,5 +1,5 @@
 {
-  "name": "molecule-jsx",
+  "name": "@moleculejs/molecule-jsx",
   "version": "0.0.1",
   "description": "Build MoleculeElements using JSX",
   "main": "dist/molecule-jsx.js",
@@ -9,5 +9,24 @@
   "private": false,
   "dependencies": {
     "@moleculejs/molecule": "^0.10.4"
-  }
+  },
+  "module": "dist/molecule-jsx.mjs",
+  "typings": "dist/molecule-jsx.d.ts",
+  "keywords": [
+    "web components",
+    "molecule",
+    "custom elements",
+    "jsx",
+    "virtual dom"
+  ],
+  "files": [
+    "src",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://moleculejs.org"
 }

@@ -7,6 +7,7 @@
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
   "typings": "dist/molecule-lit-extended.d.ts",
+  "description": "Molecule elements using lit-html extended",
   "dependencies": {
     "@moleculejs/molecule": "^0.10.4",
     "lit-html": "^0.10.0"

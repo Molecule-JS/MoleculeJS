@@ -7,6 +7,7 @@
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
   "typings": "dist/molecule-decorators.d.ts",
+  "description": "Decorator support for MoleculeJS",
   "dependencies": {
     "@moleculejs/molecule": "^0.7.0"
   },
