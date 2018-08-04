@@ -1,5 +1,3 @@
-import { camelCaseToKebab } from './lib/helpers/camel-to-kebab-case';
-
 export interface Properties {
   [propName: string]: PropConfig | Value;
 }
@@ -33,6 +31,18 @@ export interface MoleculeEventInit extends EventInit {
 declare var __DEV__: boolean;
 
 /**
+ * Coverts a camelCase string to kebab-case.
+ *
+ * @export
+ * @param {string} str The camelCaseString
+ * @returns {string} The kebab-version of the string
+ */
+export function camelCaseToKebab(str: string): string {
+  const sub = str.substring(1, str.length);
+  return str[0].toLowerCase() + sub.replace(/([A-Z])/g, '-$1').toLowerCase();
+}
+
+/**
  *
  * @param {string} prop The name of the property to create
  * @param {string} attr The name of the attribute
@@ -55,11 +65,6 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
   });
   if (__DEV__) {
     if (info.attribute) {
-      if (!info.type) {
-        console.error(
-          `Property ${prop}: Attributes must have a type specified`,
-        );
-      }
       if (info.type === Object || info.type === Array) {
         console.warn(
           `Property ${prop}: Rich Data shouldn\'t be set as attribute!`,
@@ -104,7 +109,7 @@ export const getAttributeforProp = (
 const Molecule = <T>(
   renderFunction: (result: T, container: Element | DocumentFragment) => void,
 ) =>
-  class Molecule extends HTMLElement {
+  class MoleculeElement extends HTMLElement {
     static readonly properties: Properties;
     __renderCallbacks: Set<any> = new Set();
     __pendingRender: boolean = false;
@@ -143,7 +148,7 @@ const Molecule = <T>(
       return attrs;
     }
 
-    protected constructor() {
+    constructor() {
       super();
 
       this.__root = this.createRoot();
@@ -404,7 +409,7 @@ const Molecule = <T>(
     }
   };
 
-export { camelCaseToKebab, Molecule as Element };
+export { Molecule as Element };
 
 export default {
   createProperty,
