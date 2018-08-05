@@ -140,6 +140,9 @@ for (const format in rollupBuilds) {
               main: false,
               only: ['lit-html'],
             }),
+            replace({
+              __DEV__: 'true',
+            }),
           ],
         })
         .then((bundle) =>
