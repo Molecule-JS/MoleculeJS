@@ -172,7 +172,7 @@ const Molecule = <T>(
         if (this.__properties[prop].event) {
           const eventName =
             typeof this.__properties[prop].event === 'boolean'
-              ? attr
+              ? `${attr}-changed`
               : (this.__properties[prop].event as string);
           this.__propEvent.set(prop, eventName);
         }
@@ -259,9 +259,9 @@ const Molecule = <T>(
         this.__propertiesChanged(prop, newVal, forceUpdate);
       }
       if (info.event) {
-        const eventName = this.__propEvent.get(prop);
+        const eventName = this.__propEvent.get(prop)!;
         this.dispatchEvent(
-          new CustomEvent(`${eventName}-changed`, <MoleculeEventInit>{
+          new CustomEvent(eventName, <MoleculeEventInit>{
             bubbles: true,
             composed: true,
             detail: newVal,
