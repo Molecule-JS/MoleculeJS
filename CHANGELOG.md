@@ -1,3 +1,8 @@
+<a name="0.11.2"></a>
+## [0.11.2](https://github.com/Molecule-JS/MoleculeJS/compare/v0.11.1...v0.11.2) (2018-08-05)
+
+
+
 <a name="0.11.1"></a>
 
 ## [0.11.1](https://github.com/Molecule-JS/MoleculeJS/compare/v0.11.0...v0.11.1) (2018-08-01)

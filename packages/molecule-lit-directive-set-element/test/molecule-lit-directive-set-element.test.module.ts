@@ -1,16 +1,19 @@
-import { Element, render, html } from '../../molecule-lit/dist/molecule-lit';
+// tslint:disable-next-line:max-line-length
+declare var MoleculeLitDirectiveSetElement: typeof import('../src/molecule-lit-directive-set-element');
+declare var MoleculeLit: typeof import('../../molecule-lit/src/molecule-lit');
 
-import { setElement } from '../dist/molecule-lit-directive-set-element';
+const { setElement } = MoleculeLitDirectiveSetElement;
+const { html, render, Element: LitElement } = MoleculeLit;
 
 const { expect } = chai;
 
-describe('Molecule', () => {
+describe('MoleculeLitDirectiveSetElement', () => {
   let div: HTMLElement;
   before(() => {
     div = document.createElement('div');
     document.body.appendChild(div);
 
-    class TestElementSet extends Element {
+    class TestElementSet extends LitElement {
       [x: string]: any;
       static get properties() {
         return {
@@ -47,7 +50,8 @@ describe('Molecule', () => {
     }
 
     customElements.define('test-element-set', TestElementSet);
-    render(html`
+    render(
+      html`
               Successfully set element here:
               ${setElement(TestElementSet, {
                 props: {
@@ -62,7 +66,8 @@ describe('Molecule', () => {
                 },
               })}
               `,
-           div);
+      div,
+    );
   });
 
   it('Inserted Element', () => {

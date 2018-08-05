@@ -1,12 +1,15 @@
-import { functionalMoleculeLit, html } from '../dist/molecule-functional-lit';
-
 import { propTests } from '../../../test/common/props';
 import { eventTests } from '../../../test/common/events';
 import { attrTests } from '../../../test/common/attributes';
 import { asyncPropTests } from '../../../test/common/async-props';
 
+declare var MoleculeFunctionalLit: typeof import('../src/molecule-functional-lit');
+
+const { html, functionalMoleculeLit } = MoleculeFunctionalLit;
+
 describe('Functional MoleculeLit', () => {
-  const testElement = document.getElementById('test-el-func-lit');
+  const testElement = document.createElement('test-element-func-lit');
+  document.body.appendChild(testElement);
   (window as any).observerVals = new Map<string, any>();
   before(() => {
     (window as any).observerVals = new Map<string, any>();
@@ -30,13 +33,15 @@ describe('Functional MoleculeLit', () => {
         type: String,
         value: 'StringProp',
       },
-    })((props = {}) => html`<div id="results">
+    })(
+      (props = {}) => html`<div id="results">
   <span id="shortBool">${props.shortBool!}</span>
   <span id="longBool">${props.longBool!}</span>
 
   <span id="shortNumber">${props.shortNumber!}</span>
   <span id="longNumber">${props.longNumber!}</span>
-</div>`);
+</div>`,
+    );
     customElements.define('test-element-func-lit', TestElement);
   });
 

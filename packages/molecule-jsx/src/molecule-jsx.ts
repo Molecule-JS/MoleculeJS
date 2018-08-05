@@ -3,7 +3,7 @@ import {
   createProperty,
   camelCaseToKebab,
   getAttributeforProp,
-} from '../../molecule/dist/molecule';
+} from '../../molecule/src/molecule';
 import { diff } from './lib/vdom/diff';
 
 declare global {
@@ -62,7 +62,7 @@ export function createElement(
   }
 
   if ('children' in props) {
-    children.concat(props.children);
+    children = children.concat(props.children);
     delete props.children;
   }
 
@@ -75,7 +75,9 @@ export function render(vnode: VNode, container: container) {
   return dom;
 }
 
-export const MoleculeJSX = MoleculeElement(render);
+const MoleculeJSX = MoleculeElement(render);
+
+export { MoleculeJSX as Element };
 
 export default {
   createProperty,

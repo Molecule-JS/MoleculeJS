@@ -1,12 +1,17 @@
-import { Element, html } from '../dist/molecule-lit-extended';
+import MoleculeLitExtended from '../src/molecule-lit-extended';
 
 import { propTests } from '../../../test/common/props';
 import { eventTests } from '../../../test/common/events';
 import { attrTests } from '../../../test/common/attributes';
 import { asyncPropTests } from '../../../test/common/async-props';
 
+// declare var MoleculeLitExtended: typeof import('../src/molecule-lit-extended');
+
+const { Element, html } = MoleculeLitExtended;
+
 describe('MoleculeLitExtended', () => {
-  const testElement = document.getElementById('test-el-lit-xtd');
+  const testElement = document.createElement('test-element-lit-xtd');
+  document.body.appendChild(testElement);
   (window as any).observerVals = new Map<string, any>();
 
   before(() => {

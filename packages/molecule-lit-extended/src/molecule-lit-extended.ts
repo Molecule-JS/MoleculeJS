@@ -4,7 +4,7 @@ import Molecule, {
   HTMLCollectionByID,
   PropConfig,
   Properties,
-} from '../../molecule/dist/molecule';
+} from '../../molecule/src/molecule';
 
 export const Element = Molecule.Element(render);
 

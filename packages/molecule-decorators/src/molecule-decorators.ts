@@ -1,7 +1,7 @@
 import Molecule, {
   PropConfig,
   createProperty,
-} from '../../molecule/dist/molecule';
+} from '../../molecule/src/molecule';
 
 export function property(config: PropConfig = {}) {
   return (prototype: any, propName: string) => {

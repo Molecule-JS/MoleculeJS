@@ -13,7 +13,7 @@ import {
   HTMLCollectionByID,
   PropConfig,
   Properties,
-} from '../../molecule/dist/molecule';
+} from '../../molecule/src/molecule';
 
 const MoleculeLit = Element(render);
 
