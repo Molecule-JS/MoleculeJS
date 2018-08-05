@@ -73,3 +73,5 @@ lerna-debug.log
 
 *cache
 docs/.vuepress/dist
+coverage
+coverage.lcov
