@@ -83,12 +83,18 @@ describe('MoleculeJsx', () => {
     });
 
     it('Accepts children prop', () => {
-      const vn1 = <div a="1" children={[<p>b</p>, <span>c</span>]} />;
-      const vn2 = (
-        <div a="1">
-          <p>b</p>
-          <span>c</span>
-        </div>
+      const vn1 = MoleculeJsx.createElement('div', {
+        a: '1',
+        children: [
+          MoleculeJsx.createElement('p', undefined, 'b'),
+          MoleculeJsx.createElement('span', undefined, 'c'),
+        ],
+      });
+      const vn2 = MoleculeJsx.createElement(
+        'div',
+        { a: '1' },
+        MoleculeJsx.createElement('p', undefined, 'b'),
+        MoleculeJsx.createElement('span', undefined, 'c'),
       );
 
       expect(vn1).to.eql(vn2);
