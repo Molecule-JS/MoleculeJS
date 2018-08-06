@@ -23,6 +23,7 @@ export function idiff(vnode: VDomElement, dom?: Node) {
   }
 
   if (typeof vnode === 'string' || typeof vnode === 'number') {
+    vnode = String(vnode);
     if (dom && !(dom instanceof Text)) {
       if (dom.nodeValue !== vnode) {
         dom.nodeValue = vnode;
@@ -35,7 +36,7 @@ export function idiff(vnode: VDomElement, dom?: Node) {
       }
     }
 
-    return out;
+    return out as Node;
   }
 
   const vNodeName = vnode.nodeName;
@@ -130,6 +131,10 @@ export function innerDiffNode(dom: Node, vchildren: VDomElement[]) {
     for (let i = 0; i < vlen; i++) {
       vchild = vchildren[i];
       child = null;
+
+      if (vchild == null || vchild === false) {
+        vchild = '';
+      }
 
       // attempt to find a node based on key matching
       const key = (vchild as VNode).key;
@@ -243,6 +248,10 @@ export function isNamedNode(node: Node, nodeName: string) {
 }
 
 export function isSameNodeType(node: Node, vnode: VDomElement) {
+  if (!vnode || typeof vnode === 'boolean') {
+    return false;
+  }
+
   if (typeof vnode === 'string' || typeof vnode === 'number') {
     return node instanceof Text;
   }
