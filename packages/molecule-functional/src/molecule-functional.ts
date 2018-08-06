@@ -4,7 +4,7 @@ import Molecule, {
   HTMLCollectionByID,
   MoleculeEventInit,
   Element,
-} from '../../molecule/dist/molecule';
+} from '../../molecule/src/molecule';
 
 export type camelCaseToKebab = typeof Molecule.camelCaseToKebab;
 

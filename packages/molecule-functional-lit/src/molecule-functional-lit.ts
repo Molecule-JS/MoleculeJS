@@ -4,7 +4,7 @@ import {
   Properties,
   PropConfig,
   Molecule,
-} from '../../molecule-functional/dist/molecule-functional';
+} from '../../molecule-functional/src/molecule-functional';
 
 import { render, TemplateResult, html } from 'lit-html/lit-html';
 
