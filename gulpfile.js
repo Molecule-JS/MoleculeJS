@@ -77,7 +77,15 @@ for (const format in rollupBuilds) {
   );
 }
 
-for (const src of sources)
+for (const src of sources) {
+  gulp.task(`rollup:dist:${src}`, () =>
+    runSequence(
+      ...Object.keys(rollupBuilds).map(
+        (format) => `rollup:dist:${format}:${src}`,
+      ),
+    ),
+  );
+
   gulp.task(`rollup:dev:${src}`, () =>
     runSequence(
       ...Object.keys(rollupBuilds).map(
@@ -85,6 +93,7 @@ for (const src of sources)
       ),
     ),
   );
+}
 
 for (const format in rollupBuilds) {
   for (const src of sources) {
