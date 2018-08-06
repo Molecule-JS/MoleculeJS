@@ -734,6 +734,14 @@ describe('MoleculeJsx', () => {
       expect((root as HTMLElement).outerHTML).to.eq('<p></p>');
     });
 
+    it('replace element with text', () => {
+      let root = render(<p />, scratch);
+
+      root = render('text', scratch, root);
+
+      expect((root as HTMLElement).nodeValue).to.eq('text');
+    });
+
     it('MoleculeElements as children', () => {
       class E extends MoleculeJsx.Element {
         props!: {
