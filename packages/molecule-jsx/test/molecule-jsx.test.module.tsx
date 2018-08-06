@@ -678,5 +678,23 @@ describe('MoleculeJsx', () => {
       render(preactElement, scratch, DOMElement as Node);
       expect(scratch).to.have.property('innerHTML', '<div><a></a></div>');
     });
+
+    it('should render MoleculeElements', () => {
+      class E extends MoleculeJsx.Element {
+        static get properties() {
+          return {
+            a: 3,
+          };
+        }
+
+        render({ a }: { a: number }) {
+          return <p>{a}</p>;
+        }
+      }
+
+      customElements.define('x-1', E);
+
+      render(<E />, scratch);
+    });
   });
 });
