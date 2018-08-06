@@ -679,8 +679,12 @@ describe('MoleculeJsx', () => {
       expect(scratch).to.have.property('innerHTML', '<div><a></a></div>');
     });
 
-    it('should render MoleculeElements', () => {
+    it('should render MoleculeElements', (done) => {
       class E extends MoleculeJsx.Element {
+        props!: {
+          a: number;
+        };
+
         static get properties() {
           return {
             a: 3,
@@ -694,7 +698,67 @@ describe('MoleculeJsx', () => {
 
       customElements.define('x-1', E);
 
-      render(<E />, scratch);
+      let root = render(<E a={4} />, scratch);
+
+      setTimeout(() => {
+        expect((root as HTMLElement).shadowRoot!.innerHTML).to.eq('<p>4</p>');
+
+        root = render(<E a={5} />, scratch, root);
+
+        setTimeout(() => {
+          expect((root as HTMLElement).shadowRoot!.innerHTML).to.eq('<p>5</p>');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('keys', () => {
+    let scratch: HTMLElement;
+
+    beforeEach(() => {
+      if (scratch) {
+        document.body.removeChild(scratch);
+      }
+      scratch = document.createElement('div');
+      (document.body || document.documentElement).appendChild(scratch);
+    });
+
+    after(() => {
+      scratch.parentNode!.removeChild(scratch);
+      scratch = null as any;
+    });
+
+    // See developit/preact-compat#21
+    it('should remove orphaned keyed nodes', () => {
+      const root = render(
+        <div>
+          <div>1</div>
+          <li key="a">a</li>
+          <li key="b">b</li>
+        </div>,
+        scratch,
+      );
+
+      render(
+        <div>
+          <div>2</div>
+          <li key="b">b</li>
+          <li key="c">c</li>
+        </div>,
+        scratch,
+        root,
+      );
+
+      expect(scratch.innerHTML).to.equal(
+        '<div><div>2</div><li>b</li><li>c</li></div>',
+      );
+    });
+
+    it('should set VNode#key property', () => {
+      expect(<div />).to.have.property('key').that.is.undefined;
+      expect(<div a="a" />).to.have.property('key').that.is.undefined;
+      expect(<div key="1" />).to.have.property('key', '1');
     });
   });
 });
