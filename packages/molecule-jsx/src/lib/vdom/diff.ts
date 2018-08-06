@@ -24,7 +24,8 @@ export function idiff(vnode: VDomElement, dom?: Node) {
 
   if (typeof vnode === 'string' || typeof vnode === 'number') {
     vnode = String(vnode);
-    if (dom && !(dom instanceof Text)) {
+    if (dom && dom instanceof Text) {
+      /* istanbul ignore if */ /* Browser quirk that can't be covered */
       if (dom.nodeValue !== vnode) {
         dom.nodeValue = vnode;
       }
