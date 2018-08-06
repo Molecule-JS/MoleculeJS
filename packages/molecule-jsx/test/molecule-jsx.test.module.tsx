@@ -81,6 +81,18 @@ describe('MoleculeJsx', () => {
       expect(vn1.props).to.be.empty;
       expect(vn1.children).to.be.empty;
     });
+
+    it('Accepts children prop', () => {
+      const vn1 = <div a="1" children={[<p>b</p>, <span>c</span>]} />;
+      const vn2 = (
+        <div a="1">
+          <p>b</p>
+          <span>c</span>
+        </div>
+      );
+
+      expect(vn1).to.eql(vn2);
+    });
   });
 
   propTests(testElement);
