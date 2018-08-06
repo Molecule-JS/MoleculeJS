@@ -126,4 +126,46 @@ export const attrTests = (testElement: any) =>
 
       expect(e.a).to.equal('');
     });
+
+    it('Works when resetting same value', () => {
+      class E extends MoleculeSimple {
+        a!: string;
+        b!: boolean;
+
+        static get properties() {
+          return {
+            a: {
+              attribute: true,
+              value: 'test',
+            },
+            b: {
+              attribute: true,
+              value: true,
+              type: Boolean,
+            },
+          };
+        }
+
+        render() {
+          return `<p>test</p>`;
+        }
+      }
+
+      customElements.define(
+        `x-${Math.random()
+          .toString()
+          .substring(2)}-attr-3`,
+        E,
+      );
+
+      const e = new E();
+      document.body.appendChild(e);
+
+      e.a = 'true';
+      e.a = 'true';
+
+      e.removeAttribute('b');
+
+      expect(e.b).to.be.false;
+    });
   });

@@ -338,6 +338,22 @@ declare var sinon: typeof import('sinon');
       expect(e.shadowRoot!.innerHTML).equal('<p>item 3</p>');
     });
 
+    it('Not declaring render throws', () => {
+      class E extends MoleculeSimple {
+        static get properties() {
+          return {
+            a: 3,
+          };
+        }
+      }
+
+      customElements.define('x-throw', E);
+
+      const e = new E();
+
+      expect(e.render).to.throw;
+    });
+
     describe('Warnings', () => {
       before(() => {
         sinon.stub(console, 'warn');
