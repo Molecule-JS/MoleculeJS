@@ -390,7 +390,10 @@ const Molecule = <T>(
      */
     render(data: object): T {
       data;
-      throw Error('render function not defined');
+      // Istanbul doesn't register this as covered, although it is
+      /* istanbul ignore next */
+
+      throw new Error('render function not defined');
     }
 
     /**
