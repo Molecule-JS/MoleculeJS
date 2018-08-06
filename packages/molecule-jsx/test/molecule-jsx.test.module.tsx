@@ -840,4 +840,56 @@ describe('MoleculeJsx', () => {
       expect(<div key="1" />).to.have.property('key', '1');
     });
   });
+
+  describe('props', () => {
+    let scratch: HTMLElement;
+
+    beforeEach(() => {
+      if (scratch) {
+        document.body.removeChild(scratch);
+      }
+      scratch = document.createElement('div');
+      (document.body || document.documentElement).appendChild(scratch);
+    });
+
+    after(() => {
+      scratch.parentNode!.removeChild(scratch);
+      scratch = null as any;
+    });
+
+    it('class -> className', () => {
+      const root = render(<p class="test">a</p>, scratch);
+
+      expect((root as HTMLElement).className).to.eq('test');
+    });
+
+    it('remove style string', () => {
+      let root = render(<p style="color: red;">a</p>, scratch);
+
+      expect((root as HTMLElement).style.color).to.eq('red');
+
+      root = render(<p style={null}>a</p>, scratch, root);
+
+      expect((root as HTMLElement).style.cssText).to.eq('');
+    });
+
+    it('innerHTML fallback', () => {
+      const root = render(
+        <p dangerouslySetInnerHTML={{ invalid: '<p>b</p>' }}>a</p>,
+        scratch,
+      );
+
+      expect((root as HTMLElement).innerHTML).to.eq('');
+    });
+
+    it('xlink attribute', () => {
+      let root = render(<p xlinkattr={'abc'}>a</p>, scratch);
+
+      expect((root as HTMLElement).getAttribute('attr')).to.eq('abc');
+
+      root = render(<p xlinkattr={false}>a</p>, scratch, root);
+
+      expect((root as HTMLElement).hasAttribute('attr')).to.be.false;
+    });
+  });
 });
