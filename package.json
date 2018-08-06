@@ -60,7 +60,7 @@
     "docs:build": "vuepress build docs",
     "semantic-release": "semantic-release",
     "prepublish": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "codecov": "npm run test && remap-istanbul -i coverage/coverage-final.json -e node_modules,decorators,test.module,common -o coverage.lcov -t lcovonly && codecov"
+    "codecov": "remap-istanbul -i coverage/coverage-final.json -e node_modules,decorators,test.module,common -o coverage.lcov -t lcovonly && codecov"
   },
   "version": "0.11.2",
   "repository": {
