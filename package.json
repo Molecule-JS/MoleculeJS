@@ -6,7 +6,6 @@
     "@types/sinon": "^5.0.1",
     "bundlesize": "^0.17.0",
     "chai": "^4.1.2",
-    "chromedriver": "^2.40.0",
     "codecov": "^3.0.4",
     "commitizen": "^2.10.1",
     "conventional-changelog-cli": "^2.0.1",
@@ -53,16 +52,17 @@
     "clean:dist": "gulp clean:dist",
     "clean:cache": "gulp clean:cache",
     "clean": "npm run clean:dist && npm run clean:test && npm run clean:cache",
-    "test": "npm run test:karma",
+    "test": "npm run test:karma && npm run bundlesize",
     "build": "lerna bootstrap && npm run build:modules && npm run build:umd && npm run build:dev && npm run clean:cache",
     "build:dev": "npm run build:modules:dev && npm run build:umd:dev && npm run clean:cache",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "semantic-release": "semantic-release",
     "prepublish": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "bundlesize": "bundlesize",
     "codecov": "remap-istanbul -i coverage/coverage-final.json -e node_modules,decorators,test.module,common -o coverage.lcov -t lcovonly && codecov"
   },
-  "version": "0.11.2",
+  "version": "0.12.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Molecule-JS/MoleculeJS.git"
@@ -71,5 +71,39 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./packages/molecule/dist/molecule.js",
+      "maxSize": "1.8 kB"
+    },
+    {
+      "path": "./packages/molecule-lit/dist/molecule-lit.js",
+      "maxSize": "4.1 kB"
+    },
+    {
+      "path": "./packages/molecule-lit-extended/dist/molecule-lit-extended.js",
+      "maxSize": "4.5 kB"
+    },
+    {
+      "path": "./packages/molecule-jsx/dist/molecule-jsx.js",
+      "maxSize": "3.2 kB"
+    },
+    {
+      "path": "./packages/molecule-functional/dist/molecule-functional.js",
+      "maxSize": "1.8 kB"
+    },
+    {
+      "path": "./packages/molecule-functional-lit/dist/molecule-functional-lit.js",
+      "maxSize": "4.1 kB"
+    },
+    {
+      "path": "./packages/molecule-functional-lit-extended/dist/molecule-functional-lit-extended.js",
+      "maxSize": "4.4 kB"
+    },
+    {
+      "path": "./packages/molecule-lit-directive-set-element/dist/molecule-lit-directive-set-element.js",
+      "maxSize": "1 kB"
+    }
+  ]
 }
