@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule",
-  "version": "0.12.0",
+  "version": "0.12.4",
   "description": "A small, declarative library for creating ui web components",
   "main": "dist/molecule.js",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
@@ -22,5 +22,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "https://moleculejs.org"
+  "homepage": "https://moleculejs.org",
+  "gitHead": "e39a8a58591a9de870b1830db3514dd8ad2dec5e"
 }
