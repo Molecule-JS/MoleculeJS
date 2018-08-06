@@ -780,6 +780,16 @@ describe('MoleculeJsx', () => {
 
       expect((root as HTMLElement).innerHTML).to.eq('<p>a</p><x-mc></x-mc>');
     });
+
+    it('Works on removed dom', () => {
+      let root = render(<p />, scratch);
+
+      scratch.removeChild(root);
+
+      root = render('text', scratch, root);
+
+      expect((root as HTMLElement).nodeValue).to.eq('text');
+    });
   });
 
   describe('keys', () => {
