@@ -99,6 +99,6 @@ export function setAccessor(
   }
 }
 
-function eventProxy(e: Event) {
-  return (window as any)._listeners[e.type](e);
+function eventProxy(this: Node, e: Event) {
+  return (this as any)._listeners[e.type](e);
 }
