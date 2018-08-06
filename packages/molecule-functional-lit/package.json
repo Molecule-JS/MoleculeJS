@@ -6,7 +6,7 @@
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
-  "typings": "dist/molecule-functional-lit.d.ts",
+  "typings": "dist/packages/molecule-functional-lit/src/molecule-functional-lit.d.ts",
   "description": "Functional Molecule lit-html elements",
   "dependencies": {
     "@moleculejs/molecule-functional": "^0.12.0",
@@ -27,5 +27,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "https://moleculejs.org"
+  "homepage": "https://moleculejs.org",
+  "gitHead": "e39a8a58591a9de870b1830db3514dd8ad2dec5e"
 }

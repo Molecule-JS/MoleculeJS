@@ -6,7 +6,7 @@
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
-  "typings": "dist/molecule-decorators.d.ts",
+  "typings": "dist/packages/molecule-decorators/src/molecule-decorators.d.ts",
   "description": "Decorator support for MoleculeJS",
   "dependencies": {
     "@moleculejs/molecule": "^0.7.0"
@@ -26,5 +26,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "https://moleculejs.org"
+  "homepage": "https://moleculejs.org",
+  "gitHead": "e39a8a58591a9de870b1830db3514dd8ad2dec5e"
 }

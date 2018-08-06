@@ -11,7 +11,7 @@
     "@moleculejs/molecule": "^0.12.0"
   },
   "module": "dist/molecule-jsx.mjs",
-  "typings": "dist/molecule-jsx.d.ts",
+  "typings": "dist/packages/molecule-jsx/src/molecule-jsx.d.ts",
   "keywords": [
     "web components",
     "molecule",
@@ -28,5 +28,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "https://moleculejs.org"
+  "homepage": "https://moleculejs.org",
+  "gitHead": "e39a8a58591a9de870b1830db3514dd8ad2dec5e"
 }
