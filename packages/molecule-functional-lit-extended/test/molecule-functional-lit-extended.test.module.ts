@@ -1,11 +1,12 @@
+import {
+  functionalMoleculeLitExtended,
+  html,
+} from '../src/molecule-functional-lit-extended';
+
 import { propTests } from '../../../test/common/props';
 import { eventTests } from '../../../test/common/events';
 import { attrTests } from '../../../test/common/attributes';
 import { asyncPropTests } from '../../../test/common/async-props';
-
-declare var MoleculeFunctionalLitExtended: typeof import('../src/molecule-functional-lit-extended');
-
-const { html, functionalMoleculeLitExtended } = MoleculeFunctionalLitExtended;
 
 describe('Functional MoleculeLitExtended', () => {
   const testElement = document.createElement('test-element-func-lit-xtd');

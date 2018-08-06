@@ -1,11 +1,9 @@
+import { functionalMolecule } from '../src/molecule-functional';
+
 import { propTests } from '../../../test/common/props';
 import { eventTests } from '../../../test/common/events';
 import { attrTests } from '../../../test/common/attributes';
 import { asyncPropTests } from '../../../test/common/async-props';
-
-declare var MoleculeFunctional: typeof import('../src/molecule-functional');
-
-const { functionalMolecule } = MoleculeFunctional;
 
 describe('Functional Molecule', () => {
   const testElement = document.createElement('test-element-func');

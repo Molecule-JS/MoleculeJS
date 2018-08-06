@@ -1,9 +1,9 @@
-// tslint:disable-next-line:max-line-length
-declare var MoleculeLitDirectiveSetElement: typeof import('../src/molecule-lit-directive-set-element');
-declare var MoleculeLit: typeof import('../../molecule-lit/src/molecule-lit');
-
-const { setElement } = MoleculeLitDirectiveSetElement;
-const { html, render, Element: LitElement } = MoleculeLit;
+import { setElement } from '../src/molecule-lit-directive-set-element';
+import {
+  html,
+  render,
+  Element as LitElement,
+} from '../../molecule-lit/src/molecule-lit';
 
 const { expect } = chai;
 
