@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-jsx",
-  "version": "0.12.0",
+  "version": "0.12.5",
   "description": "Build MoleculeElements using JSX",
   "main": "dist/molecule-jsx.js",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "@moleculejs/molecule": "^0.12.0"
+    "@moleculejs/molecule": "^0.12.5"
   },
   "module": "dist/molecule-jsx.mjs",
   "typings": "dist/packages/molecule-jsx/src/molecule-jsx.d.ts",

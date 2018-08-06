@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-functional",
-  "version": "0.12.4",
+  "version": "0.12.5",
   "main": "dist/molecule-functional.js",
   "module": "dist/molecule-functional.mjs",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",

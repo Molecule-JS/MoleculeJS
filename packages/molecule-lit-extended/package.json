@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-lit-extended",
-  "version": "0.12.0",
+  "version": "0.12.5",
   "main": "dist/molecule-lit-extended.js",
   "module": "dist/molecule-lit-extended.mjs",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
@@ -9,7 +9,7 @@
   "typings": "dist/packages/molecule-lit-extended/src/molecule-lit-extended.d.ts",
   "description": "Molecule elements using lit-html extended",
   "dependencies": {
-    "@moleculejs/molecule": "^0.12.0",
+    "@moleculejs/molecule": "^0.12.5",
     "lit-html": "^0.10.0"
   },
   "keywords": [
@@ -28,6 +28,5 @@
     "access": "public"
   },
   "homepage": "https://moleculejs.org",
-  "gitHead": "e39a8a58591a9de870b1830db3514dd8ad2dec5e",
-  "devDependencies": {}
+  "gitHead": "e39a8a58591a9de870b1830db3514dd8ad2dec5e"
 }
