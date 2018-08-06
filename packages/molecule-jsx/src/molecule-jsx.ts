@@ -30,7 +30,7 @@ export interface Class<T> {
 }
 
 export type container = Element | DocumentFragment;
-export type VDomElement = VNode | string;
+export type VDomElement = VNode | string | boolean | number | null | undefined;
 
 export class VNode {
   nodeName: string | Class<HTMLElement>;
@@ -62,15 +62,21 @@ export function createElement(
   }
 
   if ('children' in props) {
-    children = children.concat(props.children);
+    if (children.length === 0) {
+      children = children.concat(props.children);
+    }
     delete props.children;
   }
 
   return new VNode(tag, props, children, props.key);
 }
 
-export function render(vnode: VNode, container: container) {
-  const dom = diff(vnode, container, domMap.get(container));
+export function render(
+  vnode: VDomElement,
+  container: container,
+  oldDom?: HTMLElement | Node,
+) {
+  const dom = diff(vnode, container, oldDom || domMap.get(container));
   domMap.set(container, dom!);
   return dom;
 }
@@ -84,5 +90,6 @@ export default {
   camelCaseToKebab,
   getAttributeforProp,
   createElement,
+  render,
   Element: MoleculeJSX,
 };
