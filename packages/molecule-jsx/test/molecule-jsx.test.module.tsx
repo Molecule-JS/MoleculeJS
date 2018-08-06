@@ -858,9 +858,13 @@ describe('MoleculeJsx', () => {
     });
 
     it('class -> className', () => {
-      const root = render(<p class="test">a</p>, scratch);
+      let root = render(<p class="test">a</p>, scratch);
 
       expect((root as HTMLElement).className).to.eq('test');
+
+      root = render(<p class={null}>a</p>, scratch, root);
+
+      expect((root as HTMLElement).className).to.eq('');
     });
 
     it('remove style string', () => {
