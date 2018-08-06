@@ -711,6 +711,20 @@ describe('MoleculeJsx', () => {
         });
       });
     });
+
+    it('should remove child elements', () => {
+      let root = render(
+        <div>
+          <p>a</p>
+          <p>b</p>
+        </div>,
+        scratch,
+      );
+
+      root = render(<div />, scratch, root);
+
+      expect((root as HTMLElement).innerHTML).to.eq('');
+    });
   });
 
   describe('keys', () => {
