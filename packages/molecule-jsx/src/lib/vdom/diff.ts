@@ -101,7 +101,7 @@ export function innerDiffNode(dom: Node, vchildren: VDomElement[]) {
   let min = 0;
   const len = origChildren.length;
   let childrenLen = 0;
-  const vlen = vchildren ? vchildren.length : 0;
+  const vlen = vchildren.length;
   let j: number;
   let c: Node;
   let f: Node;
