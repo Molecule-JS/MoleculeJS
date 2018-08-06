@@ -4,6 +4,9 @@
 
 <p align="center">
   <a href="https://travis-ci.org/Molecule-JS/MoleculeJS"><img src="https://travis-ci.org/Molecule-JS/MoleculeJS.svg?branch=master" alt="Build Status"></a>
+  <a href="https://codecov.io/gh/Molecule-JS/MoleculeJS">
+    <img src="https://codecov.io/gh/Molecule-JS/MoleculeJS/branch/master/graph/badge.svg" alt="Coverage">
+  </a>
   <a href="https://www.npmjs.com/package/@moleculejs/molecule"><img src="https://badge.fury.io/js/%40moleculejs%2Fmolecule.svg" alt="Version"></a>
   <a href="https://github.com/Molecule-JS/MoleculeJS/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
   <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/Molecule-JS/MoleculeJS.svg" alt="Greenkeeper badge"></a>
