@@ -14,6 +14,8 @@
     "no-parameter-reassignment": false,
     "import-name": false,
     "no-increment-decrement": false,
-    "space-in-parens": false
+    "space-in-parens": false,
+    "arrow-parens": true,
+    "ter-arrow-parens": false
   }
 }
