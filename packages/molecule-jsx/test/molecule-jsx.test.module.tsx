@@ -725,6 +725,53 @@ describe('MoleculeJsx', () => {
 
       expect((root as HTMLElement).innerHTML).to.eq('');
     });
+
+    it('replace text with element', () => {
+      let root = render('text', scratch);
+
+      root = render(<p />, scratch, root);
+
+      expect((root as HTMLElement).outerHTML).to.eq('<p></p>');
+    });
+
+    it('MoleculeElements as children', () => {
+      class E extends MoleculeJsx.Element {
+        props!: {
+          a?: number;
+        };
+
+        static get properties() {
+          return {
+            a: 3,
+          };
+        }
+
+        render({ a }: { a: number }) {
+          return <p>{a}</p>;
+        }
+      }
+
+      customElements.define('x-mc', E);
+
+      let root = render(
+        <div>
+          <p>a</p>
+          <p>b</p>
+        </div>,
+        scratch,
+      );
+
+      root = render(
+        <div>
+          <p>a</p>
+          <E />
+        </div>,
+        scratch,
+        root,
+      );
+
+      expect((root as HTMLElement).innerHTML).to.eq('<p>a</p><x-mc></x-mc>');
+    });
   });
 
   describe('keys', () => {
