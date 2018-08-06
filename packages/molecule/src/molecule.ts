@@ -281,55 +281,52 @@ const Molecule = <T>(
       if (this.__forceUpdate || old === val) return;
       this.__forceUpdate = false;
       const prop = this.__attrProp.get(attr)!;
-      if (this.__data[prop] !== val) {
-        const type = this.__properties[prop].type || String;
-        let newVal = val;
+      const type = this.__properties[prop].type || String;
+      let newVal = val;
 
-        switch (type.name) {
-          case 'Boolean':
-            /* Ensure attribute values the indicate that absense of the
+      switch (type.name) {
+        case 'Boolean':
+          /* Ensure attribute values the indicate that absense of the
                * attribute actually cause the attribute to be absent.
                */
-            if (
-              val === 'false' ||
-              val === 'null' ||
-              val === 'undefined' ||
-              val === false ||
-              val === null
-            ) {
-              this.removeAttribute(attr);
-              newVal = false;
-            } else {
-              newVal = this.hasAttribute(attr);
-              if (newVal) {
-                this.setAttribute(attr, '');
-              }
-            }
-            break;
+          if (
+            val === 'false' ||
+            val === 'null' ||
+            val === 'undefined' ||
+            val === false ||
+            val === null ||
+            val === undefined
+          ) {
+            this.removeAttribute(attr);
+            newVal = false;
+          } else {
+            newVal = true;
+            this.setAttribute(attr, '');
+          }
+          break;
 
-          case 'String':
-            /* If a String value is falsey or the explicit 'null'
+        case 'String':
+          /* If a String value is falsey or the explicit 'null'
                * or 'undefined' string, ensure that the attribute is
                * removed.
                */
-            if (!val || val === 'null' || val === 'undefined') {
-              this.removeAttribute(attr);
-              newVal = '';
-            } else {
-              newVal = type(val);
-            }
-            break;
-
-          default:
+          if (!val || val === 'null' || val === 'undefined') {
+            this.removeAttribute(attr);
+            newVal = '';
+          } else {
             newVal = type(val);
-            break;
-        }
+          }
+          break;
 
-        /* Pass along the new, more concrete *property* value instead of
+        default:
+          newVal = type(val);
+          break;
+      }
+
+      /* Pass along the new, more concrete *property* value instead of
            * the fuzzy attribute value.
            */
-        this.__propertiesChanged(prop, newVal);
-      }
+      this.__propertiesChanged(prop, newVal);
     }
 
     /**
