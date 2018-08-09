@@ -130,7 +130,7 @@ const Molecule = <T>(
     connected?(): void;
     disconnected?(): void;
 
-    createRoot() {
+    createRoot(): ShadowRoot | HTMLElement {
       return this.attachShadow({ mode: 'open' });
     }
 
