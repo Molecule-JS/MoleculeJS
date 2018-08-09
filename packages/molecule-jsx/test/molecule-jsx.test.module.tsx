@@ -623,6 +623,26 @@ describe('MoleculeJsx', () => {
       expect(value()).to.equal(true);
     });
 
+    it('should render nested children', () => {
+      const vn1 = MoleculeJsx.createElement(
+        'div',
+        {},
+        [<p>a</p>, <p>b</p>, [<p>c</p>]],
+        <p>d</p>,
+      );
+
+      const vn2 = (
+        <div>
+          <p>a</p>
+          <p>b</p>
+          <p>c</p>
+          <p>d</p>
+        </div>
+      );
+
+      expect(vn1).to.eql(vn2);
+    });
+
     it('should ignore props.children if children are manually specified', () => {
       expect(
         <div a children={['a', 'b']}>

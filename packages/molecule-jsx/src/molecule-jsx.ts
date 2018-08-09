@@ -55,7 +55,7 @@ export function createElement(
   tag: string | Class<HTMLElement>,
   props: { [prop: string]: any } = {},
   // tslint:disable-next-line
-  ...children: VDomElement[]
+  ...children: (VDomElement | VDomElement[])[]
 ): VNode {
   if (!props) {
     props = {};
@@ -68,7 +68,21 @@ export function createElement(
     delete props.children;
   }
 
-  return new VNode(tag, props, children, props.key);
+  const flattenedChildren = flatten(children);
+
+  return new VNode(tag, props, flattenedChildren, props.key);
+}
+
+function flatten<T>(arr: (T | T[])[], result: T[] = []) {
+  for (let i = 0, length = arr.length; i < length; i++) {
+    const value = arr[i];
+    if (Array.isArray(value)) {
+      flatten(value, result);
+    } else {
+      result.push(value);
+    }
+  }
+  return result;
 }
 
 export function render(
