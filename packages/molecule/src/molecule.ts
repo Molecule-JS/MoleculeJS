@@ -28,7 +28,13 @@ export interface MoleculeEventInit extends EventInit {
   composed: boolean;
 }
 
-declare var __DEV__: boolean;
+declare var process: {
+  env: {
+    NODE_ENV: 'development' | 'production';
+  };
+};
+
+const __DEV__ = process.env.NODE_ENV !== 'production';
 
 /**
  * Coverts a camelCase string to kebab-case.

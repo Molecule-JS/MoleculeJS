@@ -6,6 +6,7 @@ const runSequence = require('run-sequence');
 const terser = require('rollup-plugin-terser');
 const replace = require('rollup-plugin-replace');
 const resolve = require('rollup-plugin-node-resolve');
+const cjs = require('rollup-plugin-commonjs');
 
 const sources = [
   'molecule',
@@ -17,6 +18,7 @@ const sources = [
   'molecule-functional-lit-extended',
   'molecule-lit-directive-set-element',
   'molecule-jsx',
+  'molecule-router',
 ];
 
 const kebabToPascal = (str) => {
@@ -40,11 +42,11 @@ for (const format in rollupBuilds) {
           plugins: [
             rollupTS(),
             resolve({
-              main: false,
-              only: ['lit-html'],
+              only: ['lit-html', 'history'],
             }),
+            cjs({}),
             replace({
-              __DEV__: 'false',
+              'process.env.NODE_ENV': 'production',
             }),
             terser.terser({
               output: {
@@ -105,10 +107,11 @@ for (const format in rollupBuilds) {
             rollupTS(),
             resolve({
               main: false,
-              only: ['lit-html'],
+              only: ['lit-html', 'history'],
             }),
+            cjs(),
             replace({
-              __DEV__: 'true',
+              'process.env.NODE_ENV': "'development'",
             }),
           ],
         })
@@ -147,10 +150,11 @@ for (const format in rollupBuilds) {
             }),
             resolve({
               main: false,
-              only: ['lit-html'],
+              only: ['lit-html', 'history'],
             }),
+            cjs(),
             replace({
-              __DEV__: 'true',
+              'process.env.NODE_ENV': 'development',
             }),
           ],
         })

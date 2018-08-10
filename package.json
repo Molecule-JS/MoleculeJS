@@ -26,6 +26,7 @@
     "puppeteer": "^1.6.1",
     "remap-istanbul": "^0.11.1",
     "rollup": "^0.64.0",
+    "rollup-plugin-commonjs": "^9.1.5",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-terser": "^1.0.1",
@@ -104,6 +105,10 @@
     {
       "path": "./packages/molecule-lit-directive-set-element/dist/molecule-lit-directive-set-element.js",
       "maxSize": "1 kB"
+    },
+    {
+      "path": "./packages/molecule-router/dist/molecule-router.js",
+      "maxSize": "6.3 kB"
     }
   ]
 }
