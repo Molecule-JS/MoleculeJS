@@ -1,0 +1,37 @@
+{
+  "name": "@moleculejs/molecule-router",
+  "version": "0.12.7",
+  "description": "Dynamic Router for MoleculeJS",
+  "main": "dist/molecule-router.js",
+  "module": "dist/molecule-router.mjs",
+  "license": "MIT",
+  "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
+  "author": "DiiLord <d.drodt@gmx.de>",
+  "typings": "dist/molecule-router.d.ts",
+  "peerDependencies": {
+    "@moleculejs/molecule-jsx": "^0.12.6"
+  },
+  "bundledDependencies": [
+    "history",
+    "path-to-regexp"
+  ],
+  "devDependencies": {
+    "@types/history": "^4.7.0"
+  },
+  "keywords": [
+    "web components",
+    "molecule",
+    "custom elements",
+    "router"
+  ],
+  "files": [
+    "src",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://moleculejs.org"
+}
