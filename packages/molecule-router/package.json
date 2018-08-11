@@ -8,15 +8,21 @@
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
   "author": "DiiLord <d.drodt@gmx.de>",
   "typings": "dist/molecule-router.d.ts",
-  "peerDependencies": {
-    "@moleculejs/molecule-jsx": "^0.12.6"
+  "dependencies": {
+    "@moleculejs/molecule-jsx": "^0.12.6",
+    "history": "^4.7.2"
   },
   "bundledDependencies": [
     "history",
     "path-to-regexp"
   ],
   "devDependencies": {
-    "@types/history": "^4.7.0"
+    "@types/history": "^4.7.0",
+    "vuepress": "^0.14.1"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "keywords": [
     "web components",

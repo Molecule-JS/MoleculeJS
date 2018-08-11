@@ -44,9 +44,9 @@ for (const format in rollupBuilds) {
             resolve({
               only: ['lit-html', 'history'],
             }),
-            cjs({}),
+            cjs(),
             replace({
-              'process.env.NODE_ENV': 'production',
+              'process.env.NODE_ENV': "'production'",
             }),
             terser.terser({
               output: {
@@ -154,7 +154,7 @@ for (const format in rollupBuilds) {
             }),
             cjs(),
             replace({
-              'process.env.NODE_ENV': 'development',
+              'process.env.NODE_ENV': "'development'",
             }),
           ],
         })

@@ -19,7 +19,7 @@ export default class MolSwitch extends MoleculeJsx.Element {
   }
 
   matchRoutes() {
-    const children = this.children;
+    const children = (this as any).children;
     let match: Match | null = null;
     for (const child of children) {
       const { path: pathProp, exact, strict, sensitive, from } = child as any;

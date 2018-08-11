@@ -3,6 +3,9 @@ import {
   createProperty,
   camelCaseToKebab,
   getAttributeforProp,
+  Properties,
+  PropConfig,
+  HTMLCollectionByID,
 } from '../../molecule/src/molecule';
 import { diff } from './lib/vdom/diff';
 
@@ -20,7 +23,14 @@ declare global {
   }
 }
 
-export { createProperty, camelCaseToKebab, getAttributeforProp };
+export {
+  createProperty,
+  camelCaseToKebab,
+  getAttributeforProp,
+  Properties,
+  PropConfig,
+  HTMLCollectionByID,
+};
 
 const domMap = new WeakMap<container, Node>();
 
