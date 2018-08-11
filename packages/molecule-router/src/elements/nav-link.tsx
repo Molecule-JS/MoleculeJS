@@ -1,4 +1,4 @@
-import MoleculeJsx, { Class } from '@moleculejs/molecule-jsx';
+import MoleculeJsx, { Class } from '../../../molecule-jsx/src/molecule-jsx';
 import { Router } from '../molecule-router';
 import matchPath, { Match } from '../util/match-path';
 import { isModifiedEvent } from './link';

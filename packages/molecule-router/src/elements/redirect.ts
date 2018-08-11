@@ -1,4 +1,4 @@
-import MoleculeJsx from '@moleculejs/molecule-jsx';
+import MoleculeJsx from '../../../molecule-jsx/src/molecule-jsx';
 
 import { Location } from 'history';
 import { Match } from '../util/match-path';

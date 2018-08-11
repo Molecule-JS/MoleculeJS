@@ -1,4 +1,4 @@
-import MoleculeJsx from '@moleculejs/molecule-jsx';
+import MoleculeJsx from '../../../molecule-jsx/src/molecule-jsx';
 
 import { createLocation, Location } from 'history';
 

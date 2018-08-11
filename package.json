@@ -108,7 +108,7 @@
     },
     {
       "path": "./packages/molecule-router/dist/molecule-router.js",
-      "maxSize": "6.3 kB"
+      "maxSize": "10 kB"
     }
   ]
 }

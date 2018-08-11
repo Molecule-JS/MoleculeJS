@@ -14,7 +14,8 @@
   },
   "bundledDependencies": [
     "history",
-    "path-to-regexp"
+    "path-to-regexp",
+    "@moleculejs/molecule-jsx"
   ],
   "devDependencies": {
     "@types/history": "^4.7.0",
