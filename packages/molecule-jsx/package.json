@@ -11,7 +11,7 @@
     "@moleculejs/molecule": "^0.12.6"
   },
   "module": "dist/molecule-jsx.mjs",
-  "typings": "dist/packages/molecule-jsx/src/molecule-jsx.d.ts",
+  "typings": "dist/molecule-jsx/src/molecule-jsx.d.ts",
   "keywords": [
     "web components",
     "molecule",

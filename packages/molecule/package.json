@@ -7,7 +7,7 @@
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
   "module": "dist/molecule.mjs",
-  "typings": "dist/packages/molecule/src/molecule.d.ts",
+  "typings": "dist/molecule.d.ts",
   "keywords": [
     "web components",
     "molecule",

@@ -6,7 +6,7 @@
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
-  "typings": "dist/packages/molecule-functional-lit-extended/src/molecule-functional-lit-extended.d.ts",
+  "typings": "dist/molecule-functional-lit-extended/src/molecule-functional-lit-extended.d.ts",
   "description": "Functional Molecule lit-html extended elements",
   "dependencies": {
     "@moleculejs/molecule-functional": "^0.12.6",

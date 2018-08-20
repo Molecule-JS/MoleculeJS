@@ -6,7 +6,7 @@
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
   "author": "DiiLord <d.drodt@gmx.de>",
   "license": "MIT",
-  "typings": "dist/packages/molecule-lit/src/molecule-lit.d.ts",
+  "typings": "dist/molecule-lit/src/molecule-lit.d.ts",
   "description": "Molecule elements with lit-html",
   "dependencies": {
     "@moleculejs/molecule": "^0.12.6",
