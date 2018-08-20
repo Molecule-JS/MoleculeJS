@@ -28,6 +28,46 @@ export interface MoleculeEventInit extends EventInit {
   composed: boolean;
 }
 
+export interface MoleculeClass<T> {
+  new (): T;
+  readonly properties: Properties;
+  readonly observedAttributes: string[];
+}
+
+export interface MoleculeElement<T> extends HTMLElement {
+  __renderCallbacks: Set<any>;
+  __pendingRender: boolean;
+  __data: { [propName: string]: any };
+  __methodsToCall: {
+    [propName: string]: (newValue: any, oldValue: any) => any;
+  };
+  __wait: any;
+  __firstRender: boolean;
+  __root: Element | DocumentFragment;
+  __propAttr: Map<string, string>;
+  __attrProp: Map<string, string>;
+  __propEvent: Map<string, string>;
+  __properties: { [key: string]: PropConfig };
+  __forceUpdate: boolean;
+
+  afterRender?(isFirst: boolean): void;
+  connected?(): void;
+  disconnected?(): void;
+  createRoot(): ShadowRoot | HTMLElement;
+  connectedCallback(): void;
+  disconnectedCallback(): void;
+  attributeChangedCallback(attr: string, old: any, val: any): void;
+  render(data: { [key: string]: any }): T;
+
+  setProperty(prop: string, newVal?: any, forceUpdate?: boolean): Promise<any>;
+  postponedRender(): void;
+  refresh(callback?: () => any): Promise<void>;
+
+  __propertiesChanged(prop: string, newVal: any, forceUpdate?: boolean): void;
+
+  readonly $: HTMLCollectionByID;
+}
+
 declare var process: {
   env: {
     NODE_ENV: 'development' | 'production';
@@ -55,9 +95,13 @@ export function camelCaseToKebab(str: string): string {
  * @param {any} context The context of the element
  * @param {PropConfig} info The configuration of the property
  */
-export function createProperty(prop: string, context: any, info: PropConfig) {
+export function createProperty<T>(
+  prop: string,
+  context: MoleculeElement<T>,
+  info: PropConfig,
+) {
   // get value that was already set on the property (if any)
-  let setVal = context[prop];
+  let setVal = (context as any)[prop];
   if (setVal === undefined) {
     setVal = context.__data[prop];
   }
@@ -65,8 +109,8 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
     get() {
       return context.__data[prop];
     },
-    set(val: any) {
-      context.setProperty(prop, val, false);
+    set<V>(val: V) {
+      return context.setProperty(prop, val, false) as Promise<V>;
     },
   });
   if (__DEV__) {
@@ -79,9 +123,11 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
     }
   }
   if (info.observer) {
-    if (context[info.observer]) {
+    if ((context as any)[info.observer]) {
       // Establish the property-change observer
-      context.__methodsToCall[prop] = context[info.observer].bind(context);
+      context.__methodsToCall[prop] = (context as any)[info.observer].bind(
+        context,
+      );
     } else {
       if (__DEV__) {
         console.error(`Property ${prop}: Method ${info.observer} not defined!`);
@@ -90,11 +136,11 @@ export function createProperty(prop: string, context: any, info: PropConfig) {
   }
   // Check, if the property was already set, set it accordingly
   if (setVal !== undefined) {
-    context[prop] = setVal;
+    (context as any)[prop] = setVal;
     return;
   }
   // Initialize using the included value and the new setter()
-  context[prop] =
+  (context as any)[prop] =
     typeof info.value === 'function' ? info.value.call(context) : info.value;
 }
 
@@ -110,12 +156,12 @@ export const getAttributeforProp = (
 
 /**
  * Returns a class with the Molecule features, that extends `superclass`.
- * @param superclass
+ * @param renderFunction
  */
-const Molecule = <T>(
+export const createBase = <T>(
   renderFunction: (result: T, container: Element | DocumentFragment) => void,
-) =>
-  class MoleculeElement extends HTMLElement {
+): MoleculeClass<MoleculeElement<T>> =>
+  class extends HTMLElement implements MoleculeElement<T> {
     static readonly properties: Properties;
     __renderCallbacks: Set<any> = new Set();
     __pendingRender: boolean = false;
@@ -189,7 +235,7 @@ const Molecule = <T>(
       const props = this.__properties;
       this.__wait = true;
       for (const prop in props) {
-        createProperty(prop, this, props[prop]);
+        createProperty<T>(prop, this, props[prop]);
       }
       delete this.__wait;
 
@@ -274,6 +320,7 @@ const Molecule = <T>(
           }),
         );
       }
+      return newVal;
     }
 
     /**
@@ -415,11 +462,9 @@ const Molecule = <T>(
     }
   };
 
-export { Molecule as Element };
-
 export default {
   createProperty,
   getAttributeforProp,
   camelCaseToKebab,
-  Element: Molecule,
+  createBase,
 };
