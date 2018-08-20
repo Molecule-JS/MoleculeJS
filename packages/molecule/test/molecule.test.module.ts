@@ -17,7 +17,7 @@ declare var sinon: typeof import('sinon');
     document.body.appendChild(testElement);
     testElement.setAttribute('already-given', '303');
     (window as any).observerVals = new Map<string, any>();
-    const MoleculeSimple = Molecule.Element(
+    const MoleculeSimple = Molecule.createBase(
       (tmpl, container) => ((container as any).innerHTML = tmpl),
     );
     before(() => {
