@@ -1,11 +1,13 @@
 import {
-  Element as MoleculeElement,
+  createBase,
   createProperty,
   camelCaseToKebab,
   getAttributeforProp,
   Properties,
   PropConfig,
   HTMLCollectionByID,
+  MoleculeClass,
+  MoleculeElement,
 } from '../../molecule/src/molecule';
 import { diff } from './lib/vdom/diff';
 
@@ -30,6 +32,8 @@ export {
   Properties,
   PropConfig,
   HTMLCollectionByID,
+  MoleculeClass,
+  MoleculeElement,
 };
 
 const domMap = new WeakMap<container, Node>();
@@ -105,7 +109,7 @@ export function render(
   return dom;
 }
 
-const MoleculeJSX = MoleculeElement(render);
+const MoleculeJSX = createBase(render);
 
 export { MoleculeJSX as Element };
 

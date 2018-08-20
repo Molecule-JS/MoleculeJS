@@ -1,7 +1,4 @@
-import Molecule, {
-  PropConfig,
-  createProperty,
-} from '../../molecule/src/molecule';
+import { PropConfig, createProperty } from '../../molecule/src/molecule';
 
 export function property(config: PropConfig = {}) {
   return (prototype: any, propName: string) => {
@@ -20,6 +17,6 @@ export function attribute(
   };
 }
 
-export { Molecule, PropConfig, createProperty };
+export { PropConfig, createProperty };
 
-export default { property, attribute, ...Molecule };
+export default { property, attribute };

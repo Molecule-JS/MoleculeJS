@@ -7,15 +7,17 @@ import {
 } from 'lit-html/lit-html';
 
 import {
-  Element,
+  createBase,
   createProperty,
   camelCaseToKebab,
   HTMLCollectionByID,
   PropConfig,
   Properties,
+  MoleculeClass,
+  MoleculeElement,
 } from '../../molecule/src/molecule';
 
-const MoleculeLit = Element(render);
+const MoleculeLit = createBase(render);
 
 export { html, svg, render, TemplateResult, SVGTemplateResult };
 export {
@@ -25,6 +27,8 @@ export {
   Properties,
   createProperty,
   camelCaseToKebab,
+  MoleculeClass,
+  MoleculeElement,
 };
 
 export default {

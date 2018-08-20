@@ -3,6 +3,8 @@ import {
   HTMLCollectionByID,
   Properties,
   PropConfig,
+  MoleculeClass,
+  MoleculeElement,
   Molecule,
 } from '../../molecule-functional/src/molecule-functional';
 
@@ -17,6 +19,8 @@ export {
   Properties,
   HTMLCollectionByID,
   PropConfig,
+  MoleculeClass,
+  MoleculeElement,
 };
 
 export const functionalMoleculeLit = functionalMolecule(render);
