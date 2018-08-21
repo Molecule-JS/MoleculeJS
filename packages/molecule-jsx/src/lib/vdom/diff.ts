@@ -45,7 +45,7 @@ export function idiff(vnode: VDomElement, dom?: Node) {
   if (
     !dom ||
     (typeof vNodeName === 'function' &&
-      !isElement(dom as Element, vNodeName)) ||
+      !isSameElementType(dom as Element, vNodeName)) ||
     (typeof vNodeName === 'string' && !isNamedNode(dom, vNodeName))
   ) {
     out = createNode(vNodeName);
@@ -238,8 +238,15 @@ export function removeChildren(node: Node) {
   }
 }
 
-export function isElement(dom: Element, constructor: Class<HTMLElement>) {
-  const tagName = dom.tagName;
+export function isSameElementType(
+  dom: Element,
+  constructor: Class<HTMLElement>,
+) {
+  if (!dom.tagName) {
+    return false;
+  }
+
+  const tagName = dom.tagName.toLowerCase();
 
   return customElements.get(tagName) === constructor;
 }
@@ -259,5 +266,5 @@ export function isSameNodeType(node: Node, vnode: VDomElement) {
   if (typeof vnode.nodeName === 'string') {
     return isNamedNode(node, vnode.nodeName);
   }
-  return isElement(node as Element, vnode.nodeName);
+  return isSameElementType(node as Element, vnode.nodeName);
 }
