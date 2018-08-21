@@ -1,8 +1,9 @@
 import MoleculeJsx, { Class } from '../../../molecule-jsx/src/molecule-jsx';
 import { Router } from '../molecule-router';
-import matchPath, { Match } from '../util/match-path';
-import { isModifiedEvent } from './link';
-import { createLocation, Location } from 'history';
+import { Match } from '../util/match-path';
+import Link from './link';
+import { Location } from 'history';
+import { computeMatch } from '../util/compute-match';
 
 export default class MolNavLink extends MoleculeJsx.Element {
   to!: string | Location;
@@ -18,7 +19,7 @@ export default class MolNavLink extends MoleculeJsx.Element {
   sensitive!: boolean;
   element?: Class<HTMLElement> | string;
   inactive = false;
-  activeClassName!: string;
+  active: boolean = false;
 
   props!: {
     to: string;
@@ -31,7 +32,7 @@ export default class MolNavLink extends MoleculeJsx.Element {
     sensitive?: boolean;
     element?: Class<HTMLElement> | string;
     inactive?: boolean;
-    activeClassName?: string;
+    active?: boolean;
   };
 
   static get properties() {
@@ -46,63 +47,16 @@ export default class MolNavLink extends MoleculeJsx.Element {
       computedMatch: undefined,
       path: undefined,
       sensitive: false,
+      active: {
+        type: Boolean,
+        attribute: true,
+      },
     };
-  }
-
-  handleClick(event: MouseEvent) {
-    if (
-      !event.defaultPrevented && // onClick prevented default
-      event.button === 0 && // ignore everything but left clicks
-      !this.target && // let browser handle "target=_blank" etc.
-      !isModifiedEvent(event) // ignore clicks with modifier keys
-    ) {
-      event.preventDefault();
-
-      const { history } = this.router;
-      // tslint:disable-next-line:no-this-assignment
-      const { replace, to } = this;
-
-      if (replace) {
-        const path = typeof to === 'string' ? to : to.pathname;
-        history.replace(path);
-      } else {
-        const location = typeof to === 'string' ? createLocation(to) : to;
-        history.push(location);
-      }
-    }
   }
 
   connected() {
     this.router = (window as any).$molRouter;
     this.router.addLink(this);
-
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  computeMatch(
-    {
-      computedMatch,
-      location,
-      path,
-      strict,
-      exact,
-      sensitive,
-    }: {
-      computedMatch: Match;
-      location: Location;
-      path: string;
-      strict: boolean;
-      exact: boolean;
-      sensitive: boolean;
-    },
-    router: Router,
-  ) {
-    if (computedMatch) return computedMatch; // <Switch> already computed the match for us
-
-    const { current: route, match } = router;
-    const pathname = (location || route).pathname;
-
-    return matchPath(pathname, { path, strict, exact, sensitive }, match);
   }
 
   render() {
@@ -111,9 +65,12 @@ export default class MolNavLink extends MoleculeJsx.Element {
     const path =
       this.path || (typeof this.to === 'string' ? this.to : this.to.pathname);
 
-    const match = this.computeMatch(
+    const escapedPath =
+      path && path.replace(/([.+*?=^!:${}()[\]|/\\])/g, '\\$1');
+
+    const match = computeMatch(
       {
-        path,
+        path: escapedPath,
         computedMatch: this.computedMatch!,
         location: this.current,
         strict: this.strict,
@@ -123,24 +80,12 @@ export default class MolNavLink extends MoleculeJsx.Element {
       this.router,
     );
 
-    const location =
-      typeof this.to === 'string'
-        ? createLocation(this.to, null, undefined, this.current)
-        : this.to;
-
-    const href = this.router.history.createHref(location);
-
-    (this.__root as HTMLAnchorElement).href = href;
+    this.active = !!match;
 
     return (
-      <a
-        class={!match ? '' : this.activeClassName}
-        target={this.target}
-        href={href}
-        onClick={this.handleClick}
-      >
+      <Link to={this.to}>
         <slot />
-      </a>
+      </Link>
     );
   }
 }

@@ -7,6 +7,12 @@ import { Router } from '../molecule-router';
 export const isModifiedEvent = (event: MouseEvent) =>
   !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 
+const style = {
+  color: 'inherit',
+  'text-decoration': 'inherit',
+  font: 'inherit',
+};
+
 export default class MolRouterLink extends MoleculeJsx.Element {
   to!: string | Location;
   replace: boolean = false;
@@ -59,7 +65,7 @@ export default class MolRouterLink extends MoleculeJsx.Element {
   }
 
   render() {
-    if (!this.router) return;
+    if (!this.router) return null;
 
     const location =
       typeof this.to === 'string'
@@ -68,10 +74,13 @@ export default class MolRouterLink extends MoleculeJsx.Element {
 
     const href = this.router.history.createHref(location);
 
-    (this.__root as HTMLAnchorElement).href = href;
-
     return (
-      <a target={this.target} href={href} onClick={this.handleClick}>
+      <a
+        target={this.target}
+        href={href}
+        onClick={this.handleClick}
+        style={style}
+      >
         <slot />
       </a>
     );

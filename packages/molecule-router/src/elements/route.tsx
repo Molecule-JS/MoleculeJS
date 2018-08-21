@@ -1,9 +1,10 @@
 import MoleculeJsx, { Class } from '../../../molecule-jsx/src/molecule-jsx';
-import matchPath, { Match } from '../util/match-path';
+import { Match } from '../util/match-path';
 
 import { Location } from 'history';
 
 import { Router } from '../molecule-router';
+import { computeMatch } from '../util/compute-match';
 
 export default class MolRoute extends MoleculeJsx.Element {
   match: Match | null = null;
@@ -45,36 +46,10 @@ export default class MolRoute extends MoleculeJsx.Element {
     this.router.addRoute(this);
   }
 
-  computeMatch(
-    {
-      computedMatch,
-      location,
-      path,
-      strict,
-      exact,
-      sensitive,
-    }: {
-      computedMatch: Match;
-      location: Location;
-      path: string;
-      strict: boolean;
-      exact: boolean;
-      sensitive: boolean;
-    },
-    router: Router,
-  ) {
-    if (computedMatch) return computedMatch; // <Switch> already computed the match for us
-
-    const { current: route, match } = router;
-    const pathname = (location || route).pathname;
-
-    return matchPath(pathname, { path, strict, exact, sensitive }, match);
-  }
-
   render() {
     if (this.inactive) return null;
 
-    this.match = this.computeMatch(
+    this.match = computeMatch(
       {
         computedMatch: this.computedMatch!,
         location: this.current,
