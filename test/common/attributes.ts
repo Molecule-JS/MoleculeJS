@@ -3,7 +3,7 @@ import Molecule from '../../packages/molecule/src/molecule';
 /// <reference path="../../node_modules/@types/mocha/index.d.ts" />
 /// <reference path="../../node_modules/@types/chai/index.d.ts" />
 
-const MoleculeSimple = Molecule.Element(
+const MoleculeSimple = Molecule.createBase(
   (tmpl, container) => ((container as any).innerHTML = tmpl),
 );
 
