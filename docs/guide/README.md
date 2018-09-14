@@ -27,7 +27,7 @@ The Web Component spec consist of four parts:
 
 Especially Custom Elements and Shadow DOM are great technologies for splitting your UI into small, specialized components or building UI component libraries. MoleculeJS focuses on these specifications and HTML Templates can be used by the renderer of your choice, like lit-html.
 
-To understand why using Molecule might be benificiary, let's look at Custom Elements without MoleculeJS, **Vanilla WebComponents**.
+To understand why using Molecule might be beneficial, let's look at Custom Elements without MoleculeJS, **Vanilla WebComponents**.
 
 ## Vanilla Web Components
 Here we will create a fancy new button as a new Custom Element. We'll call it `FancyButton`:
