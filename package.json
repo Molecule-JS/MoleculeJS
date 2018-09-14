@@ -54,7 +54,7 @@
     "clean:cache": "gulp clean:cache",
     "clean": "npm run clean:dist && npm run clean:test && npm run clean:cache",
     "test": "npm run test:karma && npm run bundlesize",
-    "build": "lerna bootstrap && npm run build:modules && npm run build:umd && npm run build:dev && npm run clean:cache",
+    "build": "lerna bootstrap --no-ci && npm run build:modules && npm run build:umd && npm run build:dev && npm run clean:cache",
     "build:dev": "npm run build:modules:dev && npm run build:umd:dev && npm run clean:cache",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
