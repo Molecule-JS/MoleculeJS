@@ -9,7 +9,7 @@
   "typings": "dist/molecule-lit-directive-set-element.d.ts",
   "description": "Lit-html directive for inserting Custom Elements",
   "dependencies": {
-    "lit-html": "^0.10.0"
+    "lit-html": "^0.13.0"
   },
   "keywords": [
     "web components",
