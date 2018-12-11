@@ -68,10 +68,12 @@ export function idiff(vnode: VDomElement, dom?: Node) {
 
   if (props == null) {
     props = (out as any)[PROP_KEY] = {};
+    /* This doesn't seem to do anything.
     // tslint:disable-next-line:space-in-parens
     for (let a = (out as Element).attributes, i = a.length; i--; ) {
       props[a[i].name] = a[i].value;
     }
+    */
   }
 
   if (
