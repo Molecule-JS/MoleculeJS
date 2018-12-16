@@ -8,7 +8,7 @@ export const asyncPropTests = (testElement: any) =>
     it('Sets the resolved value of a Promise to a property', (done) => {
       testElement.longBool = false;
       testElement.longBool = new Promise((res) => {
-        setTimeout(res(true), 10);
+        setTimeout(() => res(true), 10);
       });
 
       setTimeout(() => {
