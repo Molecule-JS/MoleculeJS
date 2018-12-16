@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-decorators",
-  "version": "0.12.6",
+  "version": "0.12.7",
   "main": "dist/molecule-decorators.js",
   "module": "dist/molecule-decorators.mjs",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
@@ -9,7 +9,7 @@
   "typings": "dist/molecule-decorators/src/molecule-decorators.d.ts",
   "description": "Decorator support for MoleculeJS",
   "devDependencies": {
-    "@moleculejs/molecule": "^0.12.6"
+    "@moleculejs/molecule": "^0.12.7"
   },
   "peerDependencies": {
     "@moleculejs/molecule": "^0.12.6"
