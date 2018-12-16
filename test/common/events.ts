@@ -1,4 +1,4 @@
-import Molecule from '../../packages/molecule/src/molecule';
+import * as Molecule from '../../packages/molecule/src/molecule';
 
 /// <reference path="../../node_modules/@types/mocha/index.d.ts" />
 /// <reference path="../../node_modules/@types/chai/index.d.ts" />

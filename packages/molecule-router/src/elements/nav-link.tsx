@@ -1,11 +1,13 @@
-import MoleculeJsx, { Class } from '../../../molecule-jsx/src/molecule-jsx';
+import { h, Element, Class } from '../../../molecule-jsx/src/molecule-jsx';
 import { Router } from '../molecule-router';
 import { Match } from '../util/match-path';
 import Link from './link';
 import { Location } from 'history';
 import { computeMatch } from '../util/compute-match';
 
-export default class MolNavLink extends MoleculeJsx.Element {
+export { h };
+
+export default class MolNavLink extends Element {
   to!: string | Location;
   replace: boolean = false;
   router!: Router;

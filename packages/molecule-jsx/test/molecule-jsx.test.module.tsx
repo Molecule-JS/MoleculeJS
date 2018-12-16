@@ -1,4 +1,4 @@
-import MoleculeJsx from '../src/molecule-jsx';
+import { render, h, Element } from '../src/molecule-jsx';
 
 import { propTests } from '../../../test/common/props';
 import { eventTests } from '../../../test/common/events';
@@ -13,8 +13,6 @@ declare var sinon: typeof import('sinon');
 
 const { expect } = chai;
 
-const { render } = MoleculeJsx;
-
 describe('MoleculeJsx', () => {
   const testElement = document.createElement('test-element-jsx');
   document.body.appendChild(testElement);
@@ -23,7 +21,7 @@ describe('MoleculeJsx', () => {
   before(() => {
     (window as any).observerVals = new Map<string, any>();
 
-    class TestElementJsx extends MoleculeJsx.Element {
+    class TestElementJsx extends Element {
       [x: string]: any;
       static get properties() {
         return {
@@ -76,25 +74,22 @@ describe('MoleculeJsx', () => {
 
   describe('createElement', () => {
     it('Works with no props', () => {
-      const vn1 = (MoleculeJsx.createElement as any)('div', null);
+      const vn1 = (h as any)('div', null);
       expect(vn1.nodeName).to.eq('div');
       expect(vn1.props).to.be.empty;
       expect(vn1.children).to.be.empty;
     });
 
     it('Accepts children prop', () => {
-      const vn1 = MoleculeJsx.createElement('div', {
+      const vn1 = h('div', {
         a: '1',
-        children: [
-          MoleculeJsx.createElement('p', undefined, 'b'),
-          MoleculeJsx.createElement('span', undefined, 'c'),
-        ],
+        children: [h('p', undefined, 'b'), h('span', undefined, 'c')],
       });
-      const vn2 = MoleculeJsx.createElement(
+      const vn2 = h(
         'div',
         { a: '1' },
-        MoleculeJsx.createElement('p', undefined, 'b'),
-        MoleculeJsx.createElement('span', undefined, 'c'),
+        h('p', undefined, 'b'),
+        h('span', undefined, 'c'),
       );
 
       expect(vn1).to.eql(vn2);
@@ -623,12 +618,7 @@ describe('MoleculeJsx', () => {
     });
 
     it('should render nested children', () => {
-      const vn1 = MoleculeJsx.createElement(
-        'div',
-        {},
-        [<p>a</p>, <p>b</p>, [<p>c</p>]],
-        <p>d</p>,
-      );
+      const vn1 = h('div', {}, [<p>a</p>, <p>b</p>, [<p>c</p>]], <p>d</p>);
 
       const vn2 = (
         <div>
@@ -701,7 +691,7 @@ describe('MoleculeJsx', () => {
     });
 
     it('should render MoleculeElements', (done) => {
-      class E extends MoleculeJsx.Element {
+      class E extends Element {
         props!: {
           a: number;
         };
@@ -756,7 +746,7 @@ describe('MoleculeJsx', () => {
     });
 
     it('replace text with MoleculeElement', () => {
-      class E extends MoleculeJsx.Element {
+      class E extends Element {
         props!: { a?: number };
 
         static get properties() {
@@ -786,7 +776,7 @@ describe('MoleculeJsx', () => {
     });
 
     it('MoleculeElements as children', () => {
-      class E extends MoleculeJsx.Element {
+      class E extends Element {
         props!: {
           a?: number;
         };

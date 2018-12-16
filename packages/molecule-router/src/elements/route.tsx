@@ -1,4 +1,4 @@
-import MoleculeJsx, { Class } from '../../../molecule-jsx/src/molecule-jsx';
+import { h, Element, Class } from '../../../molecule-jsx/src/molecule-jsx';
 import { Match } from '../util/match-path';
 
 import { Location } from 'history';
@@ -6,7 +6,9 @@ import { Location } from 'history';
 import { Router } from '../molecule-router';
 import { computeMatch } from '../util/compute-match';
 
-export default class MolRoute extends MoleculeJsx.Element {
+export { h };
+
+export default class MolRoute extends Element {
   match: Match | null = null;
   router!: Router;
 
@@ -74,7 +76,7 @@ export default class MolRoute extends MoleculeJsx.Element {
       }
 
       if (this.element) {
-        return MoleculeJsx.createElement(this.element, props);
+        return h(this.element, props);
       }
       return <slot />;
     }

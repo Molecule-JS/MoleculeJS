@@ -30,12 +30,3 @@ export {
   MoleculeClass,
   MoleculeElement,
 };
-
-export default {
-  html,
-  svg,
-  render,
-  createProperty,
-  camelCaseToKebab,
-  Element: MoleculeLit,
-};

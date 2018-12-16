@@ -1,4 +1,4 @@
-import MoleculeLit from '../src/molecule-lit';
+import * as MoleculeLit from '../src/molecule-lit';
 
 import { propTests } from '../../../test/common/props';
 import { eventTests } from '../../../test/common/events';

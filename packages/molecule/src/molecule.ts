@@ -160,8 +160,9 @@ export const getAttributeforProp = (
  */
 export const createBase = <T>(
   renderFunction: (result: T, container: Element | DocumentFragment) => void,
+  base: { new (): HTMLElement } = HTMLElement,
 ): MoleculeClass<MoleculeElement<T>> =>
-  class extends HTMLElement implements MoleculeElement<T> {
+  class extends base implements MoleculeElement<T> {
     static readonly properties: Properties;
     __renderCallbacks: Set<any> = new Set();
     __pendingRender: boolean = false;
@@ -389,7 +390,12 @@ export const createBase = <T>(
      *  @return void
      */
     postponedRender() {
-      renderFunction(this.render({ ...this.__data }), this.__root);
+      renderFunction(
+        this.render({
+          ...this.__data,
+        }),
+        this.__root,
+      );
 
       for (const callback of this.__renderCallbacks) {
         callback();
@@ -461,10 +467,3 @@ export const createBase = <T>(
       return obj;
     }
   };
-
-export default {
-  createProperty,
-  getAttributeforProp,
-  camelCaseToKebab,
-  createBase,
-};

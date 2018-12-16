@@ -1,4 +1,4 @@
-import Molecule from '../src/molecule';
+import * as Molecule from '../src/molecule';
 
 import { propTests } from '../../../test/common/props';
 import { eventTests } from '../../../test/common/events';

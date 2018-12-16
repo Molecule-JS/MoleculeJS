@@ -109,15 +109,8 @@ export function render(
   return dom;
 }
 
+export { createElement as h };
+
 const MoleculeJSX = createBase(render);
 
 export { MoleculeJSX as Element };
-
-export default {
-  createProperty,
-  camelCaseToKebab,
-  getAttributeforProp,
-  createElement,
-  render,
-  Element: MoleculeJSX,
-};

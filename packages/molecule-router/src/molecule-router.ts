@@ -12,7 +12,9 @@ import NavLink from './elements/nav-link';
 import Redirect from './elements/redirect';
 import Route from './elements/route';
 import Switch from './elements/switch';
-import MoleculeJsx from '../../molecule-jsx/src/molecule-jsx';
+import { h } from '../../molecule-jsx/src/molecule-jsx';
+
+export { h };
 
 export class Router {
   app: HTMLElement;
@@ -74,14 +76,4 @@ export class Router {
   }
 }
 
-export { Link, NavLink, Redirect, Route, Switch, MoleculeJsx };
-
-export default {
-  Link,
-  NavLink,
-  Redirect,
-  Route,
-  Switch,
-  Router,
-  MoleculeJsx,
-};
+export { Link, NavLink, Redirect, Route, Switch };
