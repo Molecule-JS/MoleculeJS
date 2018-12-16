@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "10.7.0"
+  - '10.7.0'
 install:
   - yarn
 before_script:
@@ -10,4 +10,6 @@ before_script:
 sudo: required
 addons:
   chrome: stable
+env:
+  - BUNDLESIZE_GITHUB_TOKEN=26c30c9280523b99c56a185394c6fbb31e46c17b
 after_success: yarn codecov
