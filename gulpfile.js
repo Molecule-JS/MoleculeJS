@@ -64,7 +64,7 @@ for (const format in rollupBuilds) {
             format,
             name: kebabToPascal(src),
             sourcemap: true,
-            exports: format === 'umd' ? 'named' : 'auto',
+            exports: 'named',
             strict: true,
           }),
         );
@@ -115,7 +115,7 @@ for (const format in rollupBuilds) {
             format,
             name: kebabToPascal(src),
             sourcemap: true,
-            exports: format === 'umd' ? 'named' : 'auto',
+            exports: 'named',
             strict: true,
           }),
         );
