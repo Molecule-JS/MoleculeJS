@@ -83,7 +83,7 @@
     },
     {
       "path": "./packages/molecule-lit-extended/dist/molecule-lit-extended.js",
-      "maxthresholdSize": "4.5 kB"
+      "threshold": "4.5 kB"
     },
     {
       "path": "./packages/molecule-jsx/dist/molecule-jsx.js",
