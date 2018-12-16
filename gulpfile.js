@@ -2,7 +2,6 @@ const gulp = require('gulp');
 const clean = require('gulp-clean');
 const rollup = require('rollup');
 const rollupTS = require('rollup-plugin-typescript2');
-const runSequence = require('run-sequence');
 const terser = require('rollup-plugin-terser');
 const replace = require('rollup-plugin-replace');
 const resolve = require('rollup-plugin-node-resolve');
@@ -35,7 +34,7 @@ const rollupBuilds = {
 
 for (const format in rollupBuilds) {
   for (const src of sources) {
-    gulp.task(`rollup:dist:${format}:${src}`, () =>
+    exports[`rollup:dist:${format}:${src}`] = () =>
       rollup
         .rollup({
           input: `./packages/${src}/src/${src}.ts`,
@@ -71,35 +70,33 @@ for (const format in rollupBuilds) {
             exports: format === 'umd' ? 'named' : 'auto',
             strict: true,
           }),
-        ),
-    );
+        );
   }
-  gulp.task(`rollup:dist:${format}`, () =>
-    runSequence(...sources.map((src) => `rollup:dist:${format}:${src}`)),
-  );
+  exports[`rollup:dist:${format}`] = (done) =>
+    gulp.series(
+      ...sources.map((src) => exports[`rollup:dist:${format}:${src}`]),
+    )(done);
 }
 
 for (const src of sources) {
-  gulp.task(`rollup:dist:${src}`, () =>
-    runSequence(
+  exports[`rollup:dist:${src}`] = (done) =>
+    gulp.series(
       ...Object.keys(rollupBuilds).map(
-        (format) => `rollup:dist:${format}:${src}`,
+        (format) => exports[`rollup:dist:${format}:${src}`],
       ),
-    ),
-  );
+    )(done);
 
-  gulp.task(`rollup:dev:${src}`, () =>
-    runSequence(
+  exports[`rollup:dev:${src}`] = (done) =>
+    gulp.series(
       ...Object.keys(rollupBuilds).map(
-        (format) => `rollup:dev:${format}:${src}`,
+        (format) => exports[`rollup:dev:${format}:${src}`],
       ),
-    ),
-  );
+    )(done);
 }
 
 for (const format in rollupBuilds) {
   for (const src of sources) {
-    gulp.task(`rollup:dev:${format}:${src}`, () =>
+    exports[`rollup:dev:${format}:${src}`] = () =>
       rollup
         .rollup({
           input: `./packages/${src}/src/${src}.ts`,
@@ -124,17 +121,17 @@ for (const format in rollupBuilds) {
             exports: format === 'umd' ? 'named' : 'auto',
             strict: true,
           }),
-        ),
-    );
+        );
   }
-  gulp.task(`rollup:dev:${format}`, () =>
-    runSequence(...sources.map((src) => `rollup:dev:${format}:${src}`)),
-  );
+  exports[`rollup:dev:${format}`] = (done) =>
+    gulp.series(
+      ...sources.map((src) => exports[`rollup:dev:${format}:${src}`]),
+    )(done);
 }
 
 for (const format in rollupBuilds) {
   for (const src of sources) {
-    gulp.task(`rollup:test:${format}:${src}`, () =>
+    exports[`rollup:test:${format}:${src}`] = () =>
       rollup
         .rollup({
           input: `./packages/${src}/test/${src}.test.module.ts${
@@ -166,23 +163,19 @@ for (const format in rollupBuilds) {
             sourcemap: true,
             strict: true,
           }),
-        ),
-    );
+        );
   }
-  gulp.task(
-    `rollup:test:${format}`,
-    sources.map((src) => `rollup:test:${format}:${src}`),
+  exports[`rollup:test:${format}`] = sources.map(
+    (src) => `rollup:test:${format}:${src}`,
   );
 }
 
-gulp.task('rollup:test', () =>
-  runSequence('rollup:test:es', 'rollup:test:umd'),
-);
+exports['rollup:test'] = (done) =>
+  gulp.series(exports['rollup:test:es'], exports['rollup:test:umd'])(done);
 
-gulp.task('clean:dist', () => gulp.src('packages/**/dist').pipe(clean()));
+exports['clean:dist'] = () => gulp.src('packages/**/dist').pipe(clean());
 
-gulp.task('clean:test', () =>
-  gulp.src(['test/tests', 'test/common-built']).pipe(clean()),
-);
+exports['clean:test'] = () =>
+  gulp.src(['test/tests', 'test/common-built']).pipe(clean());
 
-gulp.task('clean:cache', () => gulp.src('.rpt2_cache'));
+exports['clean:cache'] = () => gulp.src('.rpt2_cache');
