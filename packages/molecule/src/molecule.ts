@@ -246,8 +246,8 @@ export const createBase = <T>(
       }
 
       /* Perform the first render after connection immediately
-         * without the delay of refresh()
-         */
+       * without the delay of refresh()
+       */
       this.postponedRender();
     }
 
@@ -298,16 +298,16 @@ export const createBase = <T>(
       const attr = this.__propAttr.get(prop);
       if (info.attribute) {
         /* Set the new value by setting the observed attribute.
-           * This will trigger attributeChangedCallback() which will
-           * convert the attribute data to a property,
-           * (this.__data[prop]) and trigger __propertiesChanged().
-           */
+         * This will trigger attributeChangedCallback() which will
+         * convert the attribute data to a property,
+         * (this.__data[prop]) and trigger __propertiesChanged().
+         */
         this.__forceUpdate = forceUpdate;
         this.setAttribute(attr!, newVal);
       } else {
         /* Set the property directly and trigger
-           * __propertiesChanged()
-           */
+         * __propertiesChanged()
+         */
         this.__propertiesChanged(prop, newVal, forceUpdate);
       }
       if (info.event) {
@@ -331,7 +331,7 @@ export const createBase = <T>(
      * @param {any} val
      */
     attributeChangedCallback(attr: string, old: any, val: any) {
-      if (this.__forceUpdate || old === val) return;
+      if (!this.__forceUpdate && old === val) return;
       this.__forceUpdate = false;
       const prop = this.__attrProp.get(attr)!;
       const type = this.__properties[prop].type || String;
@@ -340,8 +340,8 @@ export const createBase = <T>(
       switch (type.name) {
         case 'Boolean':
           /* Ensure attribute values the indicate that absense of the
-               * attribute actually cause the attribute to be absent.
-               */
+           * attribute actually cause the attribute to be absent.
+           */
           if (
             val === 'false' ||
             val === 'null' ||
@@ -360,9 +360,9 @@ export const createBase = <T>(
 
         case 'String':
           /* If a String value is falsey or the explicit 'null'
-               * or 'undefined' string, ensure that the attribute is
-               * removed.
-               */
+           * or 'undefined' string, ensure that the attribute is
+           * removed.
+           */
           if (!val || val === 'null' || val === 'undefined') {
             this.removeAttribute(attr);
             newVal = '';
@@ -377,8 +377,8 @@ export const createBase = <T>(
       }
 
       /* Pass along the new, more concrete *property* value instead of
-           * the fuzzy attribute value.
-           */
+       * the fuzzy attribute value.
+       */
       this.__propertiesChanged(prop, newVal);
     }
 
@@ -422,12 +422,12 @@ export const createBase = <T>(
       if (!this.__pendingRender) {
         this.__pendingRender = true;
         /* Schedule the following as a microtask, which runs before
-           * requestAnimationFrame. Any additional refresh() calls
-           * will have any callback queued but otherwise will be
-           * ignored.
-           *
-           * https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/
-           */
+         * requestAnimationFrame. Any additional refresh() calls
+         * will have any callback queued but otherwise will be
+         * ignored.
+         *
+         * https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/
+         */
         this.__pendingRender = await false;
         this.postponedRender();
       }

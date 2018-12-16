@@ -34,15 +34,13 @@ Let's start with a simple Example:
 class HelloWorld extends MoleculeLit.Element {
   static get properties() {
     return {
-      name: String,
-      attribute: true,
-      value: 'John Doe',
+      name: { type: String, attribute: true, value: 'John Doe' },
     };
   }
   render({ name }) {
     html`
-            <div>Hello ${name}</div>
-        `;
+      <div>Hello ${name}</div>
+    `;
   }
 }
 
