@@ -13,7 +13,6 @@ const sources = [
   'molecule-decorators',
   'molecule-functional',
   'molecule-functional-lit',
-  'molecule-lit-directive-set-element',
   'molecule-jsx',
   'molecule-router',
 ];
