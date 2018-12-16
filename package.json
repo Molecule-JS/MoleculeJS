@@ -3,7 +3,7 @@
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
     "@types/sinon": "^7.0.0",
-    "@wyze/bundlesize": "^0.20.1",
+    "bundlesize": "^0.17.0",
     "chai": "^4.2.0",
     "codecov": "^3.1.0",
     "commitizen": "^3.0.5",
@@ -71,15 +71,11 @@
   "bundlesize": [
     {
       "path": "./packages/molecule/dist/molecule.js",
-      "threshold": "1.8 kB"
+      "maxSize": "1.8 kB"
     },
     {
       "path": "./packages/molecule-lit/dist/molecule-lit.js",
       "threshold": "4.1 kB"
-    },
-    {
-      "path": "./packages/molecule-lit-extended/dist/molecule-lit-extended.js",
-      "threshold": "4.5 kB"
     },
     {
       "path": "./packages/molecule-jsx/dist/molecule-jsx.js",
@@ -92,14 +88,6 @@
     {
       "path": "./packages/molecule-functional-lit/dist/molecule-functional-lit.js",
       "threshold": "4.1 kB"
-    },
-    {
-      "path": "./packages/molecule-functional-lit-extended/dist/molecule-functional-lit-extended.js",
-      "threshold": "4.4 kB"
-    },
-    {
-      "path": "./packages/molecule-lit-directive-set-element/dist/molecule-lit-directive-set-element.js",
-      "threshold": "1 kB"
     },
     {
       "path": "./packages/molecule-router/dist/molecule-router.js",
