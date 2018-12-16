@@ -10,11 +10,9 @@ const cjs = require('rollup-plugin-commonjs');
 const sources = [
   'molecule',
   'molecule-lit',
-  'molecule-lit-extended',
   'molecule-decorators',
   'molecule-functional',
   'molecule-functional-lit',
-  'molecule-functional-lit-extended',
   'molecule-lit-directive-set-element',
   'molecule-jsx',
   'molecule-router',
