@@ -7,7 +7,7 @@
     "bundlesize": "^0.2.1",
     "chai": "^4.1.2",
     "codecov": "^3.0.4",
-    "commitizen": "^2.10.1",
+    "commitizen": "^3.0.5",
     "conventional-changelog-cli": "^2.0.1",
     "cz-conventional-changelog": "^2.1.0",
     "eslint-plugin-html": "^4.0.3",
