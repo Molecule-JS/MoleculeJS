@@ -1,6 +1,7 @@
 import { directive } from 'lit-html/lit-html';
 
 /**
+ * DEPRECATED because directives are not documented by lit-html right now.
  * Sets the part to a new element of the type selector
  * with the given props, attributes and innerHTML
  */

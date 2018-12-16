@@ -45,13 +45,15 @@ describe('MoleculeLit', () => {
       }
 
       render() {
-        return html`<div id="results">
-  <span id="shortBool">${this.shortBool}</span>
-  <span id="longBool">${this.longBool}</span>
+        return html`
+          <div id="results">
+            <span id="shortBool">${this.shortBool}</span>
+            <span id="longBool">${this.longBool}</span>
 
-  <span id="shortNumber">${this.shortNumber}</span>
-  <span id="longNumber">${this.longNumber}</span>
-</div>`;
+            <span id="shortNumber">${this.shortNumber}</span>
+            <span id="longNumber">${this.longNumber}</span>
+          </div>
+        `;
       }
 
       boolObserver(bool: boolean) {

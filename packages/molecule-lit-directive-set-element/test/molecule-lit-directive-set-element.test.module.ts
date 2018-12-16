@@ -1,14 +1,14 @@
-import { setElement } from '../src/molecule-lit-directive-set-element';
+/* import { setElement } from '../src/molecule-lit-directive-set-element';
 import {
   html,
   render,
   Element as LitElement,
 } from '../../molecule-lit/src/molecule-lit';
 
-const { expect } = chai;
+const { expect } = chai; */
 
 describe('MoleculeLitDirectiveSetElement', () => {
-  let div: HTMLElement;
+  /* let div: HTMLElement;
   before(() => {
     div = document.createElement('div');
     document.body.appendChild(div);
@@ -39,38 +39,43 @@ describe('MoleculeLitDirectiveSetElement', () => {
       }
 
       render() {
-        return html`<div id="results">
-                        <span id="shortBool">${this.shortBool}</span>
-                        <span id="longBool">${this.longBool}</span>
-                        <span id="shortNumber">${this.shortNumber}</span>
-                        <span id="longNumber">${this.longNumber}</span>
-                    </div>
-                    <slot></slot>`;
+        return html`
+          <div id="results">
+            <span id="shortBool">${this.shortBool}</span>
+            <span id="longBool">${this.longBool}</span>
+            <span id="shortNumber">${this.shortNumber}</span>
+            <span id="longNumber">${this.longNumber}</span>
+          </div>
+          <slot></slot>
+        `;
       }
     }
 
     customElements.define('test-element-set', TestElementSet);
     render(
       html`
-              Successfully set element here:
-              ${setElement(TestElementSet, {
-                props: {
-                  shortBool: false,
-                  shortNumber: 33333,
-                  longNumber: 45,
-                  stringProp: 'Albert',
-                  innerHTML: '<button>Click</button>',
-                },
-                attributes: {
-                  class: 'set-el',
-                },
-              })}
-              `,
+        Successfully set element here:
+        ${
+          setElement(TestElementSet, {
+            props: {
+              shortBool: false,
+              shortNumber: 33333,
+              longNumber: 45,
+              stringProp: 'Albert',
+              innerHTML: '<button>Click</button>',
+            },
+            attributes: {
+              class: 'set-el',
+            },
+          })
+        }
+      `,
       div,
     );
   });
 
   it('Inserted Element', () => {
+    debugger;
     const children = div.children;
     const insertedElement = children[0];
     expect(insertedElement).to.be.an('HTMLElement');
@@ -94,5 +99,5 @@ describe('MoleculeLitDirectiveSetElement', () => {
   it('Correct innerHTML', () => {
     const insertedElement = div.children[0];
     expect(insertedElement.innerHTML).to.equal('<button>Click</button>');
-  });
+  }); */
 });
