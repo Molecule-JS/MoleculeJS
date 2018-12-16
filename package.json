@@ -75,39 +75,39 @@
   "bundlesize": [
     {
       "path": "./packages/molecule/dist/molecule.js",
-      "maxSize": "1.8 kB"
+      "threshold": "1.8 kB"
     },
     {
       "path": "./packages/molecule-lit/dist/molecule-lit.js",
-      "maxSize": "4.1 kB"
+      "threshold": "4.1 kB"
     },
     {
       "path": "./packages/molecule-lit-extended/dist/molecule-lit-extended.js",
-      "maxSize": "4.5 kB"
+      "maxthresholdSize": "4.5 kB"
     },
     {
       "path": "./packages/molecule-jsx/dist/molecule-jsx.js",
-      "maxSize": "3.2 kB"
+      "threshold": "3.2 kB"
     },
     {
       "path": "./packages/molecule-functional/dist/molecule-functional.js",
-      "maxSize": "1.8 kB"
+      "threshold": "1.8 kB"
     },
     {
       "path": "./packages/molecule-functional-lit/dist/molecule-functional-lit.js",
-      "maxSize": "4.1 kB"
+      "threshold": "4.1 kB"
     },
     {
       "path": "./packages/molecule-functional-lit-extended/dist/molecule-functional-lit-extended.js",
-      "maxSize": "4.4 kB"
+      "threshold": "4.4 kB"
     },
     {
       "path": "./packages/molecule-lit-directive-set-element/dist/molecule-lit-directive-set-element.js",
-      "maxSize": "1 kB"
+      "threshold": "1 kB"
     },
     {
       "path": "./packages/molecule-router/dist/molecule-router.js",
-      "maxSize": "10 kB"
+      "threshold": "10 kB"
     }
   ]
 }
