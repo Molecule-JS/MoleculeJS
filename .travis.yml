@@ -11,5 +11,5 @@ sudo: required
 addons:
   chrome: stable
 env:
-  - BUNDLESIZE_GITHUB_TOKEN=26c30c9280523b99c56a185394c6fbb31e46c17b
+  - BUNDLESIZE_GITHUB_TOKEN=d878c9c8ebca385a9078ad231ecd73a08736e8c9
 after_success: yarn codecov
