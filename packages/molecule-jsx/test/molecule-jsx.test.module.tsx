@@ -523,8 +523,7 @@ describe('MoleculeJsx', () => {
             padding: 5,
             top: 100,
             left: '100%',
-          }}
-        >
+          }}>
           test
         </div>,
         scratch,
@@ -688,7 +687,9 @@ describe('MoleculeJsx', () => {
         return div.firstChild;
       };
 
-      const DOMElement = html`<div><a foo="bar"></a></div>`;
+      const DOMElement = html`
+        <div><a foo="bar"></a></div>
+      `;
       const preactElement = (
         <div>
           <a />
@@ -752,6 +753,28 @@ describe('MoleculeJsx', () => {
       root = render(<p />, scratch, root);
 
       expect((root as HTMLElement).outerHTML).to.eq('<p></p>');
+    });
+
+    it('replace text with MoleculeElement', () => {
+      class E extends MoleculeJsx.Element {
+        props!: { a?: number };
+
+        static get properties() {
+          return { a: 3 };
+        }
+
+        render({ a }: { a: number }) {
+          return <p>{a}</p>;
+        }
+      }
+
+      customElements.define('r-txt-me', E);
+
+      let root = render('text', scratch);
+
+      root = render(<E />, scratch, root);
+
+      expect((root as HTMLElement).outerHTML).to.eq('<r-txt-me></r-txt-me>');
     });
 
     it('replace element with text', () => {
