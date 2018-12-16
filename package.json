@@ -4,7 +4,7 @@
     "@types/mocha": "^5.2.1",
     "@types/puppeteer": "^1.3.3",
     "@types/sinon": "^7.0.0",
-    "bundlesize": "^0.17.0",
+    "bundlesize": "^0.2.1",
     "chai": "^4.1.2",
     "codecov": "^3.0.4",
     "commitizen": "^2.10.1",
@@ -12,7 +12,7 @@
     "cz-conventional-changelog": "^2.1.0",
     "eslint-plugin-html": "^4.0.3",
     "express": "^4.16.3",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-clean": "^0.4.0",
     "karma": "^3.0.0",
     "karma-chai": "^0.1.0",
@@ -23,7 +23,6 @@
     "karma-sinon": "^1.0.5",
     "lerna": "^3.1.4",
     "mocha": "^5.2.0",
-    "puppeteer": "^1.6.1",
     "remap-istanbul": "^0.12.0",
     "rollup": "^0.66.0",
     "rollup-plugin-commonjs": "^9.1.5",
@@ -76,39 +75,39 @@
   "bundlesize": [
     {
       "path": "./packages/molecule/dist/molecule.js",
-      "maxSize": "1.8 kB"
+      "threshold": "1.8 kB"
     },
     {
       "path": "./packages/molecule-lit/dist/molecule-lit.js",
-      "maxSize": "4.1 kB"
+      "threshold": "4.1 kB"
     },
     {
       "path": "./packages/molecule-lit-extended/dist/molecule-lit-extended.js",
-      "maxSize": "4.5 kB"
+      "threshold": "4.5 kB"
     },
     {
       "path": "./packages/molecule-jsx/dist/molecule-jsx.js",
-      "maxSize": "3.2 kB"
+      "threshold": "3.2 kB"
     },
     {
       "path": "./packages/molecule-functional/dist/molecule-functional.js",
-      "maxSize": "1.8 kB"
+      "threshold": "1.8 kB"
     },
     {
       "path": "./packages/molecule-functional-lit/dist/molecule-functional-lit.js",
-      "maxSize": "4.1 kB"
+      "threshold": "4.1 kB"
     },
     {
       "path": "./packages/molecule-functional-lit-extended/dist/molecule-functional-lit-extended.js",
-      "maxSize": "4.4 kB"
+      "threshold": "4.4 kB"
     },
     {
       "path": "./packages/molecule-lit-directive-set-element/dist/molecule-lit-directive-set-element.js",
-      "maxSize": "1 kB"
+      "threshold": "1 kB"
     },
     {
       "path": "./packages/molecule-router/dist/molecule-router.js",
-      "maxSize": "10 kB"
+      "threshold": "10 kB"
     }
   ]
 }
