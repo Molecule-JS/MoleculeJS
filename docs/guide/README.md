@@ -124,7 +124,7 @@ class FancyButton extends HTMLElement {
 }
 ```
 
-Now we have a complete web component that reacts to changes of it's attributes. But, it's not perfect. This required a lot of boilerplate code, just to react to attribute changes. For each additional observed attribute, we would need to update both `observedAttributes` and `attributeChangedCallback`. This entire boilerplate is also nedded for **each new element**, which equals a lot of copy/paste. We also have to call `render` manually, everywhere we change `fancyColor`.
+Now we have a complete web component that reacts to changes of it's attributes. But, it's not perfect. This required a lot of boilerplate code, just to react to attribute changes. For each additional observed attribute, we would need to update both `observedAttributes` and `attributeChangedCallback`. This entire boilerplate is also needed for **each new element**, which equals a lot of copy/paste. We also have to call `render` manually, everywhere we change `fancyColor`.
 
 It would be much better, if we could our properties just once and the element reacts automatically to changes, without us having to write all this. That is where **Molecule** shines.
 
