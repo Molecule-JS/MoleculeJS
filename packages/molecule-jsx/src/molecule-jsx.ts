@@ -1,6 +1,6 @@
 import {
   createBase,
-  createProperty,
+  observeProperty,
   camelCaseToKebab,
   getAttributeforProp,
   Properties,
@@ -26,7 +26,7 @@ declare global {
 }
 
 export {
-  createProperty,
+  observeProperty,
   camelCaseToKebab,
   getAttributeforProp,
   Properties,

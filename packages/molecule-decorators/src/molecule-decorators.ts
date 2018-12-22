@@ -1,8 +1,8 @@
-import { PropConfig, createProperty } from '../../molecule/src/molecule';
+import { PropConfig, observeProperty } from '../../molecule/src/molecule';
 
 export function property(config: PropConfig = {}) {
   return (prototype: any, propName: string) => {
-    createProperty(propName, prototype, config);
+    observeProperty(propName, prototype, config);
   };
 }
 
@@ -13,10 +13,10 @@ export function attribute(
     config.attribute = true;
   }
   return (prototype: any, propName: string) => {
-    createProperty(propName, prototype, config);
+    observeProperty(propName, prototype, config);
   };
 }
 
-export { PropConfig, createProperty };
+export { PropConfig, observeProperty };
 
 export default { property, attribute };

@@ -9,5 +9,3 @@ export function camelCaseToKebab(str: string): string {
   const sub = str.substring(1, str.length);
   return str[0].toLowerCase() + sub.replace(/([A-Z])/g, '-$1').toLowerCase();
 }
-
-export default camelCaseToKebab;

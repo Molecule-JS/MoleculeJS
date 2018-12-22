@@ -8,7 +8,7 @@ import {
 
 import {
   createBase,
-  createProperty,
+  observeProperty,
   camelCaseToKebab,
   HTMLCollectionByID,
   PropConfig,
@@ -25,7 +25,7 @@ export {
   HTMLCollectionByID,
   PropConfig,
   Properties,
-  createProperty,
+  observeProperty,
   camelCaseToKebab,
   MoleculeClass,
   MoleculeElement,
