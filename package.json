@@ -75,7 +75,7 @@
     },
     {
       "path": "./packages/molecule-lit/dist/molecule-lit.js",
-      "maxSize": "4.1 kB"
+      "maxSize": "4.9 kB"
     },
     {
       "path": "./packages/molecule-jsx/dist/molecule-jsx.js",
@@ -87,7 +87,7 @@
     },
     {
       "path": "./packages/molecule-functional-lit/dist/molecule-functional-lit.js",
-      "maxSize": "4.1 kB"
+      "maxSize": "4.9 kB"
     },
     {
       "path": "./packages/molecule-router/dist/molecule-router.js",
