@@ -10,6 +10,7 @@ import {
 
 import { observeProperty } from './lib/observe-property';
 import { getAttributeforProp } from './lib/get-attr-for-prop';
+import { IS_MOLECULE_ELEMENT } from './lib/constants';
 
 export { camelCaseToKebab } from './lib/camel-to-kebab-case';
 
@@ -53,6 +54,8 @@ export const createBase = <T>(
     afterRender?(isFirst: boolean): void;
     connected?(): void;
     disconnected?(): void;
+
+    static IS_MOLECULE_ELEMENT = IS_MOLECULE_ELEMENT;
 
     createRoot(): ShadowRoot | HTMLElement {
       return this.attachShadow({ mode: 'open' });

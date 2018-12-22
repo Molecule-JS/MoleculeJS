@@ -65,7 +65,9 @@ export function setAccessor(
   } else if (
     name !== 'list' &&
     name !== 'type' &&
-    (name in node || 'render' in node)
+    (name in node ||
+      'render' in node ||
+      (node.constructor as any).IS_MOLECULE_ELEMENT)
   ) {
     // Attempt to set a DOM property to the given value.
     // IE & FF throw for certain property-value combinations.
