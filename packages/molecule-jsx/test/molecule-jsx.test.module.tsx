@@ -401,7 +401,7 @@ describe('MoleculeJsx', () => {
         .and.matches(/position\s*:\s*relative\s*/);
     });
 
-    it('should only register on* functions as handlers', () => {
+    it('should register on* functions as handlers', () => {
       const click = () => {};
       const onclick = () => {};
 
@@ -417,6 +417,52 @@ describe('MoleculeJsx', () => {
       expect(
         proto.addEventListener.calledWithExactly(
           'click',
+          sinon.match.func,
+          false,
+        ),
+      ).to.be.true;
+
+      proto.addEventListener.restore();
+    });
+
+    it('should register on-* functions as handlers', () => {
+      const onclick = () => {};
+
+      const proto = document.createElement('div').constructor.prototype;
+
+      sinon.spy(proto, 'addEventListener');
+
+      render(<div on-click={onclick} />, scratch);
+
+      expect((scratch.childNodes[0] as any).attributes.length).to.equal(0);
+
+      expect(proto.addEventListener.calledOnce).to.be.true.and.to.have.been;
+      expect(
+        proto.addEventListener.calledWithExactly(
+          'click',
+          sinon.match.func,
+          false,
+        ),
+      ).to.be.true;
+
+      proto.addEventListener.restore();
+    });
+
+    it('should preserve case of on-* events', () => {
+      const onclick = () => {};
+
+      const proto = document.createElement('div').constructor.prototype;
+
+      sinon.spy(proto, 'addEventListener');
+      debugger;
+      render(<div on-MyWeirdlyCasedEvent={onclick} />, scratch);
+
+      expect((scratch.childNodes[0] as any).attributes.length).to.equal(0);
+
+      expect(proto.addEventListener.calledOnce).to.be.true;
+      expect(
+        proto.addEventListener.calledWithExactly(
+          'MyWeirdlyCasedEvent',
           sinon.match.func,
           false,
         ),
