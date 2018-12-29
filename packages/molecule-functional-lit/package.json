@@ -9,7 +9,7 @@
   "typings": "dist/molecule-functional-lit/src/molecule-functional-lit.d.ts",
   "description": "Functional Molecule lit-html elements",
   "dependencies": {
-    "@moleculejs/molecule-functional": "^0.12.7",
+    "@moleculejs/molecule-functional": "^0.13.0",
     "lit-html": "^0.13.0"
   },
   "keywords": [
