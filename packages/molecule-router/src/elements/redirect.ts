@@ -1,11 +1,13 @@
-import MoleculeJsx from '../../../molecule-jsx/src/molecule-jsx';
+import { h, Element } from '@moleculejs/molecule-jsx';
 
 import { Location } from 'history';
 import { Match } from '../util/match-path';
 
 import generatePath from '../util/generate-path';
 
-export default class MolRedirect extends MoleculeJsx.Element {
+export { h };
+
+export default class MolRedirect extends Element {
   to!: string | Location;
   push!: boolean;
   from?: string;

@@ -1,157 +1,29 @@
-export interface Properties {
-  [propName: string]: PropConfig | Value;
-}
+import {
+  MoleculeClass,
+  MoleculeElement,
+  PropConfig,
+  Properties,
+  Value,
+  MoleculeEventInit,
+  HTMLCollectionByID,
+} from './lib/types';
 
-export type Type = (val: any) => any;
+import { observeProperty } from './lib/observe-property';
+import { getAttributeForProp } from './lib/get-attr-for-prop';
+import { IS_MOLECULE_ELEMENT } from './lib/constants';
 
-export type Value =
-  | boolean
-  | string
-  | number
-  | symbol
-  | (() => any)
-  | undefined;
+export { camelCaseToKebab } from './lib/camel-to-kebab-case';
 
-export interface PropConfig {
-  type?: Type;
-  attribute?: boolean | string;
-  value?: Value;
-  observer?: string;
-  event?: boolean | string;
-}
-
-export interface HTMLCollectionByID {
-  [id: string]: HTMLElement | Element;
-}
-
-export interface MoleculeEventInit extends EventInit {
-  composed: boolean;
-}
-
-export interface MoleculeClass<T> {
-  new (): T;
-  readonly properties: Properties;
-  readonly observedAttributes: string[];
-}
-
-export interface MoleculeElement<T> extends HTMLElement {
-  __renderCallbacks: Set<any>;
-  __pendingRender: boolean;
-  __data: { [propName: string]: any };
-  __methodsToCall: {
-    [propName: string]: (newValue: any, oldValue: any) => any;
-  };
-  __wait: any;
-  __firstRender: boolean;
-  __root: Element | DocumentFragment;
-  __propAttr: Map<string, string>;
-  __attrProp: Map<string, string>;
-  __propEvent: Map<string, string>;
-  __properties: { [key: string]: PropConfig };
-  __forceUpdate: boolean;
-
-  afterRender?(isFirst: boolean): void;
-  connected?(): void;
-  disconnected?(): void;
-  createRoot(): ShadowRoot | HTMLElement;
-  connectedCallback(): void;
-  disconnectedCallback(): void;
-  attributeChangedCallback(attr: string, old: any, val: any): void;
-  render(data: { [key: string]: any }): T;
-
-  setProperty(prop: string, newVal?: any, forceUpdate?: boolean): Promise<any>;
-  postponedRender(): void;
-  refresh(callback?: () => any): Promise<void>;
-
-  __propertiesChanged(prop: string, newVal: any, forceUpdate?: boolean): void;
-
-  readonly $: HTMLCollectionByID;
-}
-
-declare var process: {
-  env: {
-    NODE_ENV: 'development' | 'production';
-  };
-};
-
-const __DEV__ = process.env.NODE_ENV !== 'production';
-
-/**
- * Coverts a camelCase string to kebab-case.
- *
- * @export
- * @param {string} str The camelCaseString
- * @returns {string} The kebab-version of the string
- */
-export function camelCaseToKebab(str: string): string {
-  const sub = str.substring(1, str.length);
-  return str[0].toLowerCase() + sub.replace(/([A-Z])/g, '-$1').toLowerCase();
-}
-
-/**
- *
- * @param {string} prop The name of the property to create
- * @param {string} attr The name of the attribute
- * @param {any} context The context of the element
- * @param {PropConfig} info The configuration of the property
- */
-export function createProperty<T>(
-  prop: string,
-  context: MoleculeElement<T>,
-  info: PropConfig,
-) {
-  // get value that was already set on the property (if any)
-  let setVal = (context as any)[prop];
-  if (setVal === undefined) {
-    setVal = context.__data[prop];
-  }
-  Object.defineProperty(context, prop, {
-    get() {
-      return context.__data[prop];
-    },
-    set<V>(val: V) {
-      return context.setProperty(prop, val, false) as Promise<V>;
-    },
-  });
-  if (__DEV__) {
-    if (info.attribute) {
-      if (info.type === Object || info.type === Array) {
-        console.warn(
-          `Property ${prop}: Rich Data shouldn\'t be set as attribute!`,
-        );
-      }
-    }
-  }
-  if (info.observer) {
-    if ((context as any)[info.observer]) {
-      // Establish the property-change observer
-      context.__methodsToCall[prop] = (context as any)[info.observer].bind(
-        context,
-      );
-    } else {
-      if (__DEV__) {
-        console.error(`Property ${prop}: Method ${info.observer} not defined!`);
-      }
-    }
-  }
-  // Check, if the property was already set, set it accordingly
-  if (setVal !== undefined) {
-    (context as any)[prop] = setVal;
-    return;
-  }
-  // Initialize using the included value and the new setter()
-  (context as any)[prop] =
-    typeof info.value === 'function' ? info.value.call(context) : info.value;
-}
-
-export const getAttributeforProp = (
-  prop: string,
-  attrConfig: boolean | string,
-) => {
-  if (typeof attrConfig === 'boolean') {
-    return camelCaseToKebab(prop);
-  }
-  return attrConfig;
+export {
+  MoleculeClass,
+  MoleculeElement,
+  PropConfig,
+  Properties,
+  Value,
+  MoleculeEventInit,
+  HTMLCollectionByID,
+  observeProperty,
+  getAttributeForProp,
 };
 
 /**
@@ -160,8 +32,9 @@ export const getAttributeforProp = (
  */
 export const createBase = <T>(
   renderFunction: (result: T, container: Element | DocumentFragment) => void,
+  base: { new (): HTMLElement } = HTMLElement,
 ): MoleculeClass<MoleculeElement<T>> =>
-  class extends HTMLElement implements MoleculeElement<T> {
+  class extends base implements MoleculeElement<T> {
     static readonly properties: Properties;
     __renderCallbacks: Set<any> = new Set();
     __pendingRender: boolean = false;
@@ -182,6 +55,8 @@ export const createBase = <T>(
     connected?(): void;
     disconnected?(): void;
 
+    static IS_MOLECULE_ELEMENT = IS_MOLECULE_ELEMENT;
+
     createRoot(): ShadowRoot | HTMLElement {
       return this.attachShadow({ mode: 'open' });
     }
@@ -194,7 +69,7 @@ export const createBase = <T>(
         }
         const attr = (<PropConfig>this.properties[prop]).attribute;
         if (attr) {
-          attrs.push(getAttributeforProp(prop, attr));
+          attrs.push(getAttributeForProp(prop, attr));
         }
       }
       return attrs;
@@ -214,7 +89,7 @@ export const createBase = <T>(
         }
         this.__properties[prop] = props[prop] as PropConfig;
 
-        const attr = getAttributeforProp(
+        const attr = getAttributeForProp(
           prop,
           this.__properties[prop].attribute || false,
         );
@@ -235,7 +110,7 @@ export const createBase = <T>(
       const props = this.__properties;
       this.__wait = true;
       for (const prop in props) {
-        createProperty<T>(prop, this, props[prop]);
+        observeProperty<T>(prop, this, props[prop]);
       }
       delete this.__wait;
 
@@ -389,7 +264,12 @@ export const createBase = <T>(
      *  @return void
      */
     postponedRender() {
-      renderFunction(this.render({ ...this.__data }), this.__root);
+      renderFunction(
+        this.render({
+          ...this.__data,
+        }),
+        this.__root,
+      );
 
       for (const callback of this.__renderCallbacks) {
         callback();
@@ -461,10 +341,3 @@ export const createBase = <T>(
       return obj;
     }
   };
-
-export default {
-  createProperty,
-  getAttributeforProp,
-  camelCaseToKebab,
-  createBase,
-};

@@ -1,8 +1,10 @@
-import { PropConfig, createProperty } from '../../molecule/src/molecule';
+import { observeProperty } from '@moleculejs/molecule';
+
+import { PropConfig } from '@moleculejs/molecule/src/lib/types';
 
 export function property(config: PropConfig = {}) {
   return (prototype: any, propName: string) => {
-    createProperty(propName, prototype, config);
+    observeProperty(propName, prototype, config);
   };
 }
 
@@ -13,10 +15,10 @@ export function attribute(
     config.attribute = true;
   }
   return (prototype: any, propName: string) => {
-    createProperty(propName, prototype, config);
+    observeProperty(propName, prototype, config);
   };
 }
 
-export { PropConfig, createProperty };
+export { PropConfig, observeProperty };
 
 export default { property, attribute };

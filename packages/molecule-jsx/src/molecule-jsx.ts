@@ -1,14 +1,18 @@
 import {
   createBase,
-  createProperty,
+  observeProperty,
   camelCaseToKebab,
-  getAttributeforProp,
+  getAttributeForProp,
+} from '@moleculejs/molecule';
+
+import {
   Properties,
   PropConfig,
   HTMLCollectionByID,
   MoleculeClass,
   MoleculeElement,
-} from '../../molecule/src/molecule';
+} from '@moleculejs/molecule/src/lib/types';
+
 import { diff } from './lib/vdom/diff';
 
 declare global {
@@ -26,9 +30,9 @@ declare global {
 }
 
 export {
-  createProperty,
+  observeProperty,
   camelCaseToKebab,
-  getAttributeforProp,
+  getAttributeForProp,
   Properties,
   PropConfig,
   HTMLCollectionByID,
@@ -109,15 +113,8 @@ export function render(
   return dom;
 }
 
+export { createElement as h };
+
 const MoleculeJSX = createBase(render);
 
 export { MoleculeJSX as Element };
-
-export default {
-  createProperty,
-  camelCaseToKebab,
-  getAttributeforProp,
-  createElement,
-  render,
-  Element: MoleculeJSX,
-};

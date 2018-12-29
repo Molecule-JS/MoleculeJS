@@ -1,8 +1,10 @@
-import MoleculeJsx from '../../../molecule-jsx/src/molecule-jsx';
+import { h, Element } from '@moleculejs/molecule-jsx';
 
 import { createLocation, Location } from 'history';
 
 import { Router } from '../molecule-router';
+
+export { h };
 
 export const isModifiedEvent = (event: MouseEvent) =>
   !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
@@ -13,7 +15,7 @@ const style = {
   font: 'inherit',
 };
 
-export default class MolRouterLink extends MoleculeJsx.Element {
+export default class MolRouterLink extends Element {
   to!: string | Location;
   replace: boolean = false;
   router!: Router;
@@ -36,7 +38,7 @@ export default class MolRouterLink extends MoleculeJsx.Element {
 
   connected() {
     this.router = (window as any).$molRouter;
-    this.router.addLink(this);
+    this.router.addLink((this as unknown) as HTMLElement);
 
     this.handleClick = this.handleClick.bind(this);
   }
@@ -79,8 +81,7 @@ export default class MolRouterLink extends MoleculeJsx.Element {
         target={this.target}
         href={href}
         onClick={this.handleClick}
-        style={style}
-      >
+        style={style}>
         <slot />
       </a>
     );

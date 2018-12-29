@@ -1,4 +1,4 @@
-import Molecule from '../src/molecule';
+import * as Molecule from '../src/molecule';
 
 import { propTests } from '../../../test/common/props';
 import { eventTests } from '../../../test/common/events';
@@ -88,6 +88,13 @@ declare var sinon: typeof import('sinon');
 
     it('Preset attributes are used', () =>
       chai.expect((testElement as any).alreadyGiven!).to.equal(303));
+
+    it('Preset props are kept', () => {
+      const el = document.createElement('test-element');
+      (el as any).shortBool = true;
+      document.body.appendChild(el);
+      expect((el as any).shortBool).to.be.true;
+    });
 
     propTests(testElement);
 
@@ -281,6 +288,30 @@ declare var sinon: typeof import('sinon');
         expect(called).to.be.false;
         document.body.removeChild(e);
         expect(called).to.be.true;
+      });
+
+      it('DisonnectedCallback works without disconnected', () => {
+        // Make instanbul happy
+        let called = false;
+
+        class E extends MoleculeSimple {
+          static get properties() {
+            return { a: 'test-id-1' };
+          }
+
+          render({ a }: { a: number }) {
+            return `<p id=${a}>item</p>`;
+          }
+        }
+
+        customElements.define('x-dis2', E);
+
+        const e = new E();
+        document.body.appendChild(e);
+
+        expect(called).to.be.false;
+        document.body.removeChild(e);
+        expect(called).to.be.false;
       });
     });
 

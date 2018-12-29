@@ -16,19 +16,23 @@ This is the main package on which the others build. It exposes a method that tak
 
 This exposes a class that uses Molecule with [lit-html's](https://github.com/Polymer/lit-html) render method. It also gives you all of the lit-html exports and methods.
 
-## MoleculeLitExtended
+## MoleculeLitExtended <Badge text="deprecated" type="warn"></Badge>
 
 - Name: `molecule`
 - Install: `yarn add @moleculejs/molecule-lit-extended` or `npm i @moleculejs/molecule-lit-extended`
 
-The same as `MoleculeLit`, but for lit-extended.
+The same as `MoleculeLit`, but for lit-extended. Deprecated, because lit-html removed lit-extended.
 
 ## MoleculeJsx
 
 - Name: `molecule-jsx`
 - Install: `yarn add @moleculejs/molecule-jsx` or `npm i @moleculejs/molecule-jsx`
 
-This exposes a class that uses Molecule renders Jsx to the Element's root. The Jsx is created using the `createElement` method exposed by `MoleculeJsx`.
+This exposes a class that uses Molecule renders Jsx to the Element's root. The Jsx is created using the `createElement` or `h` methods exposed by `MoleculeJsx`. It also allows for mixed cased events like `MyPascalCasedEvent`, by setting the listener using `on-`.
+
+```jsx
+<my-el on-MyPascalCasedEvent={handleMyPascalEvent} />
+```
 
 ## MoleculeFunctional
 
@@ -72,18 +76,20 @@ const Example = functionalMoleculeLit({
   },
 })(({ a, b }) => {
   // The render callback
-  html`${a}/${b}`;
+  html`
+    ${a}/${b}
+  `;
 });
 
 customElements.define('my-example', Example);
 ```
 
-## MoleculeFunctionalLitExtended
+## MoleculeFunctionalLitExtended <Badge text="deprecated" type="warn"></Badge>
 
 - Name: `molecule-functional-lit-extended`
 - Install: `yarn add @moleculejs/molecule-functional-lit-extended` or `npm i @moleculejs/molecule-functional-lit-extended`
 
-Same as MoleculeFunctionaLit, but with lit-extended.
+Same as MoleculeFunctionaLit, but with lit-extended. Deprecated, because lit-html removed lit-extended.
 
 ```js
 const Example = functionalMoleculeLitExtended({
@@ -96,18 +102,22 @@ const Example = functionalMoleculeLitExtended({
   },
 })(({ a, b }) => {
   // The render callback
-  html`${a}/${b}`;
+  html`
+    ${a}/${b}
+  `;
 });
 
 customElements.define('my-example', Example);
 ```
 
-## MoleculeLitDirectiveSetElement
+## MoleculeLitDirectiveSetElement <Badge text="deprecated" type="warn"></Badge>
 
 - Name: `molecule`
 - Install: `yarn add @moleculejs/molecule` or `npm i @moleculejs/molecule`
 
 This is a directive for lit-html to insert custom elements into your lit-html template.
+
+It is currently deprecated, because lit-html currently has now fixed implementation of directives. As soon, as they do, it will be back.
 
 ```js
 class MyExample extends MoleculeLit {

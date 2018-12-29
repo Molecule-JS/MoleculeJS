@@ -6,6 +6,7 @@ const terser = require('rollup-plugin-terser');
 const replace = require('rollup-plugin-replace');
 const resolve = require('rollup-plugin-node-resolve');
 const cjs = require('rollup-plugin-commonjs');
+const copy = require('rollup-plugin-copy');
 
 const sources = [
   'molecule',
@@ -16,6 +17,11 @@ const sources = [
   'molecule-jsx',
   'molecule-router',
 ];
+
+const nodeResolveOnly = {
+  es: ['lit-html', 'history'],
+  umd: ['lit-html', 'history', /^@moleculejs\/.*$/],
+};
 
 const kebabToPascal = (str) => {
   const sub = str.substring(1, str.length);
@@ -38,14 +44,22 @@ for (const format in rollupBuilds) {
           plugins: [
             rollupTS(),
             resolve({
-              only: ['lit-html', 'history'],
+              only: nodeResolveOnly[format],
             }),
+            copy(
+              src === 'molecule'
+                ? {
+                    'packages/molecule/src/lib/types.d.ts':
+                      'packages/molecule/dist/lib/types.d.ts',
+                  }
+                : {},
+            ),
             cjs(),
             replace({
               'process.env.NODE_ENV': "'production'",
             }),
             terser.terser({
-              output: {
+              /* output: {
                 comments: function(node, comment) {
                   var text = comment.value;
                   var type = comment.type;
@@ -54,7 +68,7 @@ for (const format in rollupBuilds) {
                     return /@preserve|@license|@cc_on/i.test(text);
                   }
                 },
-              },
+              }, */
             }),
           ],
         })
@@ -64,7 +78,7 @@ for (const format in rollupBuilds) {
             format,
             name: kebabToPascal(src),
             sourcemap: true,
-            exports: format === 'umd' ? 'named' : 'auto',
+            exports: 'named',
             strict: true,
           }),
         );
@@ -101,7 +115,7 @@ for (const format in rollupBuilds) {
             rollupTS(),
             resolve({
               main: false,
-              only: ['lit-html', 'history'],
+              only: nodeResolveOnly[format],
             }),
             cjs(),
             replace({
@@ -115,7 +129,7 @@ for (const format in rollupBuilds) {
             format,
             name: kebabToPascal(src),
             sourcemap: true,
-            exports: format === 'umd' ? 'named' : 'auto',
+            exports: 'named',
             strict: true,
           }),
         );
@@ -144,7 +158,7 @@ for (const format in rollupBuilds) {
             }),
             resolve({
               main: false,
-              only: ['lit-html', 'history'],
+              only: nodeResolveOnly[format],
             }),
             cjs(),
             replace({

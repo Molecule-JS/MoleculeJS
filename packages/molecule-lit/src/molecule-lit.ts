@@ -8,14 +8,17 @@ import {
 
 import {
   createBase,
-  createProperty,
+  observeProperty,
   camelCaseToKebab,
+} from '@moleculejs/molecule';
+
+import {
   HTMLCollectionByID,
   PropConfig,
   Properties,
   MoleculeClass,
   MoleculeElement,
-} from '../../molecule/src/molecule';
+} from '@moleculejs/molecule/src/lib/types';
 
 const MoleculeLit = createBase(render);
 
@@ -25,17 +28,8 @@ export {
   HTMLCollectionByID,
   PropConfig,
   Properties,
-  createProperty,
+  observeProperty,
   camelCaseToKebab,
   MoleculeClass,
   MoleculeElement,
-};
-
-export default {
-  html,
-  svg,
-  render,
-  createProperty,
-  camelCaseToKebab,
-  Element: MoleculeLit,
 };

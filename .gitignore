@@ -62,7 +62,6 @@ typings/
 
 # Compiler Output
 packages/**/dist/*
-packages/**/*.d.ts
 /lib/*
 /dist/*
 

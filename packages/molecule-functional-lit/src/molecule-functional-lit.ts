@@ -1,18 +1,17 @@
+import { functionalMolecule } from '@moleculejs/molecule-functional';
+
 import {
-  functionalMolecule,
   HTMLCollectionByID,
   Properties,
   PropConfig,
   MoleculeClass,
   MoleculeElement,
-  Molecule,
-} from '../../molecule-functional/src/molecule-functional';
+} from '@moleculejs/molecule-functional/src/molecule-functional';
 
 import { render, TemplateResult, html } from 'lit-html/lit-html';
 
 export {
   functionalMolecule,
-  Molecule,
   render,
   TemplateResult,
   html,
@@ -24,5 +23,3 @@ export {
 };
 
 export const functionalMoleculeLit = functionalMolecule(render);
-
-export default { functionalMoleculeLit, ...Molecule };

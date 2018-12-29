@@ -1,14 +1,15 @@
-import Molecule, {
+import { camelCaseToKebab, createBase } from '@moleculejs/molecule';
+
+import {
   Properties,
   PropConfig,
   HTMLCollectionByID,
   MoleculeEventInit,
-  createBase,
   MoleculeClass,
   MoleculeElement,
-} from '../../molecule/src/molecule';
+} from '@moleculejs/molecule/src/lib/types';
 
-export type camelCaseToKebab = typeof Molecule.camelCaseToKebab;
+export type camelCaseToKebab = typeof camelCaseToKebab;
 
 export {
   Properties,
@@ -17,7 +18,6 @@ export {
   MoleculeEventInit,
   MoleculeClass,
   MoleculeElement,
-  Molecule,
 };
 
 export const functionalMolecule = <T>(
@@ -34,5 +34,3 @@ export const functionalMolecule = <T>(
       return template.bind(this)(props);
     }
   };
-
-export default { functionalMolecule, ...Molecule };

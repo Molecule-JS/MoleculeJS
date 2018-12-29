@@ -1,8 +1,10 @@
-import MoleculeJsx from '../../../molecule-jsx/src/molecule-jsx';
+import { h, Element } from '@moleculejs/molecule-jsx';
 import { Router } from '../molecule-router';
 import matchPath, { Match } from '../util/match-path';
 
-export default class MolSwitch extends MoleculeJsx.Element {
+export { h };
+
+export default class MolSwitch extends Element {
   router!: Router;
 
   static get properties() {
@@ -15,7 +17,7 @@ export default class MolSwitch extends MoleculeJsx.Element {
 
   connected() {
     this.router = (window as any).$molRouter;
-    this.router.addRoute(this);
+    this.router.addRoute((this as unknown) as HTMLElement);
   }
 
   matchRoutes() {

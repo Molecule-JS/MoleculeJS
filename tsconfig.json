@@ -3,7 +3,7 @@
     "target": "ES2015",
     "module": "es2015",
     "lib": ["dom", "dom.iterable", "es2017"],
-    "jsxFactory": "MoleculeJsx.createElement",
+    "jsxFactory": "h",
     "jsx": "react",
     "declaration": true,
     "sourceMap": true,
