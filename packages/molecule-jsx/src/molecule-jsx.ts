@@ -2,7 +2,7 @@ import {
   createBase,
   observeProperty,
   camelCaseToKebab,
-  getAttributeforProp,
+  getAttributeForProp,
   Properties,
   PropConfig,
   HTMLCollectionByID,
@@ -28,7 +28,7 @@ declare global {
 export {
   observeProperty,
   camelCaseToKebab,
-  getAttributeforProp,
+  getAttributeForProp,
   Properties,
   PropConfig,
   HTMLCollectionByID,

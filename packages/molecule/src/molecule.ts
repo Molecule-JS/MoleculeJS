@@ -9,7 +9,7 @@ import {
 } from './lib/types';
 
 import { observeProperty } from './lib/observe-property';
-import { getAttributeforProp } from './lib/get-attr-for-prop';
+import { getAttributeForProp } from './lib/get-attr-for-prop';
 import { IS_MOLECULE_ELEMENT } from './lib/constants';
 
 export { camelCaseToKebab } from './lib/camel-to-kebab-case';
@@ -23,7 +23,7 @@ export {
   MoleculeEventInit,
   HTMLCollectionByID,
   observeProperty,
-  getAttributeforProp,
+  getAttributeForProp,
 };
 
 /**
@@ -69,7 +69,7 @@ export const createBase = <T>(
         }
         const attr = (<PropConfig>this.properties[prop]).attribute;
         if (attr) {
-          attrs.push(getAttributeforProp(prop, attr));
+          attrs.push(getAttributeForProp(prop, attr));
         }
       }
       return attrs;
@@ -89,7 +89,7 @@ export const createBase = <T>(
         }
         this.__properties[prop] = props[prop] as PropConfig;
 
-        const attr = getAttributeforProp(
+        const attr = getAttributeForProp(
           prop,
           this.__properties[prop].attribute || false,
         );
