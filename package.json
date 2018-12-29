@@ -70,27 +70,27 @@
   },
   "bundlesize": [
     {
-      "path": "./packages/molecule/dist/molecule.js",
+      "path": "./packages/molecule/dist/molecule.mjs",
       "maxSize": "1.8 kB"
     },
     {
-      "path": "./packages/molecule-lit/dist/molecule-lit.js",
+      "path": "./packages/molecule-lit/dist/molecule-lit.mjs",
       "maxSize": "4.9 kB"
     },
     {
-      "path": "./packages/molecule-jsx/dist/molecule-jsx.js",
+      "path": "./packages/molecule-jsx/dist/molecule-jsx.mjs",
       "maxSize": "3.2 kB"
     },
     {
-      "path": "./packages/molecule-functional/dist/molecule-functional.js",
+      "path": "./packages/molecule-functional/dist/molecule-functional.mjs",
       "maxSize": "1.8 kB"
     },
     {
-      "path": "./packages/molecule-functional-lit/dist/molecule-functional-lit.js",
+      "path": "./packages/molecule-functional-lit/dist/molecule-functional-lit.mjs",
       "maxSize": "4.9 kB"
     },
     {
-      "path": "./packages/molecule-router/dist/molecule-router.js",
+      "path": "./packages/molecule-router/dist/molecule-router.mjs",
       "maxSize": "10 kB"
     }
   ]
