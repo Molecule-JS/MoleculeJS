@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-functional",
-  "version": "0.12.7",
+  "version": "0.13.0",
   "main": "dist/molecule-functional.js",
   "module": "dist/molecule-functional.mjs",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
@@ -18,7 +18,7 @@
     "custom elements"
   ],
   "dependencies": {
-    "@moleculejs/molecule": "^0.12.6"
+    "@moleculejs/molecule": "^0.13.0"
   },
   "homepage": "https://moleculejs.org",
   "gitHead": "e39a8a58591a9de870b1830db3514dd8ad2dec5e"

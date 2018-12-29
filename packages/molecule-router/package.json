@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-router",
-  "version": "0.12.7",
+  "version": "0.13.0",
   "description": "Dynamic Router for MoleculeJS",
   "main": "dist/molecule-router.js",
   "module": "dist/molecule-router.mjs",
@@ -9,7 +9,7 @@
   "author": "DiiLord <d.drodt@gmx.de>",
   "typings": "dist/molecule-router.d.ts",
   "dependencies": {
-    "@moleculejs/molecule-jsx": "^0.12.7",
+    "@moleculejs/molecule-jsx": "^0.13.0",
     "history": "^4.7.2"
   },
   "bundledDependencies": [
