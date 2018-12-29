@@ -11,7 +11,7 @@
   "devDependencies": {
     "@moleculejs/molecule": "^0.12.7"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@moleculejs/molecule": "^0.12.6"
   },
   "keywords": [

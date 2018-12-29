@@ -17,7 +17,7 @@
     "molecule",
     "custom elements"
   ],
-  "peerDependencies": {
+  "dependencies": {
     "@moleculejs/molecule": "^0.12.6"
   },
   "homepage": "https://moleculejs.org",
