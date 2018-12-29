@@ -10,12 +10,15 @@ import {
   createBase,
   observeProperty,
   camelCaseToKebab,
+} from '@moleculejs/molecule';
+
+import {
   HTMLCollectionByID,
   PropConfig,
   Properties,
   MoleculeClass,
   MoleculeElement,
-} from '../../molecule/src/molecule';
+} from '@moleculejs/molecule/src/lib/types';
 
 const MoleculeLit = createBase(render);
 

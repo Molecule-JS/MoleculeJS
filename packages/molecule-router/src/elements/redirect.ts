@@ -1,4 +1,4 @@
-import { h, Element } from '../../../molecule-jsx/src/molecule-jsx';
+import { h, Element } from '@moleculejs/molecule-jsx';
 
 import { Location } from 'history';
 import { Match } from '../util/match-path';

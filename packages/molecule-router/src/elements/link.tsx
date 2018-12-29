@@ -1,4 +1,4 @@
-import { h, Element } from '../../../molecule-jsx/src/molecule-jsx';
+import { h, Element } from '@moleculejs/molecule-jsx';
 
 import { createLocation, Location } from 'history';
 
@@ -38,7 +38,7 @@ export default class MolRouterLink extends Element {
 
   connected() {
     this.router = (window as any).$molRouter;
-    this.router.addLink(this);
+    this.router.addLink((this as unknown) as HTMLElement);
 
     this.handleClick = this.handleClick.bind(this);
   }

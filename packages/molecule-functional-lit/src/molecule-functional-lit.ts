@@ -1,11 +1,12 @@
+import { functionalMolecule } from '@moleculejs/molecule-functional';
+
 import {
-  functionalMolecule,
   HTMLCollectionByID,
   Properties,
   PropConfig,
   MoleculeClass,
   MoleculeElement,
-} from '../../molecule-functional/src/molecule-functional';
+} from '@moleculejs/molecule-functional/src/molecule-functional';
 
 import { render, TemplateResult, html } from 'lit-html/lit-html';
 

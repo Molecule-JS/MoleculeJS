@@ -1,4 +1,4 @@
-import { h, Element, Class } from '../../../molecule-jsx/src/molecule-jsx';
+import { h, Element, Class } from '@moleculejs/molecule-jsx';
 import { Match } from '../util/match-path';
 
 import { Location } from 'history';
@@ -45,7 +45,7 @@ export default class MolRoute extends Element {
 
   connected() {
     this.router = (window as any).$molRouter;
-    this.router.addRoute(this);
+    this.router.addRoute((this as unknown) as HTMLElement);
   }
 
   render() {

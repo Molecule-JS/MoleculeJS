@@ -5,6 +5,7 @@ import {
   UnregisterCallback,
   Location,
 } from 'history';
+
 import { Match } from './util/match-path';
 
 import Link from './elements/link';

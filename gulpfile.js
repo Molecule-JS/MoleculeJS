@@ -17,6 +17,11 @@ const sources = [
   'molecule-router',
 ];
 
+const nodeResolveOnly = {
+  es: ['lit-html', 'history'],
+  umd: ['lit-html', 'history', /^@moleculejs\/.*$/],
+};
+
 const kebabToPascal = (str) => {
   const sub = str.substring(1, str.length);
   return (
@@ -38,14 +43,14 @@ for (const format in rollupBuilds) {
           plugins: [
             rollupTS(),
             resolve({
-              only: ['lit-html', 'history'],
+              only: nodeResolveOnly[format],
             }),
             cjs(),
             replace({
               'process.env.NODE_ENV': "'production'",
             }),
             terser.terser({
-              output: {
+              /* output: {
                 comments: function(node, comment) {
                   var text = comment.value;
                   var type = comment.type;
@@ -54,7 +59,7 @@ for (const format in rollupBuilds) {
                     return /@preserve|@license|@cc_on/i.test(text);
                   }
                 },
-              },
+              }, */
             }),
           ],
         })
@@ -101,7 +106,7 @@ for (const format in rollupBuilds) {
             rollupTS(),
             resolve({
               main: false,
-              only: ['lit-html', 'history'],
+              only: nodeResolveOnly[format],
             }),
             cjs(),
             replace({
@@ -144,7 +149,7 @@ for (const format in rollupBuilds) {
             }),
             resolve({
               main: false,
-              only: ['lit-html', 'history'],
+              only: nodeResolveOnly[format],
             }),
             cjs(),
             replace({

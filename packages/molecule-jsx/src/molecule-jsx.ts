@@ -3,12 +3,16 @@ import {
   observeProperty,
   camelCaseToKebab,
   getAttributeForProp,
+} from '@moleculejs/molecule';
+
+import {
   Properties,
   PropConfig,
   HTMLCollectionByID,
   MoleculeClass,
   MoleculeElement,
-} from '../../molecule/src/molecule';
+} from '@moleculejs/molecule/src/lib/types';
+
 import { diff } from './lib/vdom/diff';
 
 declare global {

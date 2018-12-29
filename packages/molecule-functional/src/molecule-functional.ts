@@ -1,13 +1,13 @@
+import { camelCaseToKebab, createBase } from '@moleculejs/molecule';
+
 import {
-  camelCaseToKebab,
   Properties,
   PropConfig,
   HTMLCollectionByID,
   MoleculeEventInit,
-  createBase,
   MoleculeClass,
   MoleculeElement,
-} from '../../molecule/src/molecule';
+} from '@moleculejs/molecule/src/lib/types';
 
 export type camelCaseToKebab = typeof camelCaseToKebab;
 

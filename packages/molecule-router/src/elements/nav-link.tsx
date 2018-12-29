@@ -1,4 +1,4 @@
-import { h, Element, Class } from '../../../molecule-jsx/src/molecule-jsx';
+import { h, Element, Class } from '@moleculejs/molecule-jsx';
 import { Router } from '../molecule-router';
 import { Match } from '../util/match-path';
 import Link from './link';
@@ -58,7 +58,7 @@ export default class MolNavLink extends Element {
 
   connected() {
     this.router = (window as any).$molRouter;
-    this.router.addLink(this);
+    this.router.addLink((this as unknown) as HTMLElement);
   }
 
   render() {

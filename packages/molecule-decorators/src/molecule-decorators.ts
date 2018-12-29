@@ -1,4 +1,6 @@
-import { PropConfig, observeProperty } from '../../molecule/src/molecule';
+import { observeProperty } from '@moleculejs/molecule';
+
+import { PropConfig } from '@moleculejs/molecule/src/lib/types';
 
 export function property(config: PropConfig = {}) {
   return (prototype: any, propName: string) => {
