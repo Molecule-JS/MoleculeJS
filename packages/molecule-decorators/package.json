@@ -9,7 +9,7 @@
   "typings": "dist/molecule-decorators/src/molecule-decorators.d.ts",
   "description": "Decorator support for MoleculeJS",
   "devDependencies": {
-    "@moleculejs/molecule": "^0.12.7"
+    "@moleculejs/molecule": "^0.13.0"
   },
   "peerDependencies": {
     "@moleculejs/molecule": "^0.12.6"
