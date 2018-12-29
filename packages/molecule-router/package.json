@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
   "author": "DiiLord <d.drodt@gmx.de>",
-  "typings": "dist/molcule-router/src/molecule-router.d.ts",
+  "typings": "dist/molecule-router.d.ts",
   "dependencies": {
     "@moleculejs/molecule-jsx": "^0.12.7",
     "history": "^4.7.2"
