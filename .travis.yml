@@ -10,7 +10,4 @@ before_script:
 sudo: required
 addons:
   chrome: stable
-  env:
-  global:
-    - BUNDLESIZE_GITHUB_TOKEN: 6b5369cc5cd24295fb4249413c04c52b004d4907
 after_success: yarn codecov
