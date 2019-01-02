@@ -10,6 +10,7 @@
   <a href="https://www.npmjs.com/package/@moleculejs/molecule-router"><img src="https://badge.fury.io/js/%40moleculejs%2Fmolecule-router.svg" alt="Version"></a>
   <a href="https://github.com/Molecule-JS/MoleculeJS/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
   <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/Molecule-JS/MoleculeJS.svg" alt="Greenkeeper badge"></a>
+  <a href="https://app.codacy.com/app/DerDrodt/MoleculeJS?utm_source=github.com&utm_medium=referral&utm_content=Molecule-JS/MoleculeJS&utm_campaign=Badge_Grade_Dashboard"><img src="https://api.codacy.com/project/badge/Grade/f28f115aeadf4538ac046a8885c6e7c5" alt="Codacity Badge"></a>
 </p>
 
 ## Overview
