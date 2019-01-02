@@ -22,11 +22,11 @@ This package provides a base class for creating Custom Elements that renders usi
 
 The `@moleculejs/molecule-lit` package can be installed using npm or yarn:
 
-```
+```bash
 npm install --save @moleculejs/molecule-lit
 ```
 
-```
+```bash
 yarn add @moleculejs/molecule-lit
 ```
 

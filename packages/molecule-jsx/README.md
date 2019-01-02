@@ -22,11 +22,11 @@ This package provides a base class for creating Custom Elements that renders JSX
 
 The `@moleculejs/molecule-jsx` package can be installed using npm or yarn:
 
-```
+```bash
 npm install --save @moleculejs/molecule-jsx
 ```
 
-```
+```bash
 yarn add @moleculejs/molecule-jsx
 ```
 
