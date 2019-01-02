@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-router",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Dynamic Router for MoleculeJS",
   "main": "dist/molecule-router.js",
   "module": "dist/molecule-router.mjs",
