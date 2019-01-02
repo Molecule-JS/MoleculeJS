@@ -155,7 +155,7 @@ export function parse(str: string, options?: ParseOptions): Token[] {
       prefix: prev,
       pattern: pattern
         ? escapeGroup(pattern)
-        : '[^' + escapeString(delimiter) + ']+?',
+        : `[^${escapeString(delimiter)}]+?`,
     });
   }
 
@@ -185,14 +185,11 @@ export function tokensToFunction(tokens: Token[]): PathFunction {
   // Compile all the patterns before compilation.
   for (let i = 0; i < tokens.length; i++) {
     if (typeof tokens[i] !== 'object') {
-      matches[i] = new RegExp('^(?:' + (tokens[i] as Key).pattern + ')$');
+      matches[i] = new RegExp(`^(?:${(tokens[i] as Key).pattern})$`);
     }
   }
 
-  return function(
-    data?: { [key: string]: any },
-    options?: PathFunctionOptions,
-  ) {
+  return (data?: { [key: string]: any }, options?: PathFunctionOptions) => {
     let path = '';
     const encode = (options && options.encode) || encodeURIComponent;
 
@@ -210,14 +207,14 @@ export function tokensToFunction(tokens: Token[]): PathFunction {
       if (Array.isArray(value)) {
         if (!token.repeat) {
           throw new TypeError(
-            'Expected "' + token.name + '" to not repeat, but got array',
+            `Expected "${token.name}" to not repeat, but got array`,
           );
         }
 
         if (value.length === 0) {
           if (token.optional) continue;
 
-          throw new TypeError('Expected "' + token.name + '" to not be empty');
+          throw new TypeError(`Expected "${token.name}" to not be empty`);
         }
 
         for (let j = 0; j < value.length; j++) {
@@ -225,11 +222,7 @@ export function tokensToFunction(tokens: Token[]): PathFunction {
 
           if (!matches[i].test(segment)) {
             throw new TypeError(
-              'Expected all "' +
-                token.name +
-                '" to match "' +
-                token.pattern +
-                '"',
+              `Expected all "${token.name}" to match "${token.pattern}"`,
             );
           }
 
@@ -270,10 +263,9 @@ export function tokensToFunction(tokens: Token[]): PathFunction {
       }
 
       throw new TypeError(
-        'Expected "' +
-          token.name +
-          '" to be ' +
-          (token.repeat ? 'an array' : 'a string'),
+        `Expected "${token.name}" to be ${
+          token.repeat ? 'an array' : 'a string'
+        }`,
       );
     }
 
@@ -345,7 +337,7 @@ function arrayToRegexp(
     parts.push(pathToRegexp(path[i], keys, options).source);
   }
 
-  return new RegExp('(?:' + parts.join('|') + ')', flags(options));
+  return new RegExp(`(?:${parts.join('|')})`, flags(options));
 }
 
 /**
@@ -388,39 +380,33 @@ export function tokensToRegExp(
     } else {
       const prefix = escapeString(token.prefix);
       const capture = token.repeat
-        ? '(?:' +
-          token.pattern +
-          ')(?:' +
-          prefix +
-          '(?:' +
-          token.pattern +
-          '))*'
+        ? `(?:${token.pattern})(?:${prefix}(?:${token.pattern}))*`
         : token.pattern;
 
       if (keys) keys.push(token);
 
       if (token.optional) {
         if (token.partial) {
-          route += prefix + '(' + capture + ')?';
+          route += `${prefix}(${capture})?`;
         } else {
-          route += '(?:' + prefix + '(' + capture + '))?';
+          route += `(?:${prefix}(${capture}))?`;
         }
       } else {
-        route += prefix + '(' + capture + ')';
+        route += `${prefix}(${capture})`;
       }
     }
   }
 
   if (end) {
-    if (!strict) route += '(?:' + delimiter + ')?';
+    if (!strict) route += `(?:${delimiter})?`;
 
-    route += endsWith === '$' ? '$' : '(?=' + endsWith + ')';
+    route += endsWith === '$' ? '$' : `(?=${endsWith})`;
   } else {
-    if (!strict) route += '(?:' + delimiter + '(?=' + endsWith + '))?';
-    if (!isEndDelimited) route += '(?=' + delimiter + '|' + endsWith + ')';
+    if (!strict) route += `(?:${delimiter}(?=${endsWith}))?`;
+    if (!isEndDelimited) route += `(?=${delimiter}|${endsWith})`;
   }
 
-  return new RegExp('^' + route, flags(options));
+  return new RegExp(`^${route}`, flags(options));
 }
 
 /**
