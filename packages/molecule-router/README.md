@@ -20,11 +20,11 @@ MoleculeRouter allows for easily creating Single Page Applications (SPAs) with W
 
 The `@moleculejs/molecule-router` package can be installed using npm or yarn:
 
-```
+```bash
 npm install --save @moleculejs/molecule-router
 ```
 
-```
+```bash
 yarn add @moleculejs/molecule-router
 ```
 
