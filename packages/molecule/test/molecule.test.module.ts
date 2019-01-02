@@ -292,7 +292,7 @@ declare var sinon: typeof import('sinon');
 
       it('DisonnectedCallback works without disconnected', () => {
         // Make instanbul happy
-        let called = false;
+        const called = false;
 
         class E extends MoleculeSimple {
           static get properties() {
