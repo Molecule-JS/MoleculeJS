@@ -6,7 +6,7 @@ Molecule is a JavaScript library for building user interfaces using web componen
 
 It provides several classes from which you can build your Custom Elements
 
-- The Molecule base class. It is agnositic about your actual templatization and rendering function.
+- The Molecule base class. It is agnostic about your actual templatization and rendering function.
 - MoleculeLit class which uses the standard functions from [lit-html](https://github.com/PolymerLabs/lit-html) by the Polymer team.
 - MoleculeLitExtended uses the extended rendering functions of `lit-html`.
 
@@ -14,11 +14,11 @@ It provides several classes from which you can build your Custom Elements
 
 The `@moleculejs/molecule` package can be installed using npm or yarn:
 
-```
+```bash
 npm install --save @moleculejs/molecule
 ```
 
-```
+```bash
 yarn add @moleculejs/molecule
 ```
 
