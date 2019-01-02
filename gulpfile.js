@@ -141,44 +141,46 @@ for (const format in rollupBuilds) {
 }
 
 for (const format in rollupBuilds) {
-  for (const src of sources) {
-    exports[`rollup:test:${format}:${src}`] = () =>
-      rollup
-        .rollup({
-          input: `./packages/${src}/test/${src}.test.module.ts${
-            src.includes('jsx') ? 'x' : ''
-          }`,
-          plugins: [
-            rollupTS({
-              tsconfigOverride: {
-                compilerOptions: {
-                  declaration: false,
+  if (rollupBuilds.hasOwnProperty(format)) {
+    for (const src of sources) {
+      exports[`rollup:test:${format}:${src}`] = () =>
+        rollup
+          .rollup({
+            input: `./packages/${src}/test/${src}.test.module.ts${
+              src.includes('jsx') ? 'x' : ''
+            }`,
+            plugins: [
+              rollupTS({
+                tsconfigOverride: {
+                  compilerOptions: {
+                    declaration: false,
+                  },
                 },
-              },
+              }),
+              resolve({
+                main: false,
+                only: nodeResolveOnly[format],
+              }),
+              cjs(),
+              replace({
+                'process.env.NODE_ENV': "'development'",
+              }),
+            ],
+          })
+          .then((bundle) =>
+            bundle.write({
+              file: `./test/tests/${rollupBuilds[format](src, '.test')}`,
+              format,
+              name: kebabToPascal(src),
+              sourcemap: true,
+              strict: true,
             }),
-            resolve({
-              main: false,
-              only: nodeResolveOnly[format],
-            }),
-            cjs(),
-            replace({
-              'process.env.NODE_ENV': "'development'",
-            }),
-          ],
-        })
-        .then((bundle) =>
-          bundle.write({
-            file: `./test/tests/${rollupBuilds[format](src, '.test')}`,
-            format,
-            name: kebabToPascal(src),
-            sourcemap: true,
-            strict: true,
-          }),
-        );
+          );
+    }
+    exports[`rollup:test:${format}`] = sources.map(
+      (src) => `rollup:test:${format}:${src}`,
+    );
   }
-  exports[`rollup:test:${format}`] = sources.map(
-    (src) => `rollup:test:${format}:${src}`,
-  );
 }
 
 exports['rollup:test'] = (done) =>
