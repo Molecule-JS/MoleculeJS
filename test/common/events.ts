@@ -51,7 +51,7 @@ export const eventTests = (testElement: any) =>
         }
 
         render() {
-          return `<p>test</p>`;
+          return '<p>test</p>';
         }
       }
 

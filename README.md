@@ -14,11 +14,11 @@ It provides several classes from which you can build your Custom Elements
 
 The `@moleculejs/molecule` package can be installed using npm or yarn:
 
-```
+```bash
 npm install --save @moleculejs/molecule
 ```
 
-```
+```bash
 yarn add @moleculejs/molecule
 ```
 
