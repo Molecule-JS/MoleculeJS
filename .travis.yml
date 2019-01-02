@@ -10,4 +10,5 @@ before_script:
 sudo: required
 addons:
   chrome: stable
+  firefox: latest
 after_success: yarn codecov
