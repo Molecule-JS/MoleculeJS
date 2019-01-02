@@ -47,7 +47,7 @@ export function setAccessor(
       for (const i in value) {
         (node.style as any)[i] =
           typeof value[i] === 'number' && IS_NON_DIMENSIONAL.test(i) === false
-            ? value[i] + 'px'
+            ? `${value[i]}px`
             : value[i];
       }
     }
@@ -55,7 +55,8 @@ export function setAccessor(
     if (value) node.innerHTML = value.__html || '';
   } else if (name[0] === 'o' && name[1] === 'n') {
     const useCapture = name !== (name = name.replace(/Capture$/, ''));
-    name = name[2] == '-' ? name.substring(3) : name.toLowerCase().substring(2);
+    name =
+      name[2] === '-' ? name.substring(3) : name.toLowerCase().substring(2);
     if (value) {
       if (!old) node.addEventListener(name, eventProxy, useCapture);
     } else {
