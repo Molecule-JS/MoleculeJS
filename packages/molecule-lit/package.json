@@ -9,7 +9,7 @@
   "typings": "dist/molecule-lit.d.ts",
   "description": "Molecule elements with lit-html",
   "dependencies": {
-    "@moleculejs/molecule": "^0.13.0",
+    "@moleculejs/molecule": "^0.13.1",
     "lit-html": "^0.13.0"
   },
   "keywords": [
