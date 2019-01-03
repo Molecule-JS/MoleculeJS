@@ -12,7 +12,7 @@
     "@moleculejs/molecule": "^0.12.7"
   },
   "dependencies": {
-    "@moleculejs/molecule": "^0.13.0"
+    "@moleculejs/molecule": "^0.13.1"
   },
   "keywords": [
     "web components",
