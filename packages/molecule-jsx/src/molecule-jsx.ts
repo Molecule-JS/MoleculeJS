@@ -40,6 +40,7 @@ export {
   MoleculeElement,
 };
 
+const vDomMap = new WeakMap<container, VDomElement>();
 const domMap = new WeakMap<container, Node>();
 
 export interface Class<T> {
@@ -86,6 +87,8 @@ export function createElement(
     delete props.children;
   }
 
+  delete props.innerHTML;
+
   const flattenedChildren = flatten(children);
 
   return new VNode(tag, props, flattenedChildren, props.key);
@@ -106,10 +109,17 @@ function flatten<T>(arr: (T | T[])[], result: T[] = []) {
 export function render(
   vnode: VDomElement,
   container: container,
-  oldDom?: HTMLElement | Node,
+  oldDom?: Node,
+  oldVDom?: VDomElement,
 ) {
-  const dom = diff(vnode, container, oldDom || domMap.get(container));
-  domMap.set(container, dom!);
+  const dom = diff(
+    vnode,
+    container,
+    oldVDom || vDomMap.get(container),
+    oldDom || domMap.get(container),
+  );
+  vDomMap.set(container, vnode);
+  domMap.set(container, dom);
   return dom;
 }
 

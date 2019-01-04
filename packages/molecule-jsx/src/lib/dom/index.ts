@@ -52,7 +52,7 @@ export function setAccessor(
       }
     }
   } else if (name === 'dangerouslySetInnerHTML') {
-    if (value) node.innerHTML = value.__html || '';
+    node.innerHTML = value.__html || '';
   } else if (name[0] === 'o' && name[1] === 'n') {
     const useCapture = name !== (name = name.replace(/Capture$/, ''));
     name =

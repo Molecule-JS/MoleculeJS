@@ -60,7 +60,7 @@
     "bundlesize": "bundlesize",
     "codecov": "remap-istanbul -i coverage/coverage-final.json -e node_modules,decorators,test.module,common -o coverage.lcov -t lcovonly && codecov"
   },
-  "version": "0.13.0",
+  "version": "0.13.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/Molecule-JS/MoleculeJS.git"
@@ -81,7 +81,7 @@
     },
     {
       "path": "./packages/molecule-jsx/dist/molecule-jsx.mjs",
-      "maxSize": "2.2 kB"
+      "maxSize": "2.5 kB"
     },
     {
       "path": "./packages/molecule-functional/dist/molecule-functional.mjs",

@@ -155,8 +155,17 @@ describe('MoleculeJsx', () => {
       expect(scratch.childNodes[0]).to.have.property('nodeName', 'X-BAR');
     });
 
+    it('should handle changing primitive nodes', () => {
+      let root = render(34, scratch);
+      expect((root as HTMLElement).nodeValue).to.eq('34');
+      root = render('Hi', scratch);
+      expect((root as HTMLElement).nodeValue).to.eq('Hi');
+      root = render('Hi', scratch);
+      expect((root as HTMLElement).nodeValue).to.eq('Hi');
+    });
+
     it('should nest empty nodes', () => {
-      render(
+      const root = render(
         <div>
           <span />
           <foo />
@@ -173,6 +182,14 @@ describe('MoleculeJsx', () => {
       expect(c[0].nodeName).to.equal('SPAN');
       expect(c[1].nodeName).to.equal('FOO');
       expect(c[2].nodeName).to.equal('X-BAR');
+
+      render(
+        <div>
+          <div />
+        </div>,
+        scratch,
+        root,
+      );
     });
 
     it('should not render falsy values', () => {
@@ -454,7 +471,7 @@ describe('MoleculeJsx', () => {
       const proto = document.createElement('div').constructor.prototype;
 
       sinon.spy(proto, 'addEventListener');
-      debugger;
+
       render(<div on-MyWeirdlyCasedEvent={onclick} />, scratch);
 
       expect((scratch.childNodes[0] as any).attributes.length).to.equal(0);
@@ -678,6 +695,28 @@ describe('MoleculeJsx', () => {
       expect(vn1).to.eql(vn2);
     });
 
+    it('should render primitive children', () => {
+      let root = render(
+        <div>
+          {'a'} b {'c'} d
+        </div>,
+        scratch,
+      );
+
+      expect((root as HTMLElement).innerHTML).to.eq('a b c d');
+      debugger;
+      root = render(
+        <div>
+          {'c'}
+          {'a'} b d
+        </div>,
+        scratch,
+        root,
+      );
+
+      expect((root as HTMLElement).innerHTML).to.eq('ca b d');
+    });
+
     it('should ignore props.children if children are manually specified', () => {
       expect(
         <div a children={['a', 'b']}>
@@ -778,6 +817,7 @@ describe('MoleculeJsx', () => {
         scratch,
       );
 
+      debugger;
       root = render(<div />, scratch, root);
 
       expect((root as HTMLElement).innerHTML).to.eq('');
@@ -858,6 +898,17 @@ describe('MoleculeJsx', () => {
       );
 
       expect((root as HTMLElement).innerHTML).to.eq('<p>a</p><x-mc></x-mc>');
+
+      root = render(
+        <div>
+          <E />
+          <p>a</p>
+        </div>,
+        scratch,
+        root,
+      );
+
+      expect((root as HTMLElement).innerHTML).to.eq('<x-mc></x-mc><p>a</p>');
     });
 
     it('Works on removed dom', () => {
