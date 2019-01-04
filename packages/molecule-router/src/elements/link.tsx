@@ -88,4 +88,5 @@ export default class MolRouterLink extends Element {
   }
 }
 
-customElements.define('mol-router-link', MolRouterLink);
+if (!customElements.get('mol-router-link'))
+  customElements.define('mol-router-link', MolRouterLink);

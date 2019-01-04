@@ -56,4 +56,5 @@ export default class MolSwitch extends Element {
   }
 }
 
-customElements.define('mol-switch', MolSwitch);
+if (!customElements.get('mol-switch'))
+  customElements.define('mol-switch', MolSwitch);

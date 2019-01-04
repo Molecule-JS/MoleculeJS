@@ -92,4 +92,5 @@ export default class MolNavLink extends Element {
   }
 }
 
-customElements.define('mol-nav-link', MolNavLink);
+if (!customElements.get('mol-nav-link'))
+  customElements.define('mol-nav-link', MolNavLink);

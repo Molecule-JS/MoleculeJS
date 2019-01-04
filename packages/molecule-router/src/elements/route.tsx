@@ -84,4 +84,5 @@ export default class MolRoute extends Element {
   }
 }
 
-customElements.define('mol-route', MolRoute);
+if (!customElements.get('mol-route'))
+  customElements.define('mol-route', MolRoute);

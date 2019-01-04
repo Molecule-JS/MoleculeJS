@@ -69,4 +69,5 @@ export default class MolRedirect extends Element {
   }
 }
 
-customElements.define('mol-redirect', MolRedirect);
+if (!customElements.get('mol-redirect'))
+  customElements.define('mol-redirect', MolRedirect);
