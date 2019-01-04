@@ -279,7 +279,7 @@ function patch(pat: Patch) {
       }
 
       for (const prop in vNode.props) {
-        if (prop != null) {
+        if (vNode.props[prop] != null) {
           const p: PropPatch = {
             vNode,
             parent: pat.parent,
