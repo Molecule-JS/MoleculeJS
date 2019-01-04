@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-jsx",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "Build MoleculeElements using JSX",
   "main": "dist/molecule-jsx.js",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
