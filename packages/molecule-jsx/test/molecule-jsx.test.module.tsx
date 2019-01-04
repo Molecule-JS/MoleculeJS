@@ -454,7 +454,7 @@ describe('MoleculeJsx', () => {
       const proto = document.createElement('div').constructor.prototype;
 
       sinon.spy(proto, 'addEventListener');
-      debugger;
+
       render(<div on-MyWeirdlyCasedEvent={onclick} />, scratch);
 
       expect((scratch.childNodes[0] as any).attributes.length).to.equal(0);
@@ -778,6 +778,7 @@ describe('MoleculeJsx', () => {
         scratch,
       );
 
+      debugger;
       root = render(<div />, scratch, root);
 
       expect((root as HTMLElement).innerHTML).to.eq('');
