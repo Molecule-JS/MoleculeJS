@@ -181,12 +181,7 @@ export function innerDiffNode(
     if (key != null) {
       keyedLen++;
       keyed[key] = { vNode: child as VNode, dom: domChild };
-    } else if (
-      props ||
-      ((domChild as any).splitText !== undefined
-        ? domChild!.nodeValue!.trim()
-        : true)
-    ) {
+    } else if (props) {
       children.push({
         vNode: child,
         dom: domChild,
@@ -208,7 +203,7 @@ export function innerDiffNode(
         delete keyed[key];
         keyedLen--;
       }
-    } else if (min < children.length) {
+    } else {
       for (let j = min; j < children.length; j++) {
         const c = children[j];
         if (c !== undefined && isSameNodeType(c.vNode, vChild)) {
