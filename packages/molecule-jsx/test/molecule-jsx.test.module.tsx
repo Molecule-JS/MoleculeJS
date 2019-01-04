@@ -866,6 +866,17 @@ describe('MoleculeJsx', () => {
       );
 
       expect((root as HTMLElement).innerHTML).to.eq('<p>a</p><x-mc></x-mc>');
+
+      root = render(
+        <div>
+          <E />
+          <p>a</p>
+        </div>,
+        scratch,
+        root,
+      );
+
+      expect((root as HTMLElement).innerHTML).to.eq('<x-mc></x-mc><p>a</p>');
     });
 
     it('Works on removed dom', () => {
