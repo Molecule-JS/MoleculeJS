@@ -40,8 +40,8 @@ export {
   MoleculeElement,
 };
 
-const vDomMap = new WeakMap<container, VDomElement>();
-const domMap = new WeakMap<container, Node>();
+const vDomMap = new WeakMap<container, VDomElement | VDomElement[]>();
+const domMap = new WeakMap<container, Node | Node[]>();
 
 export interface Class<T> {
   new (): T;
@@ -107,10 +107,10 @@ function flatten<T>(arr: (T | T[])[], result: T[] = []) {
 }
 
 export function render(
-  vnode: VDomElement,
+  vnode: VDomElement | VDomElement[],
   container: container,
-  oldDom?: Node,
-  oldVDom?: VDomElement,
+  oldDom?: Node | Node[],
+  oldVDom?: VDomElement | VDomElement[],
 ) {
   const dom = diff(
     vnode,

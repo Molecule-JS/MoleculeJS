@@ -8,12 +8,45 @@ interface VNodeAndDom {
 }
 
 export function diff(
-  vnode: VDomElement,
+  vNode: VDomElement | VDomElement[],
   parent: container,
-  oldVNode?: VDomElement,
-  dom?: Node,
+  oldVNode?: VDomElement | VDomElement[],
+  dom?: Node | Node[],
 ) {
-  const diffed = idiff(vnode, parent, oldVNode, dom);
+  if (Array.isArray(vNode)) {
+    if (!dom || !Array.isArray(oldVNode)) {
+      if (dom) {
+        parent.removeChild(dom as Node);
+      }
+      const newDom: Node[] = [];
+      for (const child of vNode) {
+        newDom.push(
+          patch({
+            parent,
+            vNode: child,
+            type: PatchType.PATCH_TYPE_COMPLETE,
+          }),
+        );
+      }
+      return newDom;
+    }
+
+    innerDiffNode(vNode, oldVNode, parent.childNodes, parent);
+
+    return dom as Node[];
+  }
+  if (Array.isArray(oldVNode)) {
+    for (const node of dom as Node[]) {
+      parent.removeChild(node);
+    }
+    return patch({
+      parent,
+      vNode,
+      type: PatchType.PATCH_TYPE_COMPLETE,
+    });
+  }
+
+  const diffed = _diff(vNode, parent, oldVNode, dom as Node);
 
   if (parent && diffed && diffed.parentNode !== parent) {
     parent.appendChild(diffed);
@@ -22,7 +55,7 @@ export function diff(
   return diffed;
 }
 
-function idiff(
+function _diff(
   vNode: VDomElement,
   parent: container,
   oldVNode?: VDomElement,
@@ -217,7 +250,7 @@ function innerDiffNode(
       }
     }
 
-    const newDom = idiff(vChild, parent, child, dom);
+    const newDom = _diff(vChild, parent, child, dom);
 
     const f = domChildren[i];
     if (newDom && newDom !== parent && newDom !== f) {
