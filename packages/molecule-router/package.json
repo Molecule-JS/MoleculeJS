@@ -9,7 +9,7 @@
   "author": "DiiLord <d.drodt@gmx.de>",
   "typings": "dist/molecule-router.d.ts",
   "dependencies": {
-    "@moleculejs/molecule-jsx": "^0.13.0",
+    "@moleculejs/molecule-jsx": "^0.13.1",
     "history": "^4.7.2"
   },
   "bundledDependencies": [

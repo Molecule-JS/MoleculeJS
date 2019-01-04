@@ -1,6 +1,6 @@
 {
   "name": "@moleculejs/molecule-lit",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "main": "dist/molecule-lit.js",
   "module": "dist/molecule-lit.mjs",
   "repository": "https://github.com/Molecule-JS/MoleculeJS.git",
@@ -9,8 +9,8 @@
   "typings": "dist/molecule-lit.d.ts",
   "description": "Molecule elements with lit-html",
   "dependencies": {
-    "@moleculejs/molecule": "^0.13.0",
-    "lit-html": "^0.13.0"
+    "@moleculejs/molecule": "^0.13.1",
+    "lit-html": "^0.14.0"
   },
   "keywords": [
     "web components",

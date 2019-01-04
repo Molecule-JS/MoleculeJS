@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "@moleculejs/molecule": "^0.13.0"
+    "@moleculejs/molecule": "^0.13.1"
   },
   "module": "dist/molecule-jsx.mjs",
   "typings": "dist/molecule-jsx.d.ts",
