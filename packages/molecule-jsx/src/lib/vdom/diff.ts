@@ -7,8 +7,6 @@ interface VNodeAndDom {
   dom: Node;
 }
 
-export let diffLevel = 0;
-
 export function diff(
   vnode: VDomElement,
   parent: container,
@@ -24,7 +22,7 @@ export function diff(
   return diffed;
 }
 
-export function idiff(
+function idiff(
   vNode: VDomElement,
   parent: container,
   oldVNode?: VDomElement,
@@ -156,7 +154,7 @@ export function idiff(
   return dom;
 }
 
-export function innerDiffNode(
+function innerDiffNode(
   vChildren: VDomElement[],
   oldVChildren: VDomElement[],
   domChildren: NodeListOf<ChildNode>,
@@ -181,7 +179,7 @@ export function innerDiffNode(
     if (key != null) {
       keyedLen++;
       keyed[key] = { vNode: child as VNode, dom: domChild };
-    } else if (props) {
+    } else {
       children.push({
         vNode: child,
         dom: domChild,
@@ -304,12 +302,12 @@ function patch(pat: Patch) {
   }
 }
 
-export function remove(node: Node) {
+function remove(node: Node) {
   removeChildren(node);
   removeNode(node);
 }
 
-export function removeChildren(node: Node) {
+function removeChildren(node: Node) {
   node = node.lastChild as Node;
   while (node) {
     const next = node.previousSibling;
@@ -328,7 +326,7 @@ function shouldRender(node: VDomElement) {
   return node != null && typeof node !== 'boolean';
 }
 
-export function isSameNodeType(vNode: VDomElement, oldVNode: VDomElement) {
+function isSameNodeType(vNode: VDomElement, oldVNode: VDomElement) {
   if (isPrimitive(vNode)) {
     return isPrimitive(oldVNode);
   }
