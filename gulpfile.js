@@ -186,7 +186,7 @@ for (const format in rollupBuilds) {
 exports['rollup:test'] = (done) =>
   gulp.series(exports['rollup:test:es'], exports['rollup:test:umd'])(done);
 
-exports['clean:dist'] = () => gulp.src('packages/**/dist').pipe(clean());
+exports['clean:dist'] = () => gulp.src('packages/*/dist').pipe(clean());
 
 exports['clean:test'] = () =>
   gulp.src(['test/tests', 'test/common-built']).pipe(clean());
