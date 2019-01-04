@@ -141,15 +141,17 @@ function idiff(
     const value: string = shouldRender(vNode.children[0])
       ? String(vNode.children[0])
       : '';
-    if (oldVNode.children[0] !== vNode.children[0])
+    if (oldVNode.children[0] !== vNode.children[0]) {
       dom.firstChild!.nodeValue = value;
-  } else if (vNode.children.length > 0 || oldVNode.children.length > 0)
+    }
+  } else if (vNode.children.length > 0 || oldVNode.children.length > 0) {
     innerDiffNode(
       vNode.children.filter(shouldRender),
       oldVNode.children.filter(shouldRender),
       dom.childNodes,
       dom as container,
     );
+  }
 
   return dom;
 }
@@ -188,7 +190,7 @@ function innerDiffNode(
   }
 
   for (let i = 0; i < len; i++) {
-    let vChild = vChildren[i];
+    const vChild = vChildren[i];
     let child: VDomElement = null;
     let dom: Node | undefined = undefined;
 
@@ -275,9 +277,9 @@ function patch(pat: Patch) {
         if (vNode.props[prop] != null) {
           const p: PropPatch = {
             vNode,
+            dom,
             parent: pat.parent,
             name: prop,
-            dom,
             oldValue: undefined,
             value: vNode.props[prop],
             type: PatchType.PATCH_TYPE_PROP,
