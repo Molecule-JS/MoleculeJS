@@ -704,7 +704,7 @@ describe('MoleculeJsx', () => {
       );
 
       expect((root as HTMLElement).innerHTML).to.eq('a b c d');
-      debugger;
+
       root = render(
         <div>
           {'c'}
@@ -817,7 +817,6 @@ describe('MoleculeJsx', () => {
         scratch,
       );
 
-      debugger;
       root = render(<div />, scratch, root);
 
       expect((root as HTMLElement).innerHTML).to.eq('');
@@ -958,6 +957,22 @@ describe('MoleculeJsx', () => {
       ) as HTMLElement[];
       expect(root2.length).to.eq(3);
       expect(scratch.innerHTML).to.eq('<p>a</p><span>b</span><div>c</div>');
+    });
+
+    it('should update arrays', () => {
+      let root = render(
+        [<p>a</p>, <span>b</span>, <div>c</div>],
+        scratch,
+      ) as Node[];
+
+      expect(root.length).to.eq(3);
+      expect(scratch.innerHTML).to.eq('<p>a</p><span>b</span><div>c</div>');
+
+      debugger;
+      root = render([<foo />, <h1>Hello</h1>], scratch, root) as Node[];
+
+      expect(root.length).to.eq(2);
+      expect(scratch.innerHTML).to.eq('<foo></foo><h1>Hello</h1>');
     });
   });
 
