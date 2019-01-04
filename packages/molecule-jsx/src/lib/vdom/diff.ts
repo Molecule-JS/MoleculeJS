@@ -44,6 +44,7 @@ export function idiff(
       const p: PrimitivePatch = {
         vNode,
         parent,
+        dom,
         type: PatchType.PATCH_TYPE_PRIMITIVE,
         oldValue: oldVNode,
       };
@@ -198,10 +199,6 @@ export function innerDiffNode(
     let child: VDomElement = null;
     let dom: Node | undefined = undefined;
 
-    if (vChild == null || vChild === false) {
-      vChild = '';
-    }
-
     // attempt to find a node based on key matching
     const key = (vChild as VNode).key;
     if (key != null) {
@@ -241,17 +238,17 @@ export function innerDiffNode(
 
   if (keyedLen) {
     for (const i in keyed) {
-      if (keyed[i].dom !== undefined) remove(keyed[i].dom);
+      remove(keyed[i].dom);
     }
   }
 
   for (let i = min; i < children.length; i++) {
     const child = children[i];
-    if (child && child.dom) remove(child.dom);
+    remove(child!.dom);
   }
 }
 
-export function patch(pat: Patch) {
+function patch(pat: Patch) {
   if (!shouldRender(pat.vNode)) {
     pat.vNode = '';
   }
@@ -309,9 +306,6 @@ export function patch(pat: Patch) {
         propPatch.value,
       );
       return propPatch.dom!;
-
-    default:
-      throw new Error(`Unknown PatchType: ${pat.type}`);
   }
 }
 
