@@ -160,6 +160,8 @@ describe('MoleculeJsx', () => {
       expect((root as HTMLElement).nodeValue).to.eq('34');
       root = render('Hi', scratch);
       expect((root as HTMLElement).nodeValue).to.eq('Hi');
+      root = render('Hi', scratch);
+      expect((root as HTMLElement).nodeValue).to.eq('Hi');
     });
 
     it('should nest empty nodes', () => {
@@ -691,6 +693,28 @@ describe('MoleculeJsx', () => {
       );
 
       expect(vn1).to.eql(vn2);
+    });
+
+    it('should render primitive children', () => {
+      let root = render(
+        <div>
+          {'a'} b {'c'} d
+        </div>,
+        scratch,
+      );
+
+      expect((root as HTMLElement).innerHTML).to.eq('a b c d');
+      debugger;
+      root = render(
+        <div>
+          {'c'}
+          {'a'} b d
+        </div>,
+        scratch,
+        root,
+      );
+
+      expect((root as HTMLElement).innerHTML).to.eq('ca b d');
     });
 
     it('should ignore props.children if children are manually specified', () => {
