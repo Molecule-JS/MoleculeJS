@@ -327,7 +327,7 @@ describe('MoleculeJsx', () => {
           </div>,
           scratch,
           root,
-        );
+        ) as Node;
       }
 
       test('2');
@@ -704,7 +704,7 @@ describe('MoleculeJsx', () => {
       );
 
       expect((root as HTMLElement).innerHTML).to.eq('a b c d');
-      debugger;
+
       root = render(
         <div>
           {'c'}
@@ -817,7 +817,6 @@ describe('MoleculeJsx', () => {
         scratch,
       );
 
-      debugger;
       root = render(<div />, scratch, root);
 
       expect((root as HTMLElement).innerHTML).to.eq('');
@@ -912,13 +911,68 @@ describe('MoleculeJsx', () => {
     });
 
     it('Works on removed dom', () => {
-      let root = render(<p />, scratch);
+      let root = render(<p />, scratch) as Node;
 
       scratch.removeChild(root);
 
-      root = render('text', scratch, root);
+      root = render('text', scratch, root) as Node;
 
       expect((root as HTMLElement).nodeValue).to.eq('text');
+    });
+
+    it('should render arrays', () => {
+      const root = render(
+        [<p>a</p>, <span>b</span>, <div>c</div>],
+        scratch,
+      ) as Node[];
+
+      expect(root.length).to.eq(3);
+      expect(scratch.innerHTML).to.eq('<p>a</p><span>b</span><div>c</div>');
+    });
+
+    it('should replace arrays with single nodes', () => {
+      const root = render(
+        [<p>a</p>, <span>b</span>, <div>c</div>],
+        scratch,
+      ) as Node[];
+
+      expect(root.length).to.eq(3);
+      expect(scratch.innerHTML).to.eq('<p>a</p><span>b</span><div>c</div>');
+
+      const root2 = render(<foo />, scratch, root) as HTMLElement;
+      expect(root2.innerHTML).to.eq('');
+      expect(scratch.innerHTML).to.eq('<foo></foo>');
+    });
+
+    it('should replace single nodes with arrays', () => {
+      const root = render(<foo />, scratch) as HTMLElement;
+
+      expect(root.innerHTML).to.eq('');
+      expect(scratch.innerHTML).to.eq('<foo></foo>');
+
+      const root2 = render(
+        [<p>a</p>, <span>b</span>, <div>c</div>],
+        scratch,
+        root,
+      ) as HTMLElement[];
+      expect(root2.length).to.eq(3);
+      expect(scratch.innerHTML).to.eq('<p>a</p><span>b</span><div>c</div>');
+    });
+
+    it('should update arrays', () => {
+      let root = render(
+        [<p>a</p>, <span>b</span>, <div>c</div>],
+        scratch,
+      ) as Node[];
+
+      expect(root.length).to.eq(3);
+      expect(scratch.innerHTML).to.eq('<p>a</p><span>b</span><div>c</div>');
+
+      debugger;
+      root = render([<foo />, <h1>Hello</h1>], scratch, root) as Node[];
+
+      expect(root.length).to.eq(2);
+      expect(scratch.innerHTML).to.eq('<foo></foo><h1>Hello</h1>');
     });
   });
 
