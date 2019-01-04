@@ -163,7 +163,7 @@ describe('MoleculeJsx', () => {
     });
 
     it('should nest empty nodes', () => {
-      render(
+      const root = render(
         <div>
           <span />
           <foo />
@@ -180,6 +180,14 @@ describe('MoleculeJsx', () => {
       expect(c[0].nodeName).to.equal('SPAN');
       expect(c[1].nodeName).to.equal('FOO');
       expect(c[2].nodeName).to.equal('X-BAR');
+
+      render(
+        <div>
+          <div />
+        </div>,
+        scratch,
+        root,
+      );
     });
 
     it('should not render falsy values', () => {
