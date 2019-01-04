@@ -155,6 +155,13 @@ describe('MoleculeJsx', () => {
       expect(scratch.childNodes[0]).to.have.property('nodeName', 'X-BAR');
     });
 
+    it('should handle changing primitive nodes', () => {
+      let root = render(34, scratch);
+      expect((root as HTMLElement).nodeValue).to.eq('34');
+      root = render('Hi', scratch);
+      expect((root as HTMLElement).nodeValue).to.eq('Hi');
+    });
+
     it('should nest empty nodes', () => {
       render(
         <div>
