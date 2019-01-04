@@ -1,12 +1,21 @@
-import { VDomElement, VNode, container, Class } from '../../molecule-jsx';
+import { VDomElement, VNode, container } from '../../molecule-jsx';
 import { removeNode, createNode, setAccessor } from '../dom/index';
+import { Patch, PrimitivePatch, PatchType, PropPatch } from './patch';
 
-const PROP_KEY = '__mol_jsx_attr__';
+interface KeyedElement {
+  vNode: VDomElement;
+  dom: Node;
+}
 
 export let diffLevel = 0;
 
-export function diff(vnode: VDomElement, parent: container, dom?: Node) {
-  const diffed = idiff(vnode, dom);
+export function diff(
+  vnode: VDomElement,
+  parent: container,
+  oldVNode?: VDomElement,
+  dom?: Node,
+) {
+  const diffed = idiff(vnode, parent, oldVNode, dom);
 
   if (parent && diffed && diffed.parentNode !== parent) {
     parent.appendChild(diffed);
@@ -15,214 +24,260 @@ export function diff(vnode: VDomElement, parent: container, dom?: Node) {
   return diffed;
 }
 
-export function idiff(vnode: VDomElement, dom?: Node) {
-  let out = dom;
-
-  if (vnode == null || typeof vnode === 'boolean') {
-    vnode = '';
+export function idiff(
+  vNode: VDomElement,
+  parent: container,
+  oldVNode?: VDomElement,
+  dom?: Node,
+): Node {
+  if (!dom) {
+    return patch({
+      vNode,
+      parent,
+      type: PatchType.PATCH_TYPE_COMPLETE,
+    });
   }
 
-  if (typeof vnode === 'string' || typeof vnode === 'number') {
-    vnode = String(vnode);
-    if (dom && dom instanceof Text) {
-      /* istanbul ignore if */ /* Browser quirk that can't be covered */
-      if (dom.nodeValue !== vnode) {
-        dom.nodeValue = vnode;
-      }
-    } else {
-      out = document.createTextNode(vnode);
-      if (dom) {
-        if (dom.parentNode) dom.parentNode.replaceChild(out, dom);
-        remove(dom);
-      }
+  // Both are primitive
+  if (isPrimitive(vNode) && isPrimitive(oldVNode)) {
+    if (vNode !== vNode) {
+      const p: PrimitivePatch = {
+        vNode,
+        parent,
+        type: PatchType.PATCH_TYPE_PRIMITIVE,
+        oldValue: oldVNode,
+      };
+      return patch(p);
     }
-
-    return out as Node;
+    return dom;
   }
 
-  const vNodeName = vnode.nodeName;
+  // Only one is primitive
+  if (isPrimitive(vNode) || isPrimitive(oldVNode)) {
+    return patch({ vNode, parent, dom, type: PatchType.PATCH_TYPE_COMPLETE });
+  }
 
-  if (
-    !dom ||
-    (typeof vNodeName === 'function' &&
-      !isSameElementType(dom as Element, vNodeName)) ||
-    (typeof vNodeName === 'string' && !isNamedNode(dom, vNodeName))
-  ) {
-    out = createNode(vNodeName);
+  // Both aren't primitive
+  vNode = vNode as VNode;
+  oldVNode = oldVNode as VNode;
 
-    if (dom) {
-      // move children into the replacement node
-      while (dom.firstChild) out.appendChild(dom.firstChild);
+  // Different tag
+  if (vNode.nodeName !== oldVNode.nodeName) {
+    return patch({ vNode, parent, dom, type: PatchType.PATCH_TYPE_COMPLETE });
+  }
 
-      // if the previous Element was mounted into the DOM, replace it inline
-      if (dom.parentNode) dom.parentNode.replaceChild(out, dom);
+  // Check props
+  const oldProps = oldVNode.props;
+  const props = vNode.props;
 
-      // recycle the old element (skips non-Element node types)
-      remove(dom);
+  for (const name in oldProps) {
+    if (!(props && props[name] != null) && oldProps[name] != null) {
+      const p: PropPatch = {
+        vNode,
+        parent,
+        name,
+        dom,
+        oldValue: oldProps[name],
+        value: undefined,
+        type: PatchType.PATCH_TYPE_PROP,
+      };
+      patch(p);
     }
   }
 
-  const fc = out!.firstChild;
-  let props: { [prop: string]: any } = (out as any)[PROP_KEY];
-  const children = vnode.children;
-
-  if (props == null) {
-    props = (out as any)[PROP_KEY] = {};
-    /* This doesn't seem to do anything.
-    // tslint:disable-next-line:space-in-parens
-    for (let a = (out as Element).attributes, i = a.length; i--; ) {
-      props[a[i].name] = a[i].value;
+  for (const name in props) {
+    if (
+      !(name in oldProps) ||
+      props[name] !==
+        (name === 'value' || name === 'checked'
+          ? (dom as any)[name]
+          : oldProps[name])
+    ) {
+      const p: PropPatch = {
+        vNode,
+        parent,
+        name,
+        dom,
+        oldValue: oldProps[name],
+        value: props[name],
+        type: PatchType.PATCH_TYPE_PROP,
+      };
+      patch(p);
     }
-    */
   }
 
-  if (
-    children &&
-    children.length === 1 &&
-    typeof children[0] === 'string' &&
-    fc != null &&
-    fc instanceof Text &&
-    fc.nextSibling == null
-  ) {
-    if (fc.nodeValue !== children[0]) {
-      fc.nodeValue = children[0] as string;
-    }
-  } else if ((children && children.length) || fc != null) {
-    innerDiffNode(out as Node, children);
-  }
+  // Check children
+  innerDiffNode(
+    vNode.children.filter(shouldRender),
+    oldVNode.children.filter(shouldRender),
+    dom.childNodes,
+    dom as container,
+  );
 
-  diffProps(out as Node, vnode.props, props);
-
-  return out as Node;
+  return dom;
 }
 
-export function innerDiffNode(dom: Node, vchildren: VDomElement[]) {
-  const origChildren = dom.childNodes;
-  const children: (Node | undefined)[] = [];
-  const keyed: { [key: string]: Node | undefined } = {};
-  let keyedLen = 0;
-  let min = 0;
-  const len = origChildren.length;
-  let childrenLen = 0;
-  const vlen = vchildren.length;
-  let j: number;
-  let c: Node;
-  let f: Node;
-  let vchild: VDomElement;
-  let child: Node | null;
+export function innerDiffNode(
+  vChildren: VDomElement[],
+  oldVChildren: VDomElement[],
+  domChildren: NodeListOf<ChildNode>,
+  parent: container,
+) {
+  const len = vChildren.length;
+  const oldLen = oldVChildren.length;
+  let domLen = domChildren.length;
 
-  if (len !== 0) {
-    for (let i = 0; i < len; i++) {
-      const child = origChildren[i];
-      const props = (child as any)[PROP_KEY];
-      const key = vlen && props ? props.key : null;
-      if (key != null) {
-        keyedLen++;
-        keyed[key] = child;
-      } else if (
-        props ||
-        ((child as any).splitText !== undefined
-          ? child!.nodeValue!.trim()
-          : true)
-      ) {
-        children[childrenLen++] = child;
-      }
+  const children: VDomElement[] = [];
+
+  let keyedLen = 0;
+  const keyed: { [key: string]: KeyedElement } = {};
+
+  let min = 0;
+
+  for (let i = 0; i < oldLen; i++) {
+    const child = oldVChildren[i];
+    const domChild = domChildren[i];
+
+    const props = child instanceof VNode ? child.props : undefined;
+    const key = len && props ? props.key : null;
+
+    if (key != null) {
+      keyedLen++;
+      keyed[key] = { vNode: child as VNode, dom: domChild };
+    } else if (
+      props ||
+      ((domChild as any).splitText !== undefined
+        ? domChild!.nodeValue!.trim()
+        : true)
+    ) {
+      children.push(child);
     }
   }
 
-  if (vlen !== 0) {
-    for (let i = 0; i < vlen; i++) {
-      vchild = vchildren[i];
-      child = null;
+  for (let i = 0; i < len; i++) {
+    let vChild = vChildren[i];
+    let child: VDomElement = null;
+    let dom: Node | undefined = undefined;
 
-      if (vchild == null || vchild === false) {
-        vchild = '';
+    if (vChild == null || vChild === false) {
+      vChild = '';
+    }
+
+    // attempt to find a node based on key matching
+    const key = (vChild as VNode).key;
+    if (key != null) {
+      if (keyedLen && keyed[key] !== undefined) {
+        child = keyed[key].vNode;
+        dom = keyed[key].dom;
+        delete keyed[key];
+        keyedLen--;
       }
-
-      // attempt to find a node based on key matching
-      const key = (vchild as VNode).key;
-      if (key != null) {
-        if (keyedLen && keyed[key] !== undefined) {
-          child = keyed[key] as Node | null;
-          keyed[key] = undefined;
-          keyedLen--;
-        }
-      } else if (min < childrenLen) {
-        for (j = min; j < childrenLen; j++) {
-          if (
-            children[j] !== undefined &&
-            isSameNodeType((c = children[j] as Node), vchild)
-          ) {
-            child = c;
-            children[j] = undefined;
-            if (j === childrenLen - 1) childrenLen--;
-            if (j === min) min++;
-            break;
-          }
+    } else if (min < children.length) {
+      for (let j = min; j < children.length; j++) {
+        let c: VDomElement;
+        if (
+          children[j] !== undefined &&
+          isSameNodeType((c = children[j]), vChild)
+        ) {
+          child = c;
+          dom = domChildren[j];
+          children[j] = undefined;
+          if (j === children.length - 1) children.length--;
+          if (j === min) min++;
+          break;
         }
       }
+    }
 
-      // morph the matched/found/created DOM child to match vchild (deep)
-      child = idiff(vchild, child as Node) as Node;
+    const newDom = idiff(vChild, parent, child, dom);
 
-      f = origChildren[i];
-      if (child && child !== dom && child !== f) {
-        if (f == null) {
-          dom.appendChild(child);
-        } else if (child === f.nextSibling) {
-          removeNode(f);
-        } else {
-          dom.insertBefore(child, f);
-        }
+    const f = domChildren[i];
+    if (newDom && newDom !== parent && newDom !== f) {
+      if (f == null) {
+        parent.appendChild(newDom);
+      } else if (newDom === f.nextSibling) {
+        removeNode(f);
+      } else {
+        parent.insertBefore(newDom, f);
       }
     }
   }
 
   if (keyedLen) {
     for (const i in keyed) {
-      if (keyed[i] !== undefined) remove(keyed[i] as Node);
+      if (keyed[i].dom !== undefined) remove(keyed[i].dom);
     }
   }
 
-  while (min <= childrenLen) {
-    if ((child = children[childrenLen--] as Node) !== undefined) {
+  while (min <= domLen) {
+    let child: Node;
+    if ((child = domChildren[domLen--]) !== undefined) {
       remove(child);
     }
   }
 }
 
-export function diffProps(
-  dom: Node,
-  props: { [prop: string]: any },
-  old: { [prop: string]: any },
-) {
-  let name;
-
-  // remove attributes no longer present on the vnode by setting them to undefined
-  for (name in old) {
-    if (!(props && props[name] != null) && old[name] != null) {
-      setAccessor(dom as HTMLElement, name, old[name], (old[name] = undefined));
-    }
+export function patch(pat: Patch) {
+  if (!shouldRender(pat.vNode)) {
+    pat.vNode = '';
   }
+  switch (pat.type) {
+    case PatchType.PATCH_TYPE_PRIMITIVE:
+      const p = pat as PrimitivePatch;
+      (p.dom as Text).nodeValue = p.vNode as string;
+      return p.dom!;
 
-  // add new & update changed attributes
-  for (name in props) {
-    if (
-      name !== 'children' &&
-      name !== 'innerHTML' &&
-      (!(name in old) ||
-        props[name] !==
-          (name === 'value' || name === 'checked'
-            ? (dom as any)[name]
-            : old[name]))
-    ) {
+    case PatchType.PATCH_TYPE_COMPLETE:
+      if (pat.dom) remove(pat.dom);
+
+      if (isPrimitive(pat.vNode)) {
+        pat.vNode = String(pat.vNode);
+        const dom = document.createTextNode(pat.vNode as string);
+        pat.parent.appendChild(dom);
+        return dom;
+      }
+      const vNode = pat.vNode as VNode;
+      const dom = createNode(vNode.nodeName);
+
+      for (const prop in vNode.props) {
+        if (prop != null) {
+          const p: PropPatch = {
+            vNode,
+            parent: pat.parent,
+            name: prop,
+            dom,
+            oldValue: undefined,
+            value: vNode.props[prop],
+            type: PatchType.PATCH_TYPE_PROP,
+          };
+          patch(p);
+        }
+      }
+
+      for (const child of vNode.children) {
+        patch({
+          vNode: child,
+          parent: dom,
+          type: PatchType.PATCH_TYPE_COMPLETE,
+        });
+      }
+
+      pat.parent.appendChild(dom);
+
+      return dom;
+
+    case PatchType.PATCH_TYPE_PROP:
+      const propPatch = pat as PropPatch;
       setAccessor(
-        dom as HTMLElement,
-        name,
-        old[name],
-        (old[name] = props[name]),
+        propPatch.dom as HTMLElement,
+        propPatch.name,
+        propPatch.oldValue,
+        propPatch.value,
       );
-    }
+      return propPatch.dom!;
+
+    default:
+      throw new Error(`Unknown PatchType: ${pat.type}`);
   }
 }
 
@@ -240,33 +295,27 @@ export function removeChildren(node: Node) {
   }
 }
 
-export function isSameElementType(
-  dom: Element,
-  constructor: Class<HTMLElement>,
-) {
-  if (!dom.tagName) {
-    return false;
-  }
-
-  const tagName = dom.tagName.toLowerCase();
-
-  return customElements.get(tagName) === constructor;
+function isPrimitive(val: any) {
+  return (
+    val === null || !(typeof val === 'object' || typeof val === 'function')
+  );
 }
 
-export function isNamedNode(node: Node, nodeName: string) {
-  return node.nodeName.toLowerCase() === nodeName.toLowerCase();
+function shouldRender(node: VDomElement) {
+  return node != null && typeof node !== 'boolean';
 }
 
-export function isSameNodeType(node: Node, vnode: VDomElement) {
-  if (!vnode || typeof vnode === 'boolean') {
-    return false;
+export function isSameNodeType(vNode: VDomElement, oldVNode: VDomElement) {
+  if (isPrimitive(vNode)) {
+    return isPrimitive(oldVNode);
   }
-
-  if (typeof vnode === 'string' || typeof vnode === 'number') {
-    return node instanceof Text;
+  const name = (vNode as VNode).nodeName;
+  const oldName = (oldVNode as VNode).nodeName;
+  if (typeof name === 'string') {
+    return (
+      typeof oldName === 'string' &&
+      name.toLowerCase() === oldName.toLowerCase()
+    );
   }
-  if (typeof vnode.nodeName === 'string') {
-    return isNamedNode(node, vnode.nodeName);
-  }
-  return isSameElementType(node as Element, vnode.nodeName);
+  return name === oldName;
 }
