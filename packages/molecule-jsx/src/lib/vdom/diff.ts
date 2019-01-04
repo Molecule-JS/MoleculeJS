@@ -2,7 +2,7 @@ import { VDomElement, VNode, container } from '../../molecule-jsx';
 import { removeNode, createNode, setAccessor } from '../dom/index';
 import { Patch, PrimitivePatch, PatchType, PropPatch } from './patch';
 
-interface KeyedElement {
+interface VNodeAndDom {
   vNode: VDomElement;
   dom: Node;
 }
@@ -54,7 +54,12 @@ export function idiff(
 
   // Only one is primitive
   if (isPrimitive(vNode) || isPrimitive(oldVNode)) {
-    return patch({ vNode, parent, dom, type: PatchType.PATCH_TYPE_COMPLETE });
+    return patch({
+      vNode,
+      parent,
+      dom,
+      type: PatchType.PATCH_TYPE_COMPLETE,
+    });
   }
 
   // Both aren't primitive
@@ -63,7 +68,12 @@ export function idiff(
 
   // Different tag
   if (vNode.nodeName !== oldVNode.nodeName) {
-    return patch({ vNode, parent, dom, type: PatchType.PATCH_TYPE_COMPLETE });
+    return patch({
+      vNode,
+      parent,
+      dom,
+      type: PatchType.PATCH_TYPE_COMPLETE,
+    });
   }
 
   // Check props
@@ -71,6 +81,19 @@ export function idiff(
   const props = vNode.props;
 
   for (const name in oldProps) {
+    // TODO: Find better solution. Perhaps transform it to vDOM?
+    if (name === 'dangerouslySetInnerHTML' && !props[name]) {
+      (dom as HTMLElement).innerHTML = '';
+      for (const child of vNode.children) {
+        patch({
+          vNode: child,
+          parent: dom as container,
+          type: PatchType.PATCH_TYPE_COMPLETE,
+        });
+      }
+      oldVNode.children = vNode.children;
+      continue;
+    }
     if (!(props && props[name] != null) && oldProps[name] != null) {
       const p: PropPatch = {
         vNode,
@@ -106,13 +129,25 @@ export function idiff(
     }
   }
 
+  // dangerouslySetInnerHTML has precedence
+  if ('dangerouslySetInnerHTML' in props) return dom;
+
   // Check children
-  innerDiffNode(
-    vNode.children.filter(shouldRender),
-    oldVNode.children.filter(shouldRender),
-    dom.childNodes,
-    dom as container,
-  );
+  if (
+    vNode.children.length === 1 &&
+    typeof vNode.children[0] === 'string' &&
+    oldVNode.children.length === 1 &&
+    typeof oldVNode.children[0] === 'string'
+  ) {
+    if (oldVNode.children[0] !== vNode.children[0])
+      dom.firstChild!.nodeValue = vNode.children[0] as string;
+  } else if (vNode.children.length > 0 || oldVNode.children.length > 0)
+    innerDiffNode(
+      vNode.children.filter(shouldRender),
+      oldVNode.children.filter(shouldRender),
+      [...dom.childNodes],
+      dom as container,
+    );
 
   return dom;
 }
@@ -120,17 +155,16 @@ export function idiff(
 export function innerDiffNode(
   vChildren: VDomElement[],
   oldVChildren: VDomElement[],
-  domChildren: NodeListOf<ChildNode>,
+  domChildren: Node[],
   parent: container,
 ) {
   const len = vChildren.length;
   const oldLen = oldVChildren.length;
   let domLen = domChildren.length;
 
-  const children: VDomElement[] = [];
-
   let keyedLen = 0;
-  const keyed: { [key: string]: KeyedElement } = {};
+  const keyed: { [key: string]: VNodeAndDom } = {};
+  const children: (VNodeAndDom | undefined)[] = [];
 
   let min = 0;
 
@@ -150,7 +184,10 @@ export function innerDiffNode(
         ? domChild!.nodeValue!.trim()
         : true)
     ) {
-      children.push(child);
+      children.push({
+        vNode: child,
+        dom: domChild,
+      });
     }
   }
 
@@ -174,14 +211,13 @@ export function innerDiffNode(
       }
     } else if (min < children.length) {
       for (let j = min; j < children.length; j++) {
-        let c: VDomElement;
-        if (
-          children[j] !== undefined &&
-          isSameNodeType((c = children[j]), vChild)
-        ) {
-          child = c;
-          dom = domChildren[j];
+        const c = children[j];
+        if (c !== undefined && isSameNodeType(c.vNode, vChild)) {
+          child = c.vNode;
+          dom = c.dom;
           children[j] = undefined;
+          /* domChildren[j].remove();
+          domLen--; */
           if (j === children.length - 1) children.length--;
           if (j === min) min++;
           break;
@@ -239,6 +275,14 @@ export function patch(pat: Patch) {
       const vNode = pat.vNode as VNode;
       const dom = createNode(vNode.nodeName);
 
+      for (const child of vNode.children) {
+        patch({
+          vNode: child,
+          parent: dom,
+          type: PatchType.PATCH_TYPE_COMPLETE,
+        });
+      }
+
       for (const prop in vNode.props) {
         if (prop != null) {
           const p: PropPatch = {
@@ -252,14 +296,6 @@ export function patch(pat: Patch) {
           };
           patch(p);
         }
-      }
-
-      for (const child of vNode.children) {
-        patch({
-          vNode: child,
-          parent: dom,
-          type: PatchType.PATCH_TYPE_COMPLETE,
-        });
       }
 
       pat.parent.appendChild(dom);
