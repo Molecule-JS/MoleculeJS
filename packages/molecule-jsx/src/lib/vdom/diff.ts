@@ -40,7 +40,7 @@ export function idiff(
 
   // Both are primitive
   if (isPrimitive(vNode) && isPrimitive(oldVNode)) {
-    if (vNode !== vNode) {
+    if (vNode !== oldVNode) {
       const p: PrimitivePatch = {
         vNode,
         parent,
@@ -135,17 +135,20 @@ export function idiff(
   // Check children
   if (
     vNode.children.length === 1 &&
-    typeof vNode.children[0] === 'string' &&
+    isPrimitive(vNode.children[0]) &&
     oldVNode.children.length === 1 &&
-    typeof oldVNode.children[0] === 'string'
+    isPrimitive(oldVNode.children[0])
   ) {
+    const value: string = shouldRender(vNode.children[0])
+      ? String(vNode.children[0])
+      : '';
     if (oldVNode.children[0] !== vNode.children[0])
-      dom.firstChild!.nodeValue = vNode.children[0] as string;
+      dom.firstChild!.nodeValue = value;
   } else if (vNode.children.length > 0 || oldVNode.children.length > 0)
     innerDiffNode(
       vNode.children.filter(shouldRender),
       oldVNode.children.filter(shouldRender),
-      [...dom.childNodes],
+      dom.childNodes,
       dom as container,
     );
 
@@ -155,12 +158,12 @@ export function idiff(
 export function innerDiffNode(
   vChildren: VDomElement[],
   oldVChildren: VDomElement[],
-  domChildren: Node[],
+  domChildren: NodeListOf<ChildNode>,
   parent: container,
 ) {
   const len = vChildren.length;
   const oldLen = oldVChildren.length;
-  let domLen = domChildren.length;
+  //let domLen = domChildren.length;
 
   let keyedLen = 0;
   const keyed: { [key: string]: VNodeAndDom } = {};
@@ -245,12 +248,19 @@ export function innerDiffNode(
     }
   }
 
-  while (min <= domLen) {
+  for (let i = min; i < children.length; i++) {
+    const child = children[i];
+    if (child && child.dom) remove(child.dom);
+  }
+
+  /* while (min <= children.length && children.length > 0) {
     let child: Node;
-    if ((child = domChildren[domLen--]) !== undefined) {
+    if (
+      (child = (children[children.length--] || ({} as any)).dom) !== undefined
+    ) {
       remove(child);
     }
-  }
+  } */
 }
 
 export function patch(pat: Patch) {
