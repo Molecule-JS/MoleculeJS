@@ -33,7 +33,7 @@ export function diff(
 
     innerDiffNode(vNode, oldVNode, parent.childNodes, parent);
 
-    return dom as Node[];
+    return [...parent.childNodes];
   }
   if (Array.isArray(oldVNode)) {
     for (const node of dom as Node[]) {
