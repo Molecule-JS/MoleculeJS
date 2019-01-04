@@ -163,7 +163,6 @@ export function innerDiffNode(
 ) {
   const len = vChildren.length;
   const oldLen = oldVChildren.length;
-  //let domLen = domChildren.length;
 
   let keyedLen = 0;
   const keyed: { [key: string]: VNodeAndDom } = {};
@@ -219,8 +218,6 @@ export function innerDiffNode(
           child = c.vNode;
           dom = c.dom;
           children[j] = undefined;
-          /* domChildren[j].remove();
-          domLen--; */
           if (j === children.length - 1) children.length--;
           if (j === min) min++;
           break;
@@ -252,15 +249,6 @@ export function innerDiffNode(
     const child = children[i];
     if (child && child.dom) remove(child.dom);
   }
-
-  /* while (min <= children.length && children.length > 0) {
-    let child: Node;
-    if (
-      (child = (children[children.length--] || ({} as any)).dom) !== undefined
-    ) {
-      remove(child);
-    }
-  } */
 }
 
 export function patch(pat: Patch) {
