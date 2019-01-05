@@ -43,6 +43,8 @@ export {
 const vDomMap = new WeakMap<container, VDomElement | VDomElement[]>();
 const domMap = new WeakMap<container, Node | Node[]>();
 
+const FRAGMENT = 'molecule.jsx.fragment';
+
 export interface Class<T> {
   new (): T;
   prototype: T;
@@ -106,19 +108,24 @@ function flatten<T>(arr: (T | T[])[], result: T[] = []) {
   return result;
 }
 
+export const React = { createElement, Fragment: FRAGMENT };
+
 export function render(
-  vnode: VDomElement | VDomElement[],
+  vNode: VDomElement | VDomElement[],
   container: container,
   oldDom?: Node | Node[],
   oldVDom?: VDomElement | VDomElement[],
 ) {
+  if (vNode instanceof VNode && vNode.nodeName === FRAGMENT) {
+    vNode = vNode.children;
+  }
   const dom = diff(
-    vnode,
+    vNode,
     container,
     oldVDom || vDomMap.get(container),
     oldDom || domMap.get(container),
   );
-  vDomMap.set(container, vnode);
+  vDomMap.set(container, vNode);
   domMap.set(container, dom);
   return dom;
 }

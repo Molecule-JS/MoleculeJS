@@ -1,4 +1,4 @@
-import { render, h, Element } from '../src/molecule-jsx';
+import { render, h, Element, React } from '../src/molecule-jsx';
 
 import { propTests } from '../../../test/common/props';
 import { eventTests } from '../../../test/common/events';
@@ -973,6 +973,20 @@ describe('MoleculeJsx', () => {
 
       expect(root.length).to.eq(2);
       expect(scratch.innerHTML).to.eq('<foo></foo><h1>Hello</h1>');
+    });
+
+    it('should render fragments', () => {
+      const root = render(
+        <>
+          <p>a</p>
+          <span>b</span>
+          <div>c</div>
+        </>,
+        scratch,
+      ) as Node[];
+
+      expect(root.length).to.eq(3);
+      expect(scratch.innerHTML).to.eq('<p>a</p><span>b</span><div>c</div>');
     });
   });
 

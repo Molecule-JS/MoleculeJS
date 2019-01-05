@@ -1,4 +1,4 @@
-import { h, Element } from '@moleculejs/molecule-jsx';
+import { h, Element, React } from '@moleculejs/molecule-jsx';
 
 import { createLocation, Location } from 'history';
 

@@ -1,4 +1,4 @@
-import { h, Element, Class } from '@moleculejs/molecule-jsx';
+import { h, Element, Class, React } from '@moleculejs/molecule-jsx';
 import { Router } from '../molecule-router';
 import { Match } from '../util/match-path';
 import Link from './link';
