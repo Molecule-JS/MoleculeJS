@@ -120,9 +120,7 @@ export abstract class MoleculeElement<T> extends HTMLElement {
 
     this.__firstRender = true;
 
-    if (this.connected) {
-      this.connected.call(this);
-    }
+    this.connected();
 
     /* Perform the first render after connection immediately
      * without the delay of refresh()
@@ -131,9 +129,7 @@ export abstract class MoleculeElement<T> extends HTMLElement {
   }
 
   disconnectedCallback() {
-    if (this.disconnected) {
-      this.disconnected.call(this);
-    }
+    this.disconnected();
   }
 
   /**
@@ -276,10 +272,8 @@ export abstract class MoleculeElement<T> extends HTMLElement {
     }
     this.__renderCallbacks.clear();
 
-    if (this.afterRender) {
-      this.afterRender(this.__firstRender);
-      this.__firstRender = false;
-    }
+    this.afterRender(this.__firstRender);
+    this.__firstRender = false;
   }
 
   /**
