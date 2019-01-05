@@ -115,6 +115,7 @@ export abstract class MoleculeElement<T> extends HTMLElement {
         );
       }
       delete this.__wait;
+      this.__wasAlreadyConnected = true;
     }
 
     this.__firstRender = true;
