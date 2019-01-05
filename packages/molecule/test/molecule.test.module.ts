@@ -317,6 +317,29 @@ declare var sinon: typeof import('sinon');
         document.body.removeChild(e);
         expect(called).to.be.false;
       });
+
+      it('should work when reconnected', (done) => {
+        class E extends MoleculeSimple {
+          static get properties() {
+            return { a: 'test-id-1' };
+          }
+
+          render({ a }: { a: number }) {
+            return `<p id=${a}>item</p>`;
+          }
+        }
+
+        customElements.define('x-rec-1', E);
+
+        const e = new E();
+        document.body.appendChild(e);
+
+        document.body.removeChild(e);
+
+        document.body.appendChild(e);
+
+        done();
+      });
     });
 
     it('Render callback get called', (done) => {
