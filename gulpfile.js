@@ -8,15 +8,7 @@ const resolve = require('rollup-plugin-node-resolve');
 const cjs = require('rollup-plugin-commonjs');
 const copy = require('rollup-plugin-copy');
 
-const sources = [
-  'molecule',
-  'molecule-lit',
-  'molecule-decorators',
-  'molecule-functional',
-  'molecule-functional-lit',
-  'molecule-jsx',
-  'molecule-router',
-];
+const sources = ['molecule', 'molecule-lit', 'molecule-jsx', 'molecule-router'];
 
 const nodeResolveOnly = {
   es: ['lit-html', 'history'],

@@ -84,14 +84,6 @@
       "maxSize": "2.5 kB"
     },
     {
-      "path": "./packages/molecule-functional/dist/molecule-functional.mjs",
-      "maxSize": "0.4 kB"
-    },
-    {
-      "path": "./packages/molecule-functional-lit/dist/molecule-functional-lit.mjs",
-      "maxSize": "3.6 kB"
-    },
-    {
       "path": "./packages/molecule-router/dist/molecule-router.mjs",
       "maxSize": "8 kB"
     }
