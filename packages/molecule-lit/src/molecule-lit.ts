@@ -7,7 +7,7 @@ import {
 } from 'lit-html/lit-html';
 
 import {
-  createBase,
+  MoleculeElement,
   observeProperty,
   camelCaseToKebab,
 } from '@moleculejs/molecule';
@@ -16,11 +16,13 @@ import {
   HTMLCollectionByID,
   PropConfig,
   Properties,
-  MoleculeClass,
-  MoleculeElement,
 } from '@moleculejs/molecule/src/lib/types';
 
-const MoleculeLit = createBase(render);
+abstract class MoleculeLit extends MoleculeElement<TemplateResult> {
+  renderer(template: TemplateResult, container: Element | DocumentFragment) {
+    return render(template, container);
+  }
+}
 
 export { html, svg, render, TemplateResult, SVGTemplateResult };
 export {
@@ -30,6 +32,4 @@ export {
   Properties,
   observeProperty,
   camelCaseToKebab,
-  MoleculeClass,
-  MoleculeElement,
 };

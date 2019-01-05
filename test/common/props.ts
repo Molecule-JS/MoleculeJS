@@ -27,8 +27,12 @@ export const propTests = (testElement: any, { observers = true } = {}) =>
 
     if (observers) {
       it('calls observer', () => {
-        expect((window as any).observerVals.get('bool')).to.equal(testElement.longBool);
-        expect((window as any).observerVals.get('number')).to.equal(testElement.longNumber);
+        expect((window as any).observerVals.get('bool')).to.equal(
+          testElement.longBool,
+        );
+        expect((window as any).observerVals.get('number')).to.equal(
+          testElement.longNumber,
+        );
       });
     }
   });

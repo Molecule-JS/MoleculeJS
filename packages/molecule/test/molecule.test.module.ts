@@ -17,9 +17,13 @@ declare var sinon: typeof import('sinon');
     document.body.appendChild(testElement);
     testElement.setAttribute('already-given', '303');
     (window as any).observerVals = new Map<string, any>();
-    const MoleculeSimple = Molecule.createBase(
-      (tmpl, container) => ((container as any).innerHTML = tmpl),
-    );
+
+    abstract class MoleculeSimple extends Molecule.MoleculeElement<string> {
+      renderer(template: string, container: Element | DocumentFragment) {
+        return ((container as any).innerHTML = template);
+      }
+    }
+
     before(() => {
       (window as any).observerVals = new Map<string, any>();
 
@@ -370,7 +374,7 @@ declare var sinon: typeof import('sinon');
     });
 
     it('Not declaring render throws', () => {
-      class E extends MoleculeSimple {
+      class E extends (MoleculeSimple as any) {
         static get properties() {
           return {
             a: 3,

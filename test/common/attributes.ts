@@ -3,9 +3,11 @@ import * as Molecule from '../../packages/molecule/src/molecule';
 /// <reference path="../../node_modules/@types/mocha/index.d.ts" />
 /// <reference path="../../node_modules/@types/chai/index.d.ts" />
 
-const MoleculeSimple = Molecule.createBase(
-  (tmpl, container) => ((container as any).innerHTML = tmpl),
-);
+abstract class MoleculeSimple extends Molecule.MoleculeElement<string> {
+  renderer(template: string, container: Element | DocumentFragment) {
+    return ((container as any).innerHTML = template);
+  }
+}
 
 const { expect } = chai;
 
