@@ -7,14 +7,65 @@ There are multiple packages for Molecule on npm by the `@moleculejs` organizatio
 - Name: `molecule`
 - Install: `yarn add @moleculejs/molecule` or `npm i @moleculejs/molecule`
 
-This is the main package on which the others build. It exposes a method that takes a render method and returns a baseclass, we can extend to create custom elements.
+This is the main package on which the others build. It exposes the abstract base class `MoleculeElement`, which we can extend to set preferred render function and add more functionality.
 
 ## MoleculeLit
 
 - Name: `molecule-lit`
 - Install: `yarn add @moleculejs/molecule-lit` or `npm i @moleculejs/molecule-lit`
 
-This exposes a class that uses Molecule with [lit-html's](https://github.com/Polymer/lit-html) render method. It also gives you all of the lit-html exports and methods.
+This exposes a class that uses Molecule with [lit-html's](https://github.com/Polymer/lit-html) render method. It also gives you all the lit-html exports and methods.
+
+## MoleculeJsx
+
+- Name: `molecule-jsx`
+- Install: `yarn add @moleculejs/molecule-jsx` or `npm i @moleculejs/molecule-jsx`
+
+This exposes a class that uses Molecule renders Jsx to the Element's root. The Jsx is created using the `createElement` or `h` methods exposed by `MoleculeJsx`. The `render` function is a lightweight vDOM implementation similar to preact. However, it has some additional functionality compared to preact.
+
+### Additional JSX capabilities
+
+#### Mixed Case Events
+
+`render` allows for the tradition event syntax of e.g. `onClick` to listen for the `click` event. But because Custom Elements also can emit mixed case events, like `MyPascalCaseEvent` or `mYCReaTIVE-eVENt`, we also support these events using the `on-*` syntax.
+
+```jsx
+<my-el on-MyPascalCasedEvent={handleMyPascalEvent} />
+```
+
+#### Rendering Arrays
+
+Since Custom Elements often have multiple children, and you don't want to add a `div` every time to render these, `render` lets you return arrays and will render and diff these.
+
+```jsx
+class E extends MoleculeJSX.Element {
+  render() {
+    return [<p>My first child</p>, <div>Another child</div>];
+  }
+}
+```
+
+#### Fragments
+
+Because rendering multiple children to the shadow root is so common, but the array syntax isn't great, we also support fragments.
+
+```jsx
+class E extends MoleculeJSX.Element {
+  render() {
+    // Equivalent to the array example
+    return (
+      <>
+        <p>My first child</p>
+        <div>Another child</div>
+      </>
+    );
+  }
+}
+```
+
+::: tip
+Because Typescript currently only allows fragment when using the standard React factory `React.createElement` and `React.Fragment`, `molecule-jsx` exports a React object with both these properties.
+:::
 
 ## MoleculeLitExtended <Badge text="deprecated" type="warn"></Badge>
 
@@ -23,18 +74,7 @@ This exposes a class that uses Molecule with [lit-html's](https://github.com/Pol
 
 The same as `MoleculeLit`, but for lit-extended. Deprecated, because lit-html removed lit-extended.
 
-## MoleculeJsx
-
-- Name: `molecule-jsx`
-- Install: `yarn add @moleculejs/molecule-jsx` or `npm i @moleculejs/molecule-jsx`
-
-This exposes a class that uses Molecule renders Jsx to the Element's root. The Jsx is created using the `createElement` or `h` methods exposed by `MoleculeJsx`. It also allows for mixed cased events like `MyPascalCasedEvent`, by setting the listener using `on-`.
-
-```jsx
-<my-el on-MyPascalCasedEvent={handleMyPascalEvent} />
-```
-
-## MoleculeFunctional
+## MoleculeFunctional <Badge text="deprecated" type="warn"></Badge>
 
 - Name: `molecule`
 - Install: `yarn add @moleculejs/molecule` or `npm i @moleculejs/molecule`
@@ -58,7 +98,7 @@ const Example = functionalMolecule(myRenderMethod)({
 customElements.define('my-example', Example);
 ```
 
-## MoleculeFunctionalLit
+## MoleculeFunctionalLit <Badge text="deprecated" type="warn"></Badge>
 
 - Name: `molecule-functional-lit`
 - Install: `yarn add @moleculejs/molecule-functional-lit` or `npm i @moleculejs/molecule-functional-lit`
@@ -141,7 +181,7 @@ const template = html`
 `;
 ```
 
-## MoleculeDecorators <Badge text="experimental" type="warn"></Badge>
+## MoleculeDecorators <Badge text="deprecated" type="warn"></Badge>
 
 - Name: `molecule-decorators`
 - Install: `yarn add @moleculejs/molecule-decorators` or `npm i @moleculejs/molecule-decorators`
