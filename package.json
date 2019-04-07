@@ -21,7 +21,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sinon": "^1.0.5",
     "lerna": "^3.6.0",
-    "mocha": "^5.2.0",
+    "mocha": "^6.1.1",
     "remap-istanbul": "^0.12.0",
     "rollup": "^1.0.0",
     "rollup-plugin-commonjs": "^9.2.0",
