@@ -2,7 +2,7 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
-    "@types/sinon": "^7.0.0",
+    "@types/sinon": "^7.0.13",
     "bundlesize": "^0.17.0",
     "chai": "^4.2.0",
     "codecov": "^3.1.0",
