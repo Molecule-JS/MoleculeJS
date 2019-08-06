@@ -9,7 +9,7 @@
     "commitizen": "^3.0.5",
     "conventional-changelog-cli": "^2.0.11",
     "cz-conventional-changelog": "^2.1.0",
-    "eslint-plugin-html": "^5.0.0",
+    "eslint-plugin-html": "^6.0.0",
     "gulp": "^4.0.0",
     "gulp-clean": "^0.4.0",
     "karma": "^4.0.1",
