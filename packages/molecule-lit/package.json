@@ -10,7 +10,7 @@
   "description": "Molecule elements with lit-html",
   "dependencies": {
     "@moleculejs/molecule": "^0.13.1",
-    "lit-html": "^0.14.0"
+    "lit-html": "^1.0.0"
   },
   "keywords": [
     "web components",
