@@ -10,7 +10,7 @@
   "description": "Functional Molecule lit-html elements",
   "dependencies": {
     "@moleculejs/molecule-functional": "^0.13.1",
-    "lit-html": "^1.0.0"
+    "lit-html": "^1.2.1"
   },
   "keywords": [
     "web components",
